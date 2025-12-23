@@ -16,9 +16,10 @@ u6: analyzers/asm_ld_analyzer.py type=PY role=lib module=analyzers
 u7: analyzers/__init__.py type=PY role=lib module=analyzers
 u8: analyzers/python_analyzer.py type=PY role=lib module=analyzers
 u9: core/profile_canon.py type=PY role=lib module=core
-u10: core/project_model.py type=PY role=lib module=core
-u11: core/pir_builder.py type=PY role=lib module=core
-u12: core/dep_canon.py type=PY role=lib module=core
+u10: core/analysis_cache.py type=PY role=lib module=core
+u11: core/project_model.py type=PY role=lib module=core
+u12: core/pir_builder.py type=PY role=lib module=core
+u13: core/dep_canon.py type=PY role=lib module=core
 </units>
 <dependency-pool>
 d0: import:[.asm_ld_analyzer]
@@ -29,25 +30,27 @@ d4: import:[.project_model]
 d5: import:[.python_analyzer]
 d6: import:[.rust_analyzer]
 d7: import:[analyzers]
-d8: import:[core.dep_canon]
-d9: import:[core.pir_builder]
-d10: import:[core.profile_canon]
-d11: import:[core.project_model]
-d12: import:[stdlib:py]
+d8: import:[core.analysis_cache]
+d9: import:[core.dep_canon]
+d10: import:[core.pir_builder]
+d11: import:[core.profile_canon]
+d12: import:[core.project_model]
+d13: import:[stdlib:py]
 </dependency-pool>
 <dependencies>
-u0->refs:[d12]
-u1->refs:[d12 d11 d9 d8 d10 d7]
-u2->refs:[d12 d1 d11]
-u3->refs:[d12 d1 d11]
-u4->refs:[d12 d1 d11]
-u5->refs:[d12 d11]
-u6->refs:[d12 d1 d11]
+u0->refs:[d13]
+u1->refs:[d13 d12 d10 d9 d11 d8 d7]
+u2->refs:[d13 d1 d12]
+u3->refs:[d13 d1 d12]
+u4->refs:[d13 d1 d12]
+u5->refs:[d13 d12]
+u6->refs:[d13 d1 d12]
 u7->refs:[d2 d5 d3 d6 d0]
-u8->refs:[d12 d1 d11]
-u9->refs:[d12]
-u10->refs:[d12]
-u11->refs:[d4]
+u8->refs:[d13 d1 d12]
+u9->refs:[d13]
+u10->refs:[d13]
+u11->refs:[d13]
+u12->refs:[d4]
 </dependencies>
 <symbols>
 is_source_file:u0 func
@@ -69,13 +72,14 @@ AsmLdAnalyzer:u6 class
 get_analyzer:u7 func
 PythonAnalyzer:u8 class
 ProfileCanonicalizer:u9 class
-Unit:u10 class
-Symbol:u10 class
-Dependency:u10 class
-ProjectModel:u10 class
-PIRBuilder:u11 class
-canonicalize_target:u12 func
-canonicalize_dependencies:u12 func
+AnalysisCache:u10 class
+Unit:u11 class
+Symbol:u11 class
+Dependency:u11 class
+ProjectModel:u11 class
+PIRBuilder:u12 class
+canonicalize_target:u13 func
+canonicalize_dependencies:u13 func
 </symbols>
 <profiles>
   active: python-tool

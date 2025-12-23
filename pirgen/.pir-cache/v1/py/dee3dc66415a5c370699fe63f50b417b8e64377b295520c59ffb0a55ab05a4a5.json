@@ -1,0 +1,24 @@
+{
+  "deps": [],
+  "file": "../core/dep_canon.py",
+  "hash": "dee3dc66415a5c370699fe63f50b417b8e64377b295520c59ffb0a55ab05a4a5",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "canonicalize_target"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "canonicalize_dependencies"
+    }
+  ],
+  "timestamp": "2025-12-23T14:43:43.785717",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}
