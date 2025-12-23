@@ -5,6 +5,8 @@ from collections import defaultdict
 
 from core.project_model import ProjectModel
 from core.pir_builder import PIRBuilder
+from core.dep_canon import canonicalize_dependencies
+from core.profile_canon import ProfileCanonicalizer
 from analyzers import get_analyzer
 
 
@@ -130,7 +132,12 @@ def main():
 
     scan_project(abs_root, model)
     resolve_dependencies(model)
+    canonicalize_dependencies(model)
     model.finalize_dependencies()
+
+    # Apply profile-aware canonicalization (v0.4)
+    ProfileCanonicalizer().apply(model)
+
     builder = PIRBuilder(model)
     pir_content = builder.build()
 

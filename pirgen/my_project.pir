@@ -15,8 +15,10 @@ u5: analyzers/base.py type=PY role=lib module=analyzers
 u6: analyzers/asm_ld_analyzer.py type=PY role=lib module=analyzers
 u7: analyzers/__init__.py type=PY role=lib module=analyzers
 u8: analyzers/python_analyzer.py type=PY role=lib module=analyzers
-u9: core/project_model.py type=PY role=lib module=core
-u10: core/pir_builder.py type=PY role=lib module=core
+u9: core/profile_canon.py type=PY role=lib module=core
+u10: core/project_model.py type=PY role=lib module=core
+u11: core/pir_builder.py type=PY role=lib module=core
+u12: core/dep_canon.py type=PY role=lib module=core
 </units>
 <dependency-pool>
 d0: import:[.asm_ld_analyzer]
@@ -26,31 +28,26 @@ d3: import:[.java_analyzer]
 d4: import:[.project_model]
 d5: import:[.python_analyzer]
 d6: import:[.rust_analyzer]
-d7: import:[abc]
-d8: import:[analyzers]
-d9: import:[argparse]
-d10: import:[ast]
-d11: import:[collections]
-d12: import:[core.pir_builder]
-d13: import:[core.project_model]
-d14: import:[dataclasses]
-d15: import:[os]
-d16: import:[re]
-d17: import:[sys]
-d18: import:[typing]
+d7: import:[analyzers]
+d8: import:[core.dep_canon]
+d9: import:[core.pir_builder]
+d10: import:[core.profile_canon]
+d11: import:[core.project_model]
+d12: import:[stdlib:py]
 </dependency-pool>
 <dependencies>
-u0->refs:[d15 d17 d9 d16 d10]
-u1->refs:[d15 d9 d11 d13 d12 d8]
-u2->refs:[d16 d1 d13]
-u3->refs:[d16 d1 d13]
-u4->refs:[d16 d1 d13]
-u5->refs:[d7 d13]
-u6->refs:[d16 d15 d1 d13]
+u0->refs:[d12]
+u1->refs:[d12 d11 d9 d8 d10 d7]
+u2->refs:[d12 d1 d11]
+u3->refs:[d12 d1 d11]
+u4->refs:[d12 d1 d11]
+u5->refs:[d12 d11]
+u6->refs:[d12 d1 d11]
 u7->refs:[d2 d5 d3 d6 d0]
-u8->refs:[d10 d15 d1 d13]
-u9->refs:[d14 d18]
-u10->refs:[d4]
+u8->refs:[d12 d1 d11]
+u9->refs:[d12]
+u10->refs:[d12]
+u11->refs:[d4]
 </dependencies>
 <symbols>
 is_source_file:u0 func
@@ -71,10 +68,28 @@ BaseAnalyzer:u5 class
 AsmLdAnalyzer:u6 class
 get_analyzer:u7 func
 PythonAnalyzer:u8 class
-Unit:u9 class
-Symbol:u9 class
-Dependency:u9 class
-ProjectModel:u9 class
-PIRBuilder:u10 class
+ProfileCanonicalizer:u9 class
+Unit:u10 class
+Symbol:u10 class
+Dependency:u10 class
+ProjectModel:u10 class
+PIRBuilder:u11 class
+canonicalize_target:u12 func
+canonicalize_dependencies:u12 func
 </symbols>
+<profiles>
+  active: python-tool
+  python-tool:
+    confidence: 0.75
+    tags:
+      - domain:tooling
+      - lib:stdlib
+      - runtime:cpython
+      - stack:python-tool
+    signals:
+      - entry-point
+      - multi-unit
+      - pure-python
+      - stdlib
+</profiles>
 </pir>

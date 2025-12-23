@@ -37,7 +37,7 @@ class ProjectModel:
     def __init__(self, name: str, root: str, profile: str):
         self.name = name
         self.root = root
-        self.profile = profile
+        self.profile = profile  # Legacy profile field (kept for backward compatibility)
 
         self.langs: Set[str] = set()
 
@@ -56,6 +56,10 @@ class ProjectModel:
         self.dep_refs: Dict[str, List[str]] = {}
 
         self.deps_finalized: bool = False
+
+        # ---- Profiles (v0.4 extension) ----
+        self.profiles: Dict[str, Dict] = {}  # profile_name -> {confidence, tags}
+        self.active_profile: Optional[str] = None  # Current active profile
 
         # ---- Optional extensions ----
         self.layout_lines: List[str] = []

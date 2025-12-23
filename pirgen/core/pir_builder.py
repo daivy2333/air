@@ -20,6 +20,7 @@ class PIRBuilder:
             self._build_dependency_pool(),
             self._build_dependencies(),
             self._build_symbols(),
+            self._build_profiles(),
             self._build_layout(),
             self._build_snippets(),
             "</pir>",
@@ -98,6 +99,41 @@ class PIRBuilder:
             lines.append(f"{s.name}:{s.unit_uid} {s.kind}{attrs}")
 
         lines.append("</symbols>")
+        return "\n".join(lines)
+
+    # -------------------------
+    # Profiles (v0.4 extension)
+    # -------------------------
+    def _build_profiles(self) -> str:
+        if not self.model.profiles:
+            return ""
+
+        lines = ["<profiles>"]
+
+        # Active profile
+        if self.model.active_profile:
+            lines.append(f"  active: {self.model.active_profile}")
+
+        # Profile definitions
+        for profile_name, profile_data in sorted(self.model.profiles.items()):
+            confidence = profile_data.get("confidence", 0.0)
+            tags = profile_data.get("tags", [])
+            signals = profile_data.get("signals", [])
+
+            lines.append(f"  {profile_name}:")
+            lines.append(f"    confidence: {confidence}")
+
+            if tags:
+                lines.append("    tags:")
+                for tag in sorted(tags):
+                    lines.append(f"      - {tag}")
+
+            if signals:
+                lines.append("    signals:")
+                for signal in sorted(signals):
+                    lines.append(f"      - {signal}")
+
+        lines.append("</profiles>")
         return "\n".join(lines)
 
     # -------------------------
