@@ -6,10 +6,14 @@ class PIRBuilder:
         self.model = model
 
     def build(self) -> str:
+        # ✅ 稳定编号在输出前一次性完成
+        self.model.finalize_dependencies()
+
         sections = [
             "<pir>",
             self._build_meta(),
             self._build_units(),
+            self._build_dependency_pool(),
             self._build_dependencies(),
             self._build_symbols(),
             self._build_layout(),
@@ -36,12 +40,25 @@ class PIRBuilder:
         lines.append("</units>")
         return "\n".join(lines)
 
+    def _build_dependency_pool(self) -> str:
+        if not self.model.dep_pool_items:
+            return ""
+        lines = ["<dependency-pool>"]
+        for did, verb, target in self.model.dep_pool_items:
+            lines.append(f"{did}: {verb}:{target}")
+        lines.append("</dependency-pool>")
+        return "\n".join(lines)
+
     def _build_dependencies(self) -> str:
-        if not self.model.dependencies:
+        if not self.model.dep_refs:
             return ""
         lines = ["<dependencies>"]
-        for d in self.model.dependencies:
-            lines.append(f"{d.src_uid}->{d.verb}:{d.target}")
+        # 为了稳定 diff：按 uX 排序输出
+        for uid in sorted(self.model.dep_refs.keys(), key=lambda x: int(x[1:])):
+            refs = self.model.dep_refs[uid]
+            if refs:
+                # 也可以排序 refs 保持稳定：refs = sorted(refs, key=lambda x: int(x[1:]))
+                lines.append(f"{uid}->refs:[{' '.join(refs)}]")
         lines.append("</dependencies>")
         return "\n".join(lines)
 

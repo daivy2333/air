@@ -30,36 +30,37 @@ def scan_project(root_path, model):
 
 def resolve_dependencies(model):
     """
-    后期处理：符号消歧。
-    将依赖中的 [name] 尝试匹配到具体的 uX#name
+    v0.3 stable deps: 对 _unit_dep_keys 做消歧，然后重建 _all_dep_keys。
     """
     print("Resolving dependencies...")
     
-    # 1. 构建符号查找表 { symbol_name: unit_uid }
-    # 注意：如果多个单元定义了同名符号（如 static 函数），这里简单的逻辑会覆盖，
-    # 生产环境需要根据 module 作用域进行更精确匹配。
-    symbol_map = {}
-    for sym in model.symbols:
-        symbol_map[sym.name] = sym.unit_uid
+    symbol_map = {sym.name: sym.unit_uid for sym in model.symbols}
 
-    # 2. 修正依赖
-    resolved_count = 0
-    for dep in model.dependencies:
-        target = dep.target
-        # 检查是否是待解析格式 [name]
-        if target.startswith('[') and target.endswith(']'):
-            raw_name = target[1:-1]
-            # 尝试在符号表中查找
-            if raw_name in symbol_map:
-                target_uid = symbol_map[raw_name]
-                # 更新依赖目标为精确格式：uX#name
-                dep.target = f"{target_uid}#{raw_name}"
-                resolved_count += 1
+    resolved = 0
+    new_all = set()
+
+    for uid, keys in model._unit_dep_keys.items():
+        new_keys = []
+        for k in keys:
+            verb, target = k.split(":", 1)
+            if target.startswith("[") and target.endswith("]"):
+                raw = target[1:-1]
+                if raw in symbol_map:
+                    target = f"{symbol_map[raw]}#{raw}"
+                    resolved += 1
+            new_k = f"{verb}:{target}"
+            new_keys.append(new_k)
+            new_all.add(new_k)
+        model._unit_dep_keys[uid] = list(dict.fromkeys(new_keys))  # 保序去重
+
+    model._all_dep_keys = new_all
+    print(f"  - Resolved {resolved} internal symbol references.")
+
     
-    print(f"  - Resolved {resolved_count} internal symbol references.")
+
 
 def main():
-    parser = argparse.ArgumentParser(description="PIR Generator v0.2.1")
+    parser = argparse.ArgumentParser(description="PIR Generator v0.3")
     parser.add_argument("path", help="Project root path")
     parser.add_argument("--name", help="Project name", default="my_project")
     parser.add_argument("--profile", help="Build profile (e.g. os-riscv, web-java)", default="generic")
@@ -88,7 +89,7 @@ def main():
         f.write(pir_content)
     
     print(f"\n✅ PIR generation complete. Saved to {output_file}")
-    print(f"   Stats: {len(model.units)} Units, {len(model.symbols)} Symbols, {len(model.dependencies)} Dependencies")
+    print(f"   Stats: {len(model.units)} Units, {len(model.symbols)} Symbols, {len(model.dep_pool_items)} Dependencies")
 
 if __name__ == "__main__":
     main()
