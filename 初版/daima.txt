@@ -1,0 +1,542 @@
+# PROJECT SUMMARY: pirgen
+## 1. Metadata
+- Root: /home/aidlux/air/pirgen
+- Generated Context for AI Analysis
+
+## 2. Directory Structure & Key Files
+```text
+├── 📁 analyzers/
+│   ├── 📄 __init__.py  # analyzers/__init__.py
+│   ├── 📄 asm_ld_analyzer.py  # analyzers/asm_ld_analyzer.py
+│   ├── 📄 base.py  # analyzers/base.py
+│   ├── 📄 c_analyzer.py  # analyzers/c_analyzer.py
+│   ├── 📄 java_analyzer.py  # analyzers/java_analyzer.py
+│   ├── 📄 python_analyzer.py  # analyzers/python_analyzer.py
+│   └── 📄 rust_analyzer.py  # analyzers/rust_analyzer.py
+├── 📁 core/
+│   ├── 📄 pir_builder.py  # core/pir_builder.py
+│   └── 📄 project_model.py  # core/project_model.py
+├── my_project.pir
+└── 📄 pirgen.py  # pirgen.py
+```
+
+## 4. Source Code Context (Minified)
+The following code has been minified (comments removed, whitespace compressed) to save tokens.
+
+
+--- BEGIN FILE: pirgen.py ---
+# pirgen.py
+import os
+import argparse
+from core.project_model import ProjectModel
+from core.pir_builder import PIRBuilder
+from analyzers import get_analyzer
+
+def scan_project(root_path, model):
+    """遍历目录并运行分析器"""
+    print(f"Scanning root: {root_path}")
+    for root, dirs, files in os.walk(root_path):
+        # 过滤常见无关目录
+        dirs[:] = [d for d in dirs if d not in {'.git', '.idea', '__pycache__', 'build', 'target'}]
+
+        for file in files:
+            file_path = os.path.join(root, file)
+            _, ext = os.path.splitext(file)
+            
+            analyzer = get_analyzer(ext)
+            if analyzer:
+                rel_path = os.path.relpath(file_path, model.root)
+                lang = ext[1:].upper()
+                if lang == 'RS': lang = 'Rust'
+                
+                # 简单模块推断：取父目录名
+                module_name = os.path.basename(os.path.dirname(file_path))
+                
+                uid = model.add_unit(rel_path, lang=lang, role="lib", module=module_name)
+                analyzer.analyze(file_path, uid, model)
+
+def resolve_dependencies(model):
+    """
+    后期处理：符号消歧。
+    将依赖中的 [name] 尝试匹配到具体的 uX#name
+    """
+    print("Resolving dependencies...")
+    
+    # 1. 构建符号查找表 { symbol_name: unit_uid }
+    # 注意：如果多个单元定义了同名符号（如 static 函数），这里简单的逻辑会覆盖，
+    # 生产环境需要根据 module 作用域进行更精确匹配。
+    symbol_map = {}
+    for sym in model.symbols:
+        symbol_map[sym.name] = sym.unit_uid
+
+    # 2. 修正依赖
+    resolved_count = 0
+    for dep in model.dependencies:
+        target = dep.target
+        # 检查是否是待解析格式 [name]
+        if target.startswith('[') and target.endswith(']'):
+            raw_name = target[1:-1]
+            # 尝试在符号表中查找
+            if raw_name in symbol_map:
+                target_uid = symbol_map[raw_name]
+                # 更新依赖目标为精确格式：uX#name
+                dep.target = f"{target_uid}#{raw_name}"
+                resolved_count += 1
+    
+    print(f"  - Resolved {resolved_count} internal symbol references.")
+
+def main():
+    parser = argparse.ArgumentParser(description="PIR Generator v0.2.1")
+    parser.add_argument("path", help="Project root path")
+    parser.add_argument("--name", help="Project name", default="my_project")
+    parser.add_argument("--profile", help="Build profile (e.g. os-riscv, web-java)", default="generic")
+    args = parser.parse_args()
+
+    abs_root = os.path.abspath(args.path)
+    if not os.path.exists(abs_root):
+        print(f"Error: Path {abs_root} does not exist.")
+        return
+
+    # 1. 初始化
+    model = ProjectModel(name=args.name, root=abs_root, profile=args.profile)
+    
+    # 2. 扫描分析
+    scan_project(abs_root, model)
+    
+    # 3. 依赖消歧 (新增步骤)
+    resolve_dependencies(model)
+    
+    # 4. 构建输出
+    builder = PIRBuilder(model)
+    pir_content = builder.build()
+    
+    output_file = f"{args.name}.pir"
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(pir_content)
+    
+    print(f"\n✅ PIR generation complete. Saved to {output_file}")
+    print(f"   Stats: {len(model.units)} Units, {len(model.symbols)} Symbols, {len(model.dependencies)} Dependencies")
+
+if __name__ == "__main__":
+    main()
+
+# python pirgen.py ./pirgen --name pir_tool --profile python-tool
+--- END FILE: pirgen.py ---
+
+--- BEGIN FILE: core/pir_builder.py ---
+# core/pir_builder.py
+from .project_model import ProjectModel
+
+class PIRBuilder:
+    def __init__(self, model: ProjectModel):
+        self.model = model
+
+    def build(self) -> str:
+        sections = [
+            "<pir>",
+            self._build_meta(),
+            self._build_units(),
+            self._build_dependencies(),
+            self._build_symbols(),
+            self._build_layout(),
+            self._build_snippets(),
+            "</pir>"
+        ]
+        return "\n".join(filter(None, sections))
+
+    def _build_meta(self) -> str:
+        langs = ",".join(sorted(self.model.langs))
+        return (
+            "<meta>\n"
+            f"name: {self.model.name}\n"
+            f"root: {self.model.root}\n"
+            f"profile: {self.model.profile}\n"
+            f"lang: {langs}\n"
+            "</meta>"
+        )
+
+    def _build_units(self) -> str:
+        lines = ["<units>"]
+        for u in self.model.units:
+            lines.append(f"{u.uid}: {u.path} type={u.lang} role={u.role} module={u.module}")
+        lines.append("</units>")
+        return "\n".join(lines)
+
+    def _build_dependencies(self) -> str:
+        if not self.model.dependencies:
+            return ""
+        lines = ["<dependencies>"]
+        for d in self.model.dependencies:
+            lines.append(f"{d.src_uid}->{d.verb}:{d.target}")
+        lines.append("</dependencies>")
+        return "\n".join(lines)
+
+    def _build_symbols(self) -> str:
+        if not self.model.symbols:
+            return ""
+        lines = ["<symbols>"]
+        for s in self.model.symbols:
+            attr_str = " " + ", ".join([f"{k}={v}" for k, v in s.attrs.items()]) if s.attrs else ""
+            lines.append(f"{s.name}:{s.unit_uid} {s.kind}{attr_str}")
+        lines.append("</symbols>")
+        return "\n".join(lines)
+
+    def _build_layout(self) -> str:
+        if not self.model.layout_lines:
+            return ""
+        lines = ["<layout>"] + self.model.layout_lines + ["</layout>"]
+        return "\n".join(lines)
+
+    def _build_snippets(self) -> str:
+        if not self.model.snippets:
+            return ""
+        lines = ["<code-snippets>"]
+        for uid, content in self.model.snippets:
+            lines.append(f'<snippet unit="{uid}">')
+            lines.append("<![CDATA[")
+            lines.append(content.strip())
+            lines.append("]]>")
+            lines.append("</snippet>")
+        lines.append("</code-snippets>")
+        return "\n".join(lines)
+--- END FILE: core/pir_builder.py ---
+
+--- BEGIN FILE: core/project_model.py ---
+# core/project_model.py
+from dataclasses import dataclass, field
+from typing import List, Dict, Optional, Set
+
+@dataclass
+class Unit:
+    uid: str          # u0, u1
+    path: str         # core/init.c
+    lang: str         # C, Python
+    role: str         # entry, lib
+    module: str       # core
+
+@dataclass
+class Symbol:
+    name: str
+    unit_uid: str
+    kind: str         # func, var, class
+    attrs: Dict[str, str] = field(default_factory=dict)
+
+@dataclass
+class Dependency:
+    src_uid: str
+    verb: str         # call, import
+    target: str       # u1, [stdio.h], u1#func_name
+
+class ProjectModel:
+    def __init__(self, name: str, root: str, profile: str):
+        self.name = name
+        self.root = root
+        self.profile = profile
+        self.langs: Set[str] = set()
+        
+        self.units: List[Unit] = []
+        self._path_to_uid: Dict[str, str] = {}
+        self.dependencies: List[Dependency] = []
+        self.symbols: List[Symbol] = []
+        
+        # 布局和代码片段暂存
+        self.layout_lines: List[str] = []
+        self.snippets: List[tuple] = [] # (unit_uid, content)
+
+    def add_unit(self, path: str, lang: str, role: str = "lib", module: str = "common") -> str:
+        uid = f"u{len(self.units)}"
+        unit = Unit(uid, path, lang, role, module)
+        self.units.append(unit)
+        self._path_to_uid[path] = uid
+        self.langs.add(lang)
+        return uid
+
+    def add_symbol(self, name: str, unit_uid: str, kind: str, **attrs):
+        self.symbols.append(Symbol(name, unit_uid, kind, attrs))
+
+    def add_dependency(self, src_uid: str, verb: str, target: str):
+        self.dependencies.append(Dependency(src_uid, verb, target))
+
+    def get_uid_by_path(self, path: str) -> Optional[str]:
+        return self._path_to_uid.get(path)
+--- END FILE: core/project_model.py ---
+
+--- BEGIN FILE: analyzers/__init__.py ---
+# analyzers/__init__.py
+from .c_analyzer import CAnalyzer
+from .python_analyzer import PythonAnalyzer
+from .java_analyzer import JavaAnalyzer
+from .rust_analyzer import RustAnalyzer
+from .asm_ld_analyzer import AsmLdAnalyzer
+
+ANALYZER_MAP = {
+    # C/C++
+    '.c': CAnalyzer(),
+    '.cpp': CAnalyzer(),
+    '.cc': CAnalyzer(),
+    '.h': CAnalyzer(),
+    '.hpp': CAnalyzer(),
+    # Python
+    '.py': PythonAnalyzer(),
+    # Java
+    '.java': JavaAnalyzer(),
+    # Rust
+    '.rs': RustAnalyzer(),
+    # ASM & Linker
+    '.s': AsmLdAnalyzer(),
+    '.asm': AsmLdAnalyzer(),
+    '.ld': AsmLdAnalyzer(),
+    '.lds': AsmLdAnalyzer(),
+}
+
+def get_analyzer(ext):
+    return ANALYZER_MAP.get(ext.lower())
+--- END FILE: analyzers/__init__.py ---
+
+--- BEGIN FILE: analyzers/asm_ld_analyzer.py ---
+# analyzers/asm_ld_analyzer.py
+import re
+import os
+from .base import BaseAnalyzer
+from core.project_model import ProjectModel
+
+class AsmLdAnalyzer(BaseAnalyzer):
+    def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
+        ext = os.path.splitext(file_path)[1].lower()
+        
+        if ext == '.ld':
+            self._analyze_ld(file_path, unit_uid, model)
+        else:
+            self._analyze_asm(file_path, unit_uid, model)
+
+    def _analyze_asm(self, file_path, unit_uid, model):
+        """处理 .S, .asm 文件"""
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                lines = f.readlines()
+            
+            # 汇编标签匹配 (e.g., "start_kernel:")
+            label_pattern = re.compile(r'^(\w+):')
+            # 调用指令匹配 (e.g., "call main", "bl main")
+            call_pattern = re.compile(r'\s+(?:call|bl|b|jal)\s+(\w+)')
+
+            for line in lines:
+                line = line.strip()
+                if not line or line.startswith((';', '@', '//', '#')): continue
+
+                # 提取符号
+                m_label = label_pattern.match(line)
+                if m_label:
+                    name = m_label.group(1)
+                    model.add_symbol(name, unit_uid, "label")
+                
+                # 提取依赖 (Call)
+                m_call = call_pattern.search(line)
+                if m_call:
+                    target = m_call.group(1)
+                    # 暂时标记为 [target]，后续 resolve 阶段会尝试链接到具体 Unit
+                    model.add_dependency(unit_uid, "call", f"[{target}]")
+
+        except Exception as e:
+            print(f"Warning: ASM analysis failed: {e}")
+
+    def _analyze_ld(self, file_path, unit_uid, model):
+        """处理 .ld 链接脚本，提取 Layout 信息"""
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+
+            # 1. 提取入口点
+            entry_match = re.search(r'ENTRY\s*\(\s*(\w+)\s*\)', content)
+            if entry_match:
+                entry_sym = entry_match.group(1)
+                model.layout_lines.append(f"ENTRY={entry_sym}")
+                # 将 Entry 记录为符号
+                model.add_symbol(entry_sym, unit_uid, "ld_entry")
+
+            # 2. 提取简单的段定义 (heuristic)
+            # 查找 .text : { ... } 或 .data :
+            section_pattern = re.search(r'(\.text|\.data|\.bss)\s*:[^\{]*\{', content)
+            if section_pattern:
+                 model.layout_lines.append(f"Sections defined in {unit_uid}")
+
+            # 3. 提取基地址 (heuristic)
+            # 查找类似 . = 0x80000000; 的赋值
+            base_match = re.search(r'\.\s*=\s*(0x[0-9a-fA-F]+)', content)
+            if base_match:
+                model.layout_lines.append(f"BASE={base_match.group(1)}")
+
+        except Exception as e:
+            print(f"Warning: Linker script analysis failed: {e}")
+--- END FILE: analyzers/asm_ld_analyzer.py ---
+
+--- BEGIN FILE: analyzers/base.py ---
+# analyzers/base.py
+from abc import ABC, abstractmethod
+from core.project_model import ProjectModel
+
+class BaseAnalyzer(ABC):
+    @abstractmethod
+    def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
+        """
+        分析单个文件，提取符号和依赖，填充到 model 中。
+        """
+        pass
+--- END FILE: analyzers/base.py ---
+
+--- BEGIN FILE: analyzers/c_analyzer.py ---
+# analyzers/c_analyzer.py
+import re
+from .base import BaseAnalyzer
+from core.project_model import ProjectModel
+
+class CAnalyzer(BaseAnalyzer):
+    def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+
+            # 1. 简单的正则提取函数定义 (返回类型 + 函数名 + 括号)
+            # 这是一个非常简化的正则，仅作演示
+            func_pattern = re.compile(r'^\w+\s+(\w+)\s*\(', re.MULTILINE)
+            for match in func_pattern.finditer(content):
+                func_name = match.group(1)
+                if func_name not in ['if', 'while', 'for', 'switch']:
+                    attrs = {}
+                    if func_name == 'main': attrs['entry'] = 'true'
+                    model.add_symbol(func_name, unit_uid, "func", **attrs)
+
+            # 2. 提取 #include
+            include_pattern = re.compile(r'#include\s*[<"]([^>"]+)[>"]')
+            for match in include_pattern.finditer(content):
+                header = match.group(1)
+                # 区分系统头文件和本地头文件略复杂，这里统一处理
+                model.add_dependency(unit_uid, "include", f"[{header}]")
+
+        except Exception as e:
+            print(f"Warning: Failed to analyze {file_path}: {e}")
+--- END FILE: analyzers/c_analyzer.py ---
+
+--- BEGIN FILE: analyzers/java_analyzer.py ---
+# analyzers/java_analyzer.py
+import re
+from .base import BaseAnalyzer
+from core.project_model import ProjectModel
+
+class JavaAnalyzer(BaseAnalyzer):
+    def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                lines = f.readlines()
+
+            # 简单的逐行正则匹配
+            # 1. 提取 Class/Interface 定义
+            class_pattern = re.compile(r'^\s*(?:public\s+)?(?:abstract\s+)?(class|interface|enum)\s+(\w+)')
+            
+            # 2. 提取 Import
+            import_pattern = re.compile(r'^\s*import\s+([\w\.]+);')
+
+            for line in lines:
+                line = line.strip()
+                # 跳过注释
+                if line.startswith("//") or line.startswith("*"):
+                    continue
+
+                # 匹配符号定义
+                match_class = class_pattern.search(line)
+                if match_class:
+                    kind = match_class.group(1) # class/interface
+                    name = match_class.group(2)
+                    # Java 中 public class 往往是该文件的主要入口
+                    attrs = {"entry": "true"} if "public" in line else {}
+                    model.add_symbol(name, unit_uid, kind, **attrs)
+
+                # 匹配依赖
+                match_import = import_pattern.search(line)
+                if match_import:
+                    target = match_import.group(1)
+                    # 记录对外部包或类的依赖
+                    model.add_dependency(unit_uid, "import", f"[{target}]")
+
+        except Exception as e:
+            print(f"Warning: Java analysis failed for {file_path}: {e}")
+--- END FILE: analyzers/java_analyzer.py ---
+
+--- BEGIN FILE: analyzers/python_analyzer.py ---
+# analyzers/python_analyzer.py
+import ast
+import os
+from .base import BaseAnalyzer
+from core.project_model import ProjectModel
+
+class PythonAnalyzer(BaseAnalyzer):
+    def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            tree = ast.parse(content)
+            
+            # 1. 提取符号 (Class, Function)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.FunctionDef):
+                    is_entry = node.name == 'main'
+                    attrs = {"entry": "true"} if is_entry else {}
+                    model.add_symbol(node.name, unit_uid, "func", **attrs)
+                elif isinstance(node, ast.ClassDef):
+                    model.add_symbol(node.name, unit_uid, "class")
+
+            # 2. 提取依赖 (Import)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Import):
+                    for alias in node.names:
+                        model.add_dependency(unit_uid, "import", f"[{alias.name}]")
+                elif isinstance(node, ast.ImportFrom):
+                    module = node.module or ""
+                    # 简单启发式：如果是相对导入或已知模块，尝试标记为模块依赖
+                    # 这里为了演示，统一标记为外部引用 [module]
+                    if module:
+                        model.add_dependency(unit_uid, "import", f"[{module}]")
+
+        except Exception as e:
+            print(f"Warning: Failed to analyze {file_path}: {e}")
+--- END FILE: analyzers/python_analyzer.py ---
+
+--- BEGIN FILE: analyzers/rust_analyzer.py ---
+# analyzers/rust_analyzer.py
+import re
+from .base import BaseAnalyzer
+from core.project_model import ProjectModel
+
+class RustAnalyzer(BaseAnalyzer):
+    def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+
+            # 1. 提取函数 (fn name)
+            # 排除 test 模块中的函数通常比较复杂，这里做简单提取
+            fn_pattern = re.compile(r'fn\s+(\w+)\s*<*[^(\n]*\(')
+            for match in fn_pattern.finditer(content):
+                name = match.group(1)
+                if name != "main":
+                    model.add_symbol(name, unit_uid, "func")
+                else:
+                    model.add_symbol(name, unit_uid, "func", entry="true")
+
+            # 2. 提取结构体和枚举 (struct/enum name)
+            type_pattern = re.compile(r'(struct|enum|trait)\s+(\w+)')
+            for match in type_pattern.finditer(content):
+                kind = match.group(1)
+                name = match.group(2)
+                model.add_symbol(name, unit_uid, kind)
+
+            # 3. 提取 Use 依赖
+            use_pattern = re.compile(r'use\s+([\w:]+)(?:;|::)')
+            for match in use_pattern.finditer(content):
+                target = match.group(1)
+                model.add_dependency(unit_uid, "use", f"[{target}]")
+
+        except Exception as e:
+            print(f"Warning: Rust analysis failed for {file_path}: {e}")
+--- END FILE: analyzers/rust_analyzer.py ---
