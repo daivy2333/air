@@ -1,7 +1,7 @@
 <PIR>
 <META>
-name:02-memanagement
-root:/home/daivy/projects/riscv-operating-system-mooc/aigv/ir规范/code/os/02-memanagement
+name:ir规范
+root:/home/daivy/projects/air/ir规范/ir规范
 profile:os-riscv
 lang:C,ASM,LD
 </META>
