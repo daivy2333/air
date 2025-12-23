@@ -19,37 +19,38 @@ u9: core/project_model.py type=PY role=lib module=core
 u10: core/pir_builder.py type=PY role=lib module=core
 </units>
 <dependency-pool>
-d0: import:[abc]
-d1: import:[analyzers]
-d2: import:[argparse]
-d3: import:[asm_ld_analyzer]
-d4: import:[ast]
-d5: import:[base]
-d6: import:[c_analyzer]
-d7: import:[core.pir_builder]
-d8: import:[core.project_model]
-d9: import:[dataclasses]
-d10: import:[java_analyzer]
-d11: import:[os]
-d12: import:[project_model]
-d13: import:[python_analyzer]
-d14: import:[re]
-d15: import:[rust_analyzer]
-d16: import:[sys]
-d17: import:[typing]
+d0: import:[.asm_ld_analyzer]
+d1: import:[.base]
+d2: import:[.c_analyzer]
+d3: import:[.java_analyzer]
+d4: import:[.project_model]
+d5: import:[.python_analyzer]
+d6: import:[.rust_analyzer]
+d7: import:[abc]
+d8: import:[analyzers]
+d9: import:[argparse]
+d10: import:[ast]
+d11: import:[collections]
+d12: import:[core.pir_builder]
+d13: import:[core.project_model]
+d14: import:[dataclasses]
+d15: import:[os]
+d16: import:[re]
+d17: import:[sys]
+d18: import:[typing]
 </dependency-pool>
 <dependencies>
-u0->refs:[d11 d16 d2 d14 d4]
-u1->refs:[d11 d2 d8 d7 d1]
-u2->refs:[d14 d5 d8]
-u3->refs:[d14 d5 d8]
-u4->refs:[d14 d5 d8]
-u5->refs:[d0 d8]
-u6->refs:[d14 d11 d5 d8]
-u7->refs:[d6 d13 d10 d15 d3]
-u8->refs:[d4 d11 d5 d8]
-u9->refs:[d9 d17]
-u10->refs:[d12]
+u0->refs:[d15 d17 d9 d16 d10]
+u1->refs:[d15 d9 d11 d13 d12 d8]
+u2->refs:[d16 d1 d13]
+u3->refs:[d16 d1 d13]
+u4->refs:[d16 d1 d13]
+u5->refs:[d7 d13]
+u6->refs:[d16 d15 d1 d13]
+u7->refs:[d2 d5 d3 d6 d0]
+u8->refs:[d10 d15 d1 d13]
+u9->refs:[d14 d18]
+u10->refs:[d4]
 </dependencies>
 <symbols>
 is_source_file:u0 func
@@ -58,44 +59,22 @@ minify_c_style:u0 func
 minify_python:u0 func
 process_directory:u0 func
 main:u0 func entry=true
-replacer:u0 func
+discover_source_files:u1 func
+infer_unit_meta:u1 func
 scan_project:u1 func
 resolve_dependencies:u1 func
 main:u1 func entry=true
 CAnalyzer:u2 class
-analyze:u2 func
 RustAnalyzer:u3 class
-analyze:u3 func
 JavaAnalyzer:u4 class
-analyze:u4 func
 BaseAnalyzer:u5 class
-analyze:u5 func
 AsmLdAnalyzer:u6 class
-analyze:u6 func
-_analyze_asm:u6 func
-_analyze_ld:u6 func
 get_analyzer:u7 func
 PythonAnalyzer:u8 class
-analyze:u8 func
 Unit:u9 class
 Symbol:u9 class
 Dependency:u9 class
 ProjectModel:u9 class
-__init__:u9 func
-add_unit:u9 func
-add_symbol:u9 func
-finalize_dependencies:u9 func
-add_dependency:u9 func
-get_uid_by_path:u9 func
 PIRBuilder:u10 class
-__init__:u10 func
-build:u10 func
-_build_meta:u10 func
-_build_units:u10 func
-_build_dependency_pool:u10 func
-_build_dependencies:u10 func
-_build_symbols:u10 func
-_build_layout:u10 func
-_build_snippets:u10 func
 </symbols>
 </pir>

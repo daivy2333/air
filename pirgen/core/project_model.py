@@ -2,97 +2,130 @@
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional, Set, Tuple
 
-@dataclass
+
+# -------------------------
+# Core IR Nodes
+# -------------------------
+@dataclass(frozen=True)
 class Unit:
-    uid: str          # u0, u1
-    path: str         # core/init.c
-    lang: str         # C, Python
-    role: str         # entry, lib
-    module: str       # core
+    uid: str
+    path: str
+    lang: str
+    role: str
+    module: str
+
 
 @dataclass
 class Symbol:
     name: str
     unit_uid: str
-    kind: str         # func, var, class
+    kind: str
     attrs: Dict[str, str] = field(default_factory=dict)
 
-# 依赖定义仍可保留，但 v0.3 不再需要全局 Dependency 列表
-@dataclass
+
+@dataclass(frozen=True)
 class Dependency:
     src_uid: str
-    verb: str         # call, import
-    target: str       # u1, [stdio.h], u1#func_name
+    verb: str
+    target: str
 
+
+# -------------------------
+# Project Model
+# -------------------------
 class ProjectModel:
     def __init__(self, name: str, root: str, profile: str):
         self.name = name
         self.root = root
         self.profile = profile
+
         self.langs: Set[str] = set()
-        
+
+        # ---- Units ----
         self.units: List[Unit] = []
         self._path_to_uid: Dict[str, str] = {}
+
+        # ---- Symbols ----
         self.symbols: List[Symbol] = []
 
-        # --- v0.3 stable deps (two-phase) ---
-        self._unit_dep_keys: Dict[str, List[str]] = {}   # uX -> ["import:[os]", ...] keep insertion order per unit
-        self._all_dep_keys: Set[str] = set()             # global unique keys
+        # ---- Dependencies (two-phase) ----
+        self._unit_dep_keys: Dict[str, List[str]] = {}
+        self._all_dep_keys: Set[str] = set()
 
-        # finalize() 后填充（供 builder 使用）
-        self.dep_pool_items: List[Tuple[str, str, str]] = []  # (dX, verb, target) in stable order
-        self.dep_refs: Dict[str, List[str]] = {}              # uX -> [dX...]
+        self.dep_pool_items: List[Tuple[str, str, str]] = []
+        self.dep_refs: Dict[str, List[str]] = {}
 
-        # 如果别处还用到旧字段，可先留着（不影响输出）
-        self.dependencies: List[Dependency] = []
-        
-        # 布局和代码片段暂存
+        self.deps_finalized: bool = False
+
+        # ---- Optional extensions ----
         self.layout_lines: List[str] = []
-        self.snippets: List[tuple] = [] # (unit_uid, content)
+        self.snippets: List[Tuple[str, str]] = []
 
-    def add_unit(self, path: str, lang: str, role: str = "lib", module: str = "common") -> str:
+    # -------------------------
+    # Unit
+    # -------------------------
+    def add_unit(self, path: str, lang: str, role="lib", module="common") -> str:
+        if path in self._path_to_uid:
+            return self._path_to_uid[path]
+
         uid = f"u{len(self.units)}"
-        unit = Unit(uid, path, lang, role, module)
-        self.units.append(unit)
+        self.units.append(Unit(uid, path, lang, role, module))
         self._path_to_uid[path] = uid
         self.langs.add(lang)
         return uid
 
+    def get_uid_by_path(self, path: str) -> Optional[str]:
+        return self._path_to_uid.get(path)
+
+    # -------------------------
+    # Symbol
+    # -------------------------
     def add_symbol(self, name: str, unit_uid: str, kind: str, **attrs):
         self.symbols.append(Symbol(name, unit_uid, kind, attrs))
 
-    def finalize_dependencies(self):
+    # -------------------------
+    # Dependency
+    # -------------------------
+    def add_dependency(self, src_uid: str, verb: str = None, target: str = None, **kwargs):
         """
-        生成稳定的 dX：按 key(verb:target) 字典序排序。
-        调用时机：resolve_dependencies 之后、builder 输出之前。
+        兼容旧接口：
+        - add_dependency(uid, verb, target)
+        - add_dependency(uid, kind=..., target=...)
         """
-        # 1) 稳定排序 key
-        sorted_keys = sorted(self._all_dep_keys)
+        if self.deps_finalized:
+            raise RuntimeError("Cannot add dependency after finalize")
 
-        # 2) key -> dX
-        key_to_did = {k: f"d{i}" for i, k in enumerate(sorted_keys)}
+        # 兼容旧 kind 参数
+        if verb is None:
+            verb = kwargs.get("kind")
 
-        # 3) 生成 dependency-pool（按排序后的 key 顺序）
-        self.dep_pool_items = []
-        for k in sorted_keys:
-            verb, target = k.split(":", 1)
-            did = key_to_did[k]
-            self.dep_pool_items.append((did, verb, target))
-
-        # 4) 生成 refs（按 unit 的 key 顺序映射到 did；可选再按 did 排序）
-        self.dep_refs = {}
-        for uid, keys in self._unit_dep_keys.items():
-            self.dep_refs[uid] = [key_to_did[k] for k in keys]
-
-    def add_dependency(self, src_uid: str, verb: str, target: str):
-        # 兼容旧逻辑（可选）
-        self.dependencies.append(Dependency(src_uid, verb, target))
+        if verb is None or target is None:
+            raise ValueError("Dependency requires verb/kind and target")
 
         key = f"{verb}:{target}"
         self._all_dep_keys.add(key)
         lst = self._unit_dep_keys.setdefault(src_uid, [])
-        if key not in lst:  # 单元内去重 + 稳定顺序
+        if key not in lst:
             lst.append(key)
 
-    def get_uid_by_path(self, path: str) -> Optional[str]:
-        return self._path_to_uid.get(path)
+
+    # -------------------------
+    # Finalize Dependencies
+    # -------------------------
+    def finalize_dependencies(self):
+        if self.deps_finalized:
+            return
+
+        sorted_keys = sorted(self._all_dep_keys)
+        key_to_did = {k: f"d{i}" for i, k in enumerate(sorted_keys)}
+
+        self.dep_pool_items = []
+        for k in sorted_keys:
+            verb, target = k.split(":", 1)
+            self.dep_pool_items.append((key_to_did[k], verb, target))
+
+        self.dep_refs = {}
+        for uid, keys in self._unit_dep_keys.items():
+            self.dep_refs[uid] = [key_to_did[k] for k in keys]
+
+        self.deps_finalized = True
