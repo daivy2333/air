@@ -2,16 +2,26 @@
 """
 Profile Canonicalization (Profile-Aware Semantic IR)
 
-Analyze project dependencies and file structure to infer high-level
-semantic profiles (e.g., ml-python, web-backend, etc.)
+Language-owned, dominance-aware semantic profile inference.
 """
 
 from typing import Dict, List, Set, Optional
-from collections import defaultdict
+from collections import Counter
 
-# -------------------------
-# Profile Rules
-# -------------------------
+# ============================================================
+# Language Constants
+# ============================================================
+
+LANG_PY = "PY"
+LANG_RS = "RS"
+LANG_C = "C"
+LANG_CPP = "CPP"
+LANG_JAVA = "JAVA"
+LANG_RUST = "Rust"
+
+# ============================================================
+# Library Signals
+# ============================================================
 
 # ML Python Profile Rules
 ML_PYTHON_LIBS = {
@@ -50,6 +60,27 @@ KERNEL_C_SIGNALS = {
     "irq",
 }
 
+# C++ 竞赛编程特征
+CPP_COMPETITIVE_PATTERNS = {
+    "icpc",
+    "acm",
+    "codeforces",
+    "atcoder",
+    "leetcode",
+    "hackerrank",
+}
+
+CPP_STD_HEADERS = {
+    "iostream",
+    "vector",
+    "algorithm",
+    "string",
+    "map",
+    "set",
+    "queue",
+    "stack",
+}
+
 # -------------------------
 # Rust Profile Rules
 # -------------------------
@@ -74,6 +105,23 @@ RUST_WEB_LIBS = {
     "hyper",
 }
 
+# Rust 算法学习项目特征
+RUST_LEARNING_PATTERNS = {
+    "algorithm",
+    "leetcode",
+    "binary-search",
+    "dynamic-programming",
+    "graph",
+    "tree",
+    "sorting",
+}
+
+RUST_MODULE_PATTERNS = {
+    "mod.rs",
+    "lib.rs",
+    "main.rs",
+}
+
 # -------------------------
 # Java Profile Rules
 # -------------------------
@@ -95,39 +143,48 @@ JAVA_BUILD_TOOLS = {
     "gradle",
 }
 
-# -------------------------
+# ============================================================
 # Profile Canonicalizer
-# -------------------------
+# ============================================================
+
 class ProfileCanonicalizer:
     """
-    Analyze project dependencies and infer semantic profiles.
-
-    Profiles are non-authoritative, derived metadata that provide
-    high-level semantic understanding of a project.
+    Infer semantic profiles with strict language ownership.
     """
 
     def __init__(self):
+        # profile_name -> (detector, owned_languages)
         self.rules = {
-            # Python
-            "ml-python": self._detect_ml_python,
-            "python-tool": self._detect_python_tool,
+            # Python profiles
+            "ml-python": (self._detect_ml_python, {LANG_PY}),
+            "python-tool": (self._detect_python_tool, {LANG_PY}),
+            "python-framework": (self._detect_python_framework, {LANG_PY}),
 
-            # C
-            "system-c": self._detect_system_c,
-            "embedded-c": self._detect_embedded_c,
+            # C profiles
+            "system-c": (self._detect_system_c, {LANG_C, LANG_CPP}),
+            "embedded-c": (self._detect_embedded_c, {LANG_C, LANG_CPP}),
+            "cpp-competitive": (self._detect_cpp_competitive, {LANG_C, LANG_CPP}),
+            "c-framework": (self._detect_c_framework, {LANG_C, LANG_CPP}),
 
-            # Rust
-            "rust-embedded": self._detect_rust_embedded,
-            "rust-web": self._detect_rust_web,
+            # Rust profiles
+            "rust-embedded": (self._detect_rust_embedded, {LANG_RUST}),
+            "rust-web": (self._detect_rust_web, {LANG_RUST}),
+            "rust-learning": (self._detect_rust_learning, {LANG_RUST}),
+            "rust-framework": (self._detect_rust_framework, {LANG_RUST}),
 
-            # Java
-            "java-web": self._detect_java_web,
-            "java-lib": self._detect_java_lib,
+            # Java profiles
+            "java-web": (self._detect_java_web, {LANG_JAVA}),
+            "java-lib": (self._detect_java_lib, {LANG_JAVA}),
+            "java-framework": (self._detect_java_framework, {LANG_JAVA}),
         }
+
+    # ========================================================
+    # Entry
+    # ========================================================
 
     def apply(self, model) -> None:
         """
-        Apply profile detection to a ProjectModel instance.
+        Apply profile detection with language ownership gate.
 
         Args:
             model: ProjectModel instance with finalized dependencies
@@ -138,49 +195,88 @@ class ProfileCanonicalizer:
                 "Call model.finalize_dependencies() first."
             )
 
-        # Extract all dependency targets
-        all_targets = self._extract_all_targets(model)
+        # Step 1: Infer dominant (target) language
+        dominant_lang = self._infer_dominant_language(model)
 
-        # Apply each profile rule
-        detected_profiles = {}
-        for profile_name, rule_func in self.rules.items():
-            result = rule_func(all_targets, model)
+        # Step 2: Extract all dependency targets
+        targets = self._extract_targets(model)
+
+        # Step 3: Apply each profile rule with language gate
+        detected = {}
+        for name, (rule, owned_langs) in self.rules.items():
+            # 🚫 Language ownership gate
+            # A profile can only be active on languages it owns
+            if dominant_lang and dominant_lang not in owned_langs:
+                continue
+
+            result = rule(model, targets, dominant_lang)
             if result:
-                detected_profiles[profile_name] = result
+                detected[name] = result
 
-        # Set profiles on model
-        model.profiles = detected_profiles
+        # Step 4: Set profiles on model
+        model.profiles = detected
 
-        # Set active profile (highest confidence)
-        if detected_profiles:
-            # Sort by confidence, descending
-            sorted_profiles = sorted(
-                detected_profiles.items(),
-                key=lambda x: x[1].get("confidence", 0.0),
-                reverse=True
-            )
-            model.active_profile = sorted_profiles[0][0]
-        else:
-            model.active_profile = None
+        # Step 5: Set active profile (highest confidence)
+        model.active_profile = self._pick_active_profile(detected)
 
-    def _extract_all_targets(self, model) -> Set[str]:
+    # ========================================================
+    # Core Helpers
+    # ========================================================
+
+    def _infer_dominant_language(self, model) -> Optional[str]:
+        """
+        Determine dominant (target) language by unit count & role.
+
+        The dominant language is the language with the most units,
+        representing the primary target language of the project.
+        """
+        if not model.units:
+            return None
+
+        # Count units by language
+        counter = Counter()
+        for u in model.units:
+            # Normalize language name (Rust -> RS)
+            lang = u.lang
+            if lang == LANG_RUST:
+                lang = LANG_RS
+            counter[lang] += 1
+
+        if not counter:
+            return None
+
+        # Highest unit count wins
+        dominant, _ = counter.most_common(1)[0]
+        return dominant
+
+    def _extract_targets(self, model) -> Set[str]:
         """Extract all dependency targets from the model."""
         targets = set()
-        for _, verb, target in model.dep_pool_items:
+        for _, _, target in model.dep_pool_items:
             # Extract library name from targets like [stdlib:py] or [numpy]
             if target.startswith("[") and target.endswith("]"):
-                lib_name = target[1:-1]
-                # Handle normalized targets like "stdlib:py"
-                if ":" in lib_name:
-                    # For stdlib:py, add "stdlib" to targets
-                    # This allows matching against PYTHON_TOOL_LIBS
-                    prefix = lib_name.split(":")[0]
-                    targets.add(prefix)
-                else:
-                    targets.add(lib_name)
+                lib = target[1:-1]
+                targets.add(lib.split(":")[0])
         return targets
 
-    def _detect_ml_python(self, targets: Set[str], model) -> Optional[Dict]:
+    def _pick_active_profile(self, profiles: Dict) -> Optional[str]:
+        """
+        Pick the active profile from detected profiles.
+
+        The profile with the highest confidence becomes active.
+        """
+        if not profiles:
+            return None
+        return max(
+            profiles.items(),
+            key=lambda x: x[1].get("confidence", 0.0)
+        )[0]
+
+    # ========================================================
+    # Python Profiles
+    # ========================================================
+
+    def _detect_ml_python(self, model, targets, lang):
         """
         Detect ML Python profile.
 
@@ -188,34 +284,64 @@ class ProfileCanonicalizer:
         - Presence of core ML libraries (numpy, torch, tensorflow, etc.)
         - High confidence if multiple ML libs present
         """
-        ml_libs_found = ML_PYTHON_LIBS & targets
-
-        if not ml_libs_found:
+        ml_found = ML_PYTHON_LIBS & targets
+        if not ml_found:
             return None
 
-        # Calculate confidence based on number of ML libraries found
-        confidence = min(0.5 + len(ml_libs_found) * 0.1, 1.0)
-
-        # Build tags
-        tags = [
-            "domain:ml",
-            "runtime:cpython",
-            "stack:ml-python",
-        ]
-
-        # Add specific library tags
-        for lib in sorted(ml_libs_found):
-            tags.append(f"lib:{lib}")
+        confidence = min(0.6 + len(ml_found) * 0.1, 0.95)
 
         return {
             "confidence": round(confidence, 2),
-            "tags": tags
+            "tags": [
+                "domain:ml",
+                "runtime:cpython",
+                "stack:ml-python"
+            ] + [f"lib:{x}" for x in sorted(ml_found)]
         }
 
-    # -------------------------
-    # C Profile Detectors
-    # -------------------------
-    def _detect_system_c(self, targets: Set[str], model) -> Optional[Dict]:
+    def _detect_python_framework(self, model, targets, lang):
+        """
+        Detect Python Framework profile.
+
+        Rules:
+        - Multi-module projects with layered architecture
+        - Semantic class names indicating framework structure
+        """
+        confidence = 0.0
+        signals = []
+
+        if len(model.units) >= 8:
+            confidence += 0.3
+            signals.append("multi-module")
+
+        modules = {u.module for u in model.units if u.module}
+        if {"core", "analyzers"} <= modules:
+            confidence += 0.3
+            signals.append("layered-architecture")
+
+        class_names = {s.name.lower() for s in model.symbols if s.kind == "class"}
+        if any(k in name for k in ("model", "builder", "canon", "analysis") for name in class_names):
+            confidence += 0.2
+            signals.append("semantic-classes")
+
+        if confidence < 0.45:
+            return None
+
+        return {
+            "confidence": round(confidence, 2),
+            "tags": [
+                "domain:language-tooling",
+                "runtime:cpython",
+                "stack:python-framework"
+            ],
+            "signals": signals
+        }
+
+    # ========================================================
+    # C / C++ Profiles
+    # ========================================================
+
+    def _detect_system_c(self, model, targets, lang):
         """
         Detect System C profile (OS / kernel related).
 
@@ -224,9 +350,6 @@ class ProfileCanonicalizer:
         - Multi-unit projects get higher confidence
         - Kernel-related unit names boost confidence
         """
-        if "C" not in model.langs:
-            return None
-
         if not (C_STDLIB_TARGETS & targets):
             return None
 
@@ -260,7 +383,7 @@ class ProfileCanonicalizer:
 
         return result
 
-    def _detect_embedded_c(self, targets: Set[str], model) -> Optional[Dict]:
+    def _detect_embedded_c(self, model, targets, lang):
         """
         Detect Embedded C profile (newlib / RTOS).
 
@@ -283,10 +406,93 @@ class ProfileCanonicalizer:
             ] + [f"lib:{lib}" for lib in sorted(embedded)]
         }
 
-    # -------------------------
-    # Rust Profile Detectors
-    # -------------------------
-    def _detect_rust_embedded(self, targets: Set[str], model) -> Optional[Dict]:
+    def _detect_cpp_competitive(self, model, targets, lang):
+        """
+        Detect C++ Competitive Programming profile.
+
+        Rules:
+        - Presence of C/C++ stdlib targets
+        - File path patterns indicating competitive programming
+        - Standard library headers usage
+        - Competitive coding patterns
+        """
+        if not (C_STDLIB_TARGETS & targets):
+            return None
+
+        confidence = 0.0
+        signals = []
+        tags = ["lang:cpp", "domain:competitive-programming"]
+
+        # Check for competitive programming patterns in file paths
+        path_lower = {u.path.lower() for u in model.units}
+        competitive_patterns_found = CPP_COMPETITIVE_PATTERNS & path_lower
+        if competitive_patterns_found:
+            confidence += 0.4
+            signals.append("competitive-patterns")
+            tags.append("purpose:icpc")
+
+        # Check for standard library headers in dependencies
+        std_headers_found = CPP_STD_HEADERS & targets
+        if std_headers_found:
+            confidence += 0.2
+            signals.append("std-headers")
+
+        # Check for bits/stdc++.h (common in competitive programming)
+        for _, _, target in model.dep_pool_items:
+            if "bits/stdc++.h" in target:
+                confidence += 0.15
+                signals.append("bits-stdcpp")
+                break
+
+        # Check for leetcode patterns
+        if "leetcode" in path_lower:
+            confidence += 0.25
+            signals.append("leetcode-patterns")
+            tags.extend(["pattern:leetcode", "difficulty:mixed"])
+
+        # Multi-unit bonus (organized solutions)
+        if len(model.units) > 5:
+            confidence += 0.15
+            signals.append("multi-unit")
+            tags.append("module-organized")
+
+        confidence = min(confidence, 0.95)
+
+        if confidence < 0.4:
+            return None
+
+        return {
+            "confidence": round(confidence, 2),
+            "tags": tags,
+            "signals": signals
+        }
+
+    def _detect_c_framework(self, model, targets, lang):
+        """
+        Detect C/C++ Framework profile.
+
+        Rules:
+        - General C/C++ framework detection
+        - Multi-unit projects with linker dependencies
+        """
+        confidence = 0.5
+        if any("ld" in (u.module or "") for u in model.units):
+            confidence += 0.2
+
+        return {
+            "confidence": round(confidence, 2),
+            "tags": [
+                "domain:language-tooling",
+                "runtime:native",
+                "stack:c-framework"
+            ]
+        }
+
+    # ========================================================
+    # Rust Profiles
+    # ========================================================
+
+    def _detect_rust_embedded(self, model, targets, lang):
         """
         Detect Rust Embedded profile (no_std / embedded-hal).
 
@@ -294,9 +500,6 @@ class ProfileCanonicalizer:
         - Presence of embedded Rust libraries
         - Higher confidence with more embedded libs
         """
-        if "Rust" not in model.langs:
-            return None
-
         embedded = RUST_EMBEDDED_LIBS & targets
         if not embedded:
             return None
@@ -312,7 +515,7 @@ class ProfileCanonicalizer:
             ] + [f"lib:{lib}" for lib in sorted(embedded)]
         }
 
-    def _detect_rust_web(self, targets: Set[str], model) -> Optional[Dict]:
+    def _detect_rust_web(self, model, targets, lang):
         """
         Detect Rust Web Backend profile.
 
@@ -335,10 +538,132 @@ class ProfileCanonicalizer:
             ] + [f"lib:{lib}" for lib in sorted(web)]
         }
 
-    # -------------------------
-    # Java Profile Detectors
-    # -------------------------
-    def _detect_java_web(self, targets: Set[str], model) -> Optional[Dict]:
+    def _detect_rust_learning(self, model, targets, lang):
+        """
+        Detect Rust Learning/Algorithm project profile.
+
+        Rules:
+        - Presence of Rust stdlib targets
+        - File path patterns indicating algorithm learning
+        - Module structure (mod.rs, lib.rs, main.rs)
+        - No heavy framework dependencies
+        - Multiple main.rs files (multiple small projects)
+        - Project name or directory containing 'learn', 'tutorial', 'example'
+        - Algorithm-related function names
+        - Learning-related project names (hello_world, variables, adder)
+        """
+        if not (RUST_STDLIB_TARGETS & targets):
+            return None
+
+        confidence = 0.0
+        signals = []
+        tags = ["lang:rust", "purpose:learning", "domain:algorithms"]
+
+        # Check for learning patterns in file paths
+        path_lower = {u.path.lower() for u in model.units}
+        learning_patterns_found = RUST_LEARNING_PATTERNS & path_lower
+        if learning_patterns_found:
+            confidence += 0.3
+            signals.append("learning-patterns")
+
+        # Check for Rust module structure
+        module_patterns_found = RUST_MODULE_PATTERNS & {u.path.lower() for u in model.units}
+        if module_patterns_found:
+            confidence += 0.25
+            signals.append("mod-structure")
+            if "mod.rs" in module_patterns_found:
+                tags.append("ecosystem:cargo")
+
+        # Check for stdlib presence
+        if RUST_STDLIB_TARGETS & targets:
+            confidence += 0.2
+            signals.append("rust-stdlib")
+            tags.append("build:rustc")
+
+        # Multi-unit bonus
+        if len(model.units) > 5:
+            confidence += 0.15
+            signals.append("multi-unit")
+
+        # No heavy frameworks (web, embedded)
+        if not (RUST_WEB_LIBS & targets) and not (RUST_EMBEDDED_LIBS & targets):
+            confidence += 0.1
+            signals.append("pure-learning")
+
+        # Check for multiple main.rs files (indicates multiple small projects)
+        main_rs_count = sum(1 for u in model.units if u.path.lower().endswith("main.rs"))
+        if main_rs_count >= 2:
+            confidence += 0.15
+            signals.append(f"multiple-main-rs({main_rs_count})")
+
+        # Check for learning-related directory names
+        learning_dirs = {"learn", "tutorial", "example", "demo", "test", "practice", "exercise"}
+        found_learning_dirs = any(d in path.lower() for d in learning_dirs for path in path_lower)
+        if found_learning_dirs:
+            confidence += 0.1
+            signals.append("learning-directory")
+
+        # Check for algorithm-related function names
+        algo_keywords = {"sort", "search", "find", "tree", "graph", "heap", "stack", "queue", 
+                         "hash", "binary", "dynamic", "greedy", "recursive", "iterative"}
+        func_names = {s.name.lower() for s in model.symbols if s.kind == "func"}
+        found_algo_funcs = func_names & algo_keywords
+        if found_algo_funcs:
+            confidence += 0.1 * min(len(found_algo_funcs), 3)  # Max 0.3 bonus
+            signals.append(f"algo-functions({len(found_algo_funcs)})")
+
+        # Check for learning-related project names
+        learning_projects = {"hello_world", "variables", "adder", "hello_package", "minigrep"}
+        found_learning_projects = any(proj in path_lower for proj in learning_projects)
+        if found_learning_projects:
+            confidence += 0.1
+            signals.append("learning-project-names")
+
+        # Check for learning-related symbols
+        learning_symbols = {"it_works", "test", "example", "demo"}
+        symbol_names = {s.name.lower() for s in model.symbols}
+        found_learning_symbols = symbol_names & learning_symbols
+        if found_learning_symbols:
+            confidence += 0.05
+            signals.append("learning-symbols")
+
+        confidence = min(confidence, 0.95)
+
+        if confidence < 0.4:
+            return None
+
+        return {
+            "confidence": round(confidence, 2),
+            "tags": tags,
+            "signals": signals
+        }
+
+    def _detect_rust_framework(self, model, targets, lang):
+        """
+        Detect Rust Framework profile.
+
+        Rules:
+        - General Rust framework detection
+        - Multi-unit projects
+        """
+        confidence = 0.5
+        if len(model.units) >= 5:
+            confidence += 0.2
+
+        return {
+            "confidence": round(confidence, 2),
+            "tags": [
+                "domain:language-tooling",
+                "runtime:rust",
+                "stack:rust-framework"
+            ]
+        }
+
+    # ========================================================
+    # Java Profiles
+    # ========================================================
+
+    def _detect_java_web(self, model, targets, lang):
         """
         Detect Java Web Backend profile (Spring / Jakarta).
 
@@ -346,9 +671,6 @@ class ProfileCanonicalizer:
         - Presence of Java web frameworks
         - Higher confidence with more web libs
         """
-        if "JAVA" not in model.langs:
-            return None
-
         web = JAVA_WEB_LIBS & targets
         if not web:
             return None
@@ -364,7 +686,7 @@ class ProfileCanonicalizer:
             ] + [f"lib:{lib}" for lib in sorted(web)]
         }
 
-    def _detect_java_lib(self, targets: Set[str], model) -> Optional[Dict]:
+    def _detect_java_lib(self, model, targets, lang):
         """
         Detect Java Library / Utility profile.
 
@@ -372,9 +694,6 @@ class ProfileCanonicalizer:
         - Presence of Java stdlib targets
         - Multi-unit projects (>5 units)
         """
-        if "JAVA" not in model.langs:
-            return None
-
         if JAVA_STDLIB_TARGETS & targets and len(model.units) > 5:
             return {
                 "confidence": 0.45,
@@ -387,10 +706,44 @@ class ProfileCanonicalizer:
 
         return None
 
+    def _detect_java_framework(self, model, targets, lang):
+        """
+        Detect Java Framework profile.
+
+        Rules:
+        - General Java framework detection
+        """
+        confidence = 0.5
+        return {
+            "confidence": confidence,
+            "tags": [
+                "domain:language-tooling",
+                "runtime:jvm",
+                "stack:java-framework"
+            ]
+        }
+
     def _detect_python_tool(self, targets: Set[str], model) -> Optional[Dict]:
         """
         Improved Python Tool profile detection with semantic weighting.
+        
+        Added language conflict detection to avoid misidentifying
+        Rust/C++ projects as python-tool.
         """
+        # Language conflict check: if project has non-Python languages,
+        # only detect python-tool if Python is the dominant language
+        if model.langs and len(model.langs) > 1:
+            if "PY" not in model.langs:
+                return None
+            # Count units by language
+            lang_counts = {}
+            for unit in model.units:
+                lang_counts[unit.lang] = lang_counts.get(unit.lang, 0) + 1
+            # Python must be the dominant language (> 50%)
+            py_count = lang_counts.get("PY", 0)
+            total_count = sum(lang_counts.values())
+            if py_count / total_count <= 0.5:
+                return None
 
         tool_libs_found = PYTHON_TOOL_LIBS & targets
         if not tool_libs_found:
@@ -447,4 +800,38 @@ class ProfileCanonicalizer:
             "confidence": confidence,
             "tags": tags,
             "signals": reasons
+        }
+
+    def _detect_python_tool(self, model, targets, lang):
+        """
+        Detect Python Tool profile.
+
+        Rules:
+        - Small, flat projects with tooling libraries
+        - Entry point detection
+        - Note: Language ownership is enforced at apply() level
+        """
+        # Only small, flat projects
+        if len(model.units) > 5:
+            return None
+
+        confidence = 0.4
+        signals = ["small-project"]
+
+        has_entry = any(
+            s.kind == "func" and s.attrs.get("entry") == "true"
+            for s in model.symbols
+        )
+        if has_entry:
+            confidence += 0.2
+            signals.append("entry-point")
+
+        return {
+            "confidence": round(confidence, 2),
+            "tags": [
+                "domain:tooling",
+                "runtime:cpython",
+                "stack:python-tool"
+            ],
+            "signals": signals
         }

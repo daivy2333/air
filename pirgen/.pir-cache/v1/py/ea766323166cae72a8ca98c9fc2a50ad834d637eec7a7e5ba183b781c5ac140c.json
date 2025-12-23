@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[typing]",
+    "import:[collections]"
+  ],
+  "file": "../core/profile_canon.py",
+  "hash": "ea766323166cae72a8ca98c9fc2a50ad834d637eec7a7e5ba183b781c5ac140c",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ProfileCanonicalizer"
+    }
+  ],
+  "timestamp": "2025-12-23T15:10:13.207472",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}
