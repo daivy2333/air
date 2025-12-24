@@ -1,0 +1,50 @@
+{
+  "deps": [
+    "import:[os]",
+    "import:[re]",
+    "import:[argparse]"
+  ],
+  "file": "../\u521d\u7248/d_3.py",
+  "hash": "0275c5ccc75e04a00f252c59cf1d48d4e030e0eb17caf2e07d6647bd411dec14",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "classify"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "strip_comments"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "minify_c"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "parse_funcs"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "parse_includes"
+    },
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.909804",
+  "unit": {
+    "module": "\u521d\u7248",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

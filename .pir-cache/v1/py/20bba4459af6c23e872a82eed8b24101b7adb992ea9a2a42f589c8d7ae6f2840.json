@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[ast]",
+    "import:[os]",
+    "import:[.base]",
+    "import:[..core.project_model]"
+  ],
+  "file": "../pirgen/analyzers/python_analyzer.py",
+  "hash": "20bba4459af6c23e872a82eed8b24101b7adb992ea9a2a42f589c8d7ae6f2840",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "PythonAnalyzer"
+    }
+  ],
+  "timestamp": "2025-12-24T06:54:47.415095",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

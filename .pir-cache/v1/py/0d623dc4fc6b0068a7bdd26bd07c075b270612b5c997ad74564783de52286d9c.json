@@ -1,0 +1,27 @@
+{
+  "deps": [
+    "import:[reconstruct.structure]",
+    "import:[reconstruct.interface]",
+    "import:[reconstruct.relations]",
+    "import:[reconstruct.documentation]",
+    "import:[reconstruct.audit]",
+    "import:[reconstruct.enrichment]",
+    "import:[errors]"
+  ],
+  "file": "../pir-reconstructor/reconstruct/pipeline.py",
+  "hash": "0d623dc4fc6b0068a7bdd26bd07c075b270612b5c997ad74564783de52286d9c",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ReconstructionPipeline"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.902177",
+  "unit": {
+    "module": "reconstruct",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

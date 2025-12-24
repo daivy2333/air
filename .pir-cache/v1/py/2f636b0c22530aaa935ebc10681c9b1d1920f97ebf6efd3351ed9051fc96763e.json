@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[.base]",
+    "import:[core.project_model]"
+  ],
+  "file": "../pirgen/analyzers/rust_analyzer.py",
+  "hash": "2f636b0c22530aaa935ebc10681c9b1d1920f97ebf6efd3351ed9051fc96763e",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "RustAnalyzer"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.914239",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

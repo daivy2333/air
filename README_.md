@@ -1,0 +1,69 @@
+pirgen/
+├── pirgen.py                 # 主入口：自动路由 + 配置加载
+├── core/
+│   ├── pir_builder.py        # PIR 文本构建器（严格按规范）
+│   ├── project_model.py      # 内部数据模型（Unit, Symbol, Dep...）
+│   └── dep_canon.py          # 依赖语义归一化（Dependency Canonicalization）
+├── analyzers/
+│   ├── base.py               # Analyzer 抽象基类
+│   ├── c_analyzer.py         # C/C++（用 gcc -MM + ctags）
+│   ├── rust_analyzer.py      # Rust（用 rustc --emit=dep-info + rust-analyzer）
+│   ├── java_analyzer.py      # Java（用 javac -XprintRounds 或解析 imports）
+│   ├── python_analyzer.py    # Python（用 ast 模块）
+│   ├── asm_ld_analyzer.py    # 汇编 & 链接脚本（正则 + 启发式）
+│   └── __init__.py           # 注册所有 analyzer
+├── README_CANON.md           # 依赖归一化功能说明文档
+└── config_schema.json        # （可选）配置文件 schema
+
+## PIR 生成流程
+
+1. scan_project - 扫描项目源文件
+2. resolve_dependencies - 解析依赖关系
+3. canonicalize_dependencies - 归一化依赖语义（新增）
+4. finalize_dependencies - 最终化依赖
+5. emit PIR - 生成 PIR 文件
+
+## 依赖归一化
+
+将标准库依赖归一化为语义形式：
+- Python: [os], [sys], [re] → [stdlib:py]
+- C: [stdio.h], [stdlib.h] → [stdlib:c]
+- Rust: [std::xxx] → [stdlib:rust]
+
+详见 README_CANON.md
+
+
+# PIR - Project Intermediate Representation
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+
+## 🚀 简介
+PIR是一种面向AI优化的项目中间表示，旨在用最少的token完整描述项目架构...
+
+## ✨ 特性
+- ✅ 多语言支持 (Python, Rust, C/C++, Java, 汇编等)
+- ✅ 依赖关系池压缩算法
+- ✅ Profile-Aware语义推断
+- ✅ 极简Token设计
+
+# 生成 PIR
+python -m air forward ./my_project
+
+# 生成架构图
+python -m air reverse my_project.pir --format arch
+
+# 生成流程图
+python -m air reverse my_project.pir --format pipeline
+
+todo:
+
+1.文本图形化
+字面意思，因为我这个规范的文本可以读取相互关系，图形化也是理所当然
+
+2.逆向工程
+字面意思，从文本读取信息，创建一个项目空壳，对我来说做到这里就够了
+
+3.我梦到漫天的繁星，那时候你说...
+
+PIR is an architectural-level IR, not a semantic or execution-level IR.

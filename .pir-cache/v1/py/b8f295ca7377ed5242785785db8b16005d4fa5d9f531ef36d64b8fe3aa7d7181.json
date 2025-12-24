@@ -1,0 +1,25 @@
+{
+  "deps": [
+    "import:[.c_analyzer]",
+    "import:[.python_analyzer]",
+    "import:[.java_analyzer]",
+    "import:[.rust_analyzer]",
+    "import:[.asm_ld_analyzer]"
+  ],
+  "file": "../pirgen/analyzers/__init__.py",
+  "hash": "b8f295ca7377ed5242785785db8b16005d4fa5d9f531ef36d64b8fe3aa7d7181",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "get_analyzer"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.916445",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

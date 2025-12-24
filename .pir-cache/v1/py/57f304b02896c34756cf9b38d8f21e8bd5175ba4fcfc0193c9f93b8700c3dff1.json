@@ -1,0 +1,37 @@
+{
+  "deps": [
+    "import:[dataclasses]",
+    "import:[typing]"
+  ],
+  "file": "../pirgen/core/project_model.py",
+  "hash": "57f304b02896c34756cf9b38d8f21e8bd5175ba4fcfc0193c9f93b8700c3dff1",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Unit"
+    },
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Symbol"
+    },
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Dependency"
+    },
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ProjectModel"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.920411",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

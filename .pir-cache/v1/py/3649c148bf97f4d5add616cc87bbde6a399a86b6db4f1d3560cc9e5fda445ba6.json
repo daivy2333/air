@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/analyzers/python_analyzer.py",
+  "hash": "3649c148bf97f4d5add616cc87bbde6a399a86b6db4f1d3560cc9e5fda445ba6",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T05:20:08.893225",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,24 @@
+{
+  "deps": [],
+  "file": "../pir-reconstructor/templates/java.py",
+  "hash": "2832f60982e030a939b61d35f1a9e3c6bc7ee355e386bb0b47fef2cfbaf15636",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "java_method_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "java_class_template"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.899132",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

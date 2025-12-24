@@ -1,0 +1,33 @@
+{
+  "deps": [
+    "import:[os]",
+    "import:[sys]",
+    "import:[argparse]",
+    "import:[re]",
+    "import:[ast]",
+    "import:[json]"
+  ],
+  "file": "../\u521d\u7248/normal.py",
+  "hash": "096572fb074ea60eb32176a2ebf619af665d1e2686fed0da5100321bea274739",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ProjectPacker"
+    },
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.909053",
+  "unit": {
+    "module": "\u521d\u7248",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[pathlib]",
+    "import:[..utils.hash]",
+    "import:[..utils.constants]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/audit.py",
+  "hash": "493dbc7585ac88a7c0f5e3c06d090b5a187495af0adbe4257a56ebacb8873640",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "AuditLayer"
+    }
+  ],
+  "timestamp": "2025-12-24T06:54:47.396955",
+  "unit": {
+    "module": "reconstruct",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "air-tool"
+version = "0.1.0"
+description = "AIR - Application Interface Center for PIR forward and reverse engineering"
+authors = [
+    { name = "daivy", email = "2259492701@qq.com" }
+]
+readme = "README"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = ["PIR", "reverse-engineering", "code-analysis", "project-reconstruction"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Software Development :: Reverse Engineering",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "isort>=5.12",
+]
+
+[project.scripts]
+air = "air.app:main"
+
+[project.urls]
+Homepage = "https://github.com/daivy/air"
+Documentation = "https://github.com/daivy/air#readme"
+Repository = "https://github.com/daivy/air"
+Issues = "https://github.com/daivy/air/issues"
+
+[tool.setuptools]
+package-dir = {"" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["air", "air.*", "pirgen", "pirgen.*", "pir_reconstructor", "pir_reconstructor.*"]
+exclude = ["tests*", "docs*", "md*", "spec*", "初版*", "re*", "ir规范*", "talk*", "services"]
+
+[tool.setuptools.package-data]
+"*" = ["*.md", "*.txt", "*.json", "*.toml", "*.yaml", "*.yml"]
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311', 'py312']
+
+[tool.isort]
+profile = "black"
+line_length = 100

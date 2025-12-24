@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[.base]",
+    "import:[core.project_model]"
+  ],
+  "file": "../pirgen/analyzers/java_analyzer.py",
+  "hash": "ee89ca991dc5711e2736fd1d69125fd4bd9a35a57c61f76d2c92facedab0680a",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "JavaAnalyzer"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.915367",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

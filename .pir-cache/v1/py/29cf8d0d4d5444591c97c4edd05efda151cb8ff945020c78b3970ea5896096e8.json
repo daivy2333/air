@@ -1,0 +1,19 @@
+{
+  "deps": [],
+  "file": "../pir-reconstructor/writers/graphviz_arch.py",
+  "hash": "29cf8d0d4d5444591c97c4edd05efda151cb8ff945020c78b3970ea5896096e8",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "emit_arch_graph"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.905854",
+  "unit": {
+    "module": "writers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

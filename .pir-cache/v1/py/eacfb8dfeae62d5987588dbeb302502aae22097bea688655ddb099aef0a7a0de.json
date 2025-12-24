@@ -1,0 +1,19 @@
+{
+  "deps": [],
+  "file": "../pir-reconstructor/writers/plantuml.py",
+  "hash": "eacfb8dfeae62d5987588dbeb302502aae22097bea688655ddb099aef0a7a0de",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "emit_plantuml"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.906284",
+  "unit": {
+    "module": "writers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

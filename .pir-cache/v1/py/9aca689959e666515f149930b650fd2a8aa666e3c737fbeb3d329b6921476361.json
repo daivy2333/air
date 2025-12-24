@@ -1,0 +1,27 @@
+{
+  "deps": [
+    "import:[pathlib]",
+    "import:[..writers.graphviz_arch]",
+    "import:[..writers.graphviz_module]",
+    "import:[..writers.graphviz_pipeline]",
+    "import:[..writers.mermaid]",
+    "import:[..writers.graphviz]",
+    "import:[..writers.plantuml]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/relations.py",
+  "hash": "9aca689959e666515f149930b650fd2a8aa666e3c737fbeb3d329b6921476361",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "RelationLayer"
+    }
+  ],
+  "timestamp": "2025-12-24T06:54:47.394748",
+  "unit": {
+    "module": "reconstruct",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

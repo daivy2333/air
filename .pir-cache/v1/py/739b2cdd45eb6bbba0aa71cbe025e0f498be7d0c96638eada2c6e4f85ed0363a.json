@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[os]",
+    "import:[.base]",
+    "import:[..core.project_model]"
+  ],
+  "file": "../pirgen/analyzers/asm_ld_analyzer.py",
+  "hash": "739b2cdd45eb6bbba0aa71cbe025e0f498be7d0c96638eada2c6e4f85ed0363a",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "AsmLdAnalyzer"
+    }
+  ],
+  "timestamp": "2025-12-24T06:54:47.414218",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

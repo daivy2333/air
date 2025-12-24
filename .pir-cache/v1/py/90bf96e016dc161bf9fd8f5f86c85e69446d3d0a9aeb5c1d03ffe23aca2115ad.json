@@ -1,0 +1,36 @@
+{
+  "deps": [
+    "import:[os]",
+    "import:[re]",
+    "import:[argparse]",
+    "import:[pathlib]"
+  ],
+  "file": "../ir\u89c4\u8303/pirgen.py",
+  "hash": "90bf96e016dc161bf9fd8f5f86c85e69446d3d0a9aeb5c1d03ffe23aca2115ad",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "detect_lang"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "walk"
+    },
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.924221",
+  "unit": {
+    "module": "ir\u89c4\u8303",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

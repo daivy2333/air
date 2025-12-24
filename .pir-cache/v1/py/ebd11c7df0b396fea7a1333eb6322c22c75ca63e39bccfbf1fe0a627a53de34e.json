@@ -1,0 +1,19 @@
+{
+  "deps": [],
+  "file": "../\u521d\u7248/canon_config1.py",
+  "hash": "ebd11c7df0b396fea7a1333eb6322c22c75ca63e39bccfbf1fe0a627a53de34e",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "CanonicalizationConfig"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.907587",
+  "unit": {
+    "module": "\u521d\u7248",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

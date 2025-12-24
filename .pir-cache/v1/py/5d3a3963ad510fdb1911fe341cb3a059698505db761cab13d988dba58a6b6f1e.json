@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/core/analysis_cache.py",
+  "hash": "5d3a3963ad510fdb1911fe341cb3a059698505db761cab13d988dba58a6b6f1e",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T05:20:08.893612",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

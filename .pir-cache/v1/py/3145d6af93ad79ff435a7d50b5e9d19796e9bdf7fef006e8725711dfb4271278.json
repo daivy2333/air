@@ -1,0 +1,51 @@
+{
+  "deps": [
+    "import:[os]",
+    "import:[argparse]",
+    "import:[collections]",
+    "import:[core.project_model]",
+    "import:[core.pir_builder]",
+    "import:[core.dep_canon]",
+    "import:[core.profile_canon]",
+    "import:[core.analysis_cache]",
+    "import:[analyzers]"
+  ],
+  "file": "../pirgen/pirgen.py",
+  "hash": "3145d6af93ad79ff435a7d50b5e9d19796e9bdf7fef006e8725711dfb4271278",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "discover_source_files"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "infer_unit_meta"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "scan_project"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "resolve_dependencies"
+    },
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.913514",
+  "unit": {
+    "module": "pirgen",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

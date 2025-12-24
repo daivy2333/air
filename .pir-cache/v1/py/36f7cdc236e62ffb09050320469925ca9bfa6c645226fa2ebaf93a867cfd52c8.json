@@ -1,0 +1,27 @@
+{
+  "deps": [
+    "import:[argparse]",
+    "import:[sys]",
+    "import:[pathlib]",
+    "import:[forward]",
+    "import:[reverse]"
+  ],
+  "file": "../app.py",
+  "hash": "36f7cdc236e62ffb09050320469925ca9bfa6c645226fa2ebaf93a867cfd52c8",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2025-12-24T05:41:06.182374",
+  "unit": {
+    "module": "air",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

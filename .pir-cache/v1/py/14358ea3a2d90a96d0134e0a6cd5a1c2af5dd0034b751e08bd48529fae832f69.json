@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[pathlib]",
+    "import:[templates.python]"
+  ],
+  "file": "../pir-reconstructor/reconstruct/interface.py",
+  "hash": "14358ea3a2d90a96d0134e0a6cd5a1c2af5dd0034b751e08bd48529fae832f69",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "InterfaceLayer"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.900251",
+  "unit": {
+    "module": "reconstruct",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

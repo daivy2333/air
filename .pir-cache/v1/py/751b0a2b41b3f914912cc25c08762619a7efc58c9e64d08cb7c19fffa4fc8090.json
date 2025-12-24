@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[.base]",
+    "import:[core.project_model]"
+  ],
+  "file": "../pirgen/analyzers/c_analyzer.py",
+  "hash": "751b0a2b41b3f914912cc25c08762619a7efc58c9e64d08cb7c19fffa4fc8090",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "CAnalyzer"
+    }
+  ],
+  "timestamp": "2025-12-24T05:20:08.913905",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

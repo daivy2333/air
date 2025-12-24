@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../__init__.py",
+  "hash": "2cfbaaaf8090bf9742471936ba168d8b50d60bb68ca2d6b655910f64f07f88ff",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T06:03:54.709486",
+  "unit": {
+    "module": "air",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

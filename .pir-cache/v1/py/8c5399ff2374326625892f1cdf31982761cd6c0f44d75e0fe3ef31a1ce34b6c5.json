@@ -1,0 +1,29 @@
+{
+  "deps": [
+    "import:[sys]",
+    "import:[argparse]",
+    "import:[pathlib]",
+    "import:[.pir.parser]",
+    "import:[.pir.validator]",
+    "import:[.reconstruct.pipeline]",
+    "import:[.errors]"
+  ],
+  "file": "../pir_reconstructor/cli.py",
+  "hash": "8c5399ff2374326625892f1cdf31982761cd6c0f44d75e0fe3ef31a1ce34b6c5",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2025-12-24T06:54:47.389097",
+  "unit": {
+    "module": "pir_reconstructor",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}
