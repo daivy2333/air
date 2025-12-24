@@ -31,3 +31,20 @@ pirgen/
 - Rust: [std::xxx] → [stdlib:rust]
 
 详见 README_CANON.md
+
+
+# PIR - Project Intermediate Representation
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+
+## 🚀 简介
+PIR是一种面向AI优化的项目中间表示，旨在用最少的token完整描述项目架构...
+
+## ✨ 特性
+- ✅ 多语言支持 (Python, Rust, C/C++, Java, 汇编等)
+- ✅ 依赖关系池压缩算法
+- ✅ Profile-Aware语义推断
+- ✅ 极简Token设计
+
+## 📖 快速开始
