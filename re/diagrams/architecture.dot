@@ -1,0 +1,22 @@
+digraph PIR_Arch {
+  rankdir=LR;
+  node [fontname="monospace"];
+  edge [fontname="monospace"];
+  fontname="monospace";
+
+  u0 [label="min_token.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u1 [label="pirgen.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u2 [label="analyzers/c_analyzer.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u3 [label="analyzers/rust_analyzer.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u4 [label="analyzers/java_analyzer.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u5 [label="analyzers/base.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u6 [label="analyzers/asm_ld_analyzer.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u7 [label="analyzers/__init__.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u8 [label="analyzers/python_analyzer.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u9 [label="core/profile_canon.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u10 [label="core/analysis_cache.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u11 [label="core/project_model.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u12 [label="core/pir_builder.py", shape=box, style=filled, fillcolor="#cce5ff"];
+  u13 [label="core/dep_canon.py", shape=box, style=filled, fillcolor="#cce5ff"];
+
+}

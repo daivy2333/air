@@ -1,0 +1,29 @@
+{
+  "deps": [],
+  "file": "../templates/common.py",
+  "hash": "f913513104b6b0acece9c5d69592abd39f2dff36a0f4f53e2489ef52404bc506",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "format_attributes"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "generate_pir_comment"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "generate_todo_comment"
+    }
+  ],
+  "timestamp": "2025-12-24T04:10:43.686392",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

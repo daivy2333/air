@@ -1,0 +1,8 @@
+digraph PIR_Pipeline {
+  rankdir=LR;
+  node [fontname="monospace"];
+  edge [fontname="monospace"];
+  fontname="monospace";
+
+
+}

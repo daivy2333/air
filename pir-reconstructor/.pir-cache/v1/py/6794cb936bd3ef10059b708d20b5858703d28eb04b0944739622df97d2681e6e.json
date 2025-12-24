@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[hashlib]",
+    "import:[pathlib]"
+  ],
+  "file": "../utils/hash.py",
+  "hash": "6794cb936bd3ef10059b708d20b5858703d28eb04b0944739622df97d2681e6e",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "hash_tree"
+    }
+  ],
+  "timestamp": "2025-12-24T04:10:43.695052",
+  "unit": {
+    "module": "utils",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

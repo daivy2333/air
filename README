@@ -56,3 +56,5 @@ todo:
 字面意思，从文本读取信息，创建一个项目空壳，对我来说做到这里就够了
 
 3.我梦到漫天的繁星，那时候你说...
+
+PIR is an architectural-level IR, not a semantic or execution-level IR.

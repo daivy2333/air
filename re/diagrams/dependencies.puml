@@ -1,0 +1,71 @@
+@startuml
+left to right direction
+skinparam monochrome true
+skinparam shadowing false
+skinparam nodesep 10
+skinparam ranksep 20
+
+component "min_token.py" as u0 #cce5ff
+component "pirgen.py" as u1 #cce5ff
+component "analyzers/c_analyzer.py" as u2 #cce5ff
+component "analyzers/rust_analyzer.py" as u3 #cce5ff
+component "analyzers/java_analyzer.py" as u4 #cce5ff
+component "analyzers/base.py" as u5 #cce5ff
+component "analyzers/asm_ld_analyzer.py" as u6 #cce5ff
+component "analyzers/__init__.py" as u7 #cce5ff
+component "analyzers/python_analyzer.py" as u8 #cce5ff
+component "core/profile_canon.py" as u9 #cce5ff
+component "core/analysis_cache.py" as u10 #cce5ff
+component "core/project_model.py" as u11 #cce5ff
+component "core/pir_builder.py" as u12 #cce5ff
+component "core/dep_canon.py" as u13 #cce5ff
+
+node "stdlib:py" as ext:stdlib_py #f8d7da
+u0 --> ext:stdlib_py : refs
+u1 --> ext:stdlib_py : refs
+node "core.project_model" as ext:core.project_model #f8d7da
+u1 --> ext:core.project_model : refs
+node "core.pir_builder" as ext:core.pir_builder #f8d7da
+u1 --> ext:core.pir_builder : refs
+node "core.dep_canon" as ext:core.dep_canon #f8d7da
+u1 --> ext:core.dep_canon : refs
+node "core.profile_canon" as ext:core.profile_canon #f8d7da
+u1 --> ext:core.profile_canon : refs
+node "core.analysis_cache" as ext:core.analysis_cache #f8d7da
+u1 --> ext:core.analysis_cache : refs
+node "analyzers" as ext:analyzers #f8d7da
+u1 --> ext:analyzers : refs
+u2 --> ext:stdlib_py : refs
+node ".base" as ext:.base #f8d7da
+u2 --> ext:.base : refs
+u2 --> ext:core.project_model : refs
+u3 --> ext:stdlib_py : refs
+u3 --> ext:.base : refs
+u3 --> ext:core.project_model : refs
+u4 --> ext:stdlib_py : refs
+u4 --> ext:.base : refs
+u4 --> ext:core.project_model : refs
+u5 --> ext:stdlib_py : refs
+u5 --> ext:core.project_model : refs
+u6 --> ext:stdlib_py : refs
+u6 --> ext:.base : refs
+u6 --> ext:core.project_model : refs
+node ".c_analyzer" as ext:.c_analyzer #f8d7da
+u7 --> ext:.c_analyzer : refs
+node ".python_analyzer" as ext:.python_analyzer #f8d7da
+u7 --> ext:.python_analyzer : refs
+node ".java_analyzer" as ext:.java_analyzer #f8d7da
+u7 --> ext:.java_analyzer : refs
+node ".rust_analyzer" as ext:.rust_analyzer #f8d7da
+u7 --> ext:.rust_analyzer : refs
+node ".asm_ld_analyzer" as ext:.asm_ld_analyzer #f8d7da
+u7 --> ext:.asm_ld_analyzer : refs
+u8 --> ext:stdlib_py : refs
+u8 --> ext:.base : refs
+u8 --> ext:core.project_model : refs
+u9 --> ext:stdlib_py : refs
+u10 --> ext:stdlib_py : refs
+u11 --> ext:stdlib_py : refs
+node ".project_model" as ext:.project_model #f8d7da
+u12 --> ext:.project_model : refs
+@enduml

@@ -35,7 +35,7 @@ PIR文档采用XML-like标签结构，包含以下区块：
 
 <profiles>...</profiles>          <!-- 项目特征分析 -->
 <layout>...</layout>              <!-- 内存布局（嵌入式/OS项目） -->
-<code-snippets>...</code-snippets><!-- 关键代码片段 -->
+<code-snippets>...</code-snippets><!-- 关键代码片段这个是预留的目前好像还没用 -->
 
 4. 区块规范
 

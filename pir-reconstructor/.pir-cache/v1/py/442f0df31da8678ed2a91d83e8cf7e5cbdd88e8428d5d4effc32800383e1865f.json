@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[typing]",
+    "import:[pir.model]"
+  ],
+  "file": "../pir/parser.py",
+  "hash": "442f0df31da8678ed2a91d83e8cf7e5cbdd88e8428d5d4effc32800383e1865f",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "parse_pir"
+    }
+  ],
+  "timestamp": "2025-12-24T04:29:31.004190",
+  "unit": {
+    "module": "pir",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}
