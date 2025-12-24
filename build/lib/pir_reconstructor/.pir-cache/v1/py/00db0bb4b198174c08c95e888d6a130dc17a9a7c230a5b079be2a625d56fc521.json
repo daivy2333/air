@@ -1,0 +1,19 @@
+{
+  "deps": [],
+  "file": "../writers/mermaid.py",
+  "hash": "00db0bb4b198174c08c95e888d6a130dc17a9a7c230a5b079be2a625d56fc521",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "emit_mermaid"
+    }
+  ],
+  "timestamp": "2025-12-24T04:10:43.693396",
+  "unit": {
+    "module": "writers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

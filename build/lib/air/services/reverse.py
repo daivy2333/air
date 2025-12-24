@@ -5,14 +5,14 @@ Wraps pir-reconstructor functionality
 import sys
 from pathlib import Path
 
-# Add pir-reconstructor to path
-recon_path = Path(__file__).parent.parent.parent.parent / "pir-reconstructor"
-sys.path.insert(0, str(recon_path))
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
 
-from pir.parser import parse_pir
-from pir.validator import validate_pir, ValidationError
-from reconstruct.pipeline import ReconstructionPipeline
-from errors import ReconstructionError, ParserError
+from pir_reconstructor.pir.parser import parse_pir
+from pir_reconstructor.pir.validator import validate_pir, ValidationError
+from pir_reconstructor.reconstruct.pipeline import ReconstructionPipeline
+from pir_reconstructor.errors import ReconstructionError, ParserError
 
 
 def run_reverse(

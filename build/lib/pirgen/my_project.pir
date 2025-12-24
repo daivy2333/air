@@ -1,12 +1,12 @@
 <pir>
 <meta>
-name: air
+name: my_project
 root: /home/daivy/projects/air
 profile: generic
 lang: PY
 </meta>
 <units>
-u0: out_app.py type=PY role=lib module=air
+u0: app.py type=PY role=lib module=air
 u1: re/src/min_token.py type=PY role=lib module=src
 u2: re/src/pirgen.py type=PY role=lib module=src
 u3: re/src/analyzers/c_analyzer.py type=PY role=lib module=analyzers
@@ -21,39 +21,39 @@ u11: re/src/core/analysis_cache.py type=PY role=lib module=core
 u12: re/src/core/project_model.py type=PY role=lib module=core
 u13: re/src/core/pir_builder.py type=PY role=lib module=core
 u14: re/src/core/dep_canon.py type=PY role=lib module=core
-u15: pir_reconstructor/errors.py type=PY role=lib module=pir_reconstructor
-u16: pir_reconstructor/cli.py type=PY role=lib module=pir_reconstructor
-u17: pir_reconstructor/__init__.py type=PY role=lib module=pir_reconstructor
-u18: pir_reconstructor/pir/validator.py type=PY role=lib module=pir
-u19: pir_reconstructor/pir/__init__.py type=PY role=lib module=pir
-u20: pir_reconstructor/pir/parser.py type=PY role=lib module=pir
-u21: pir_reconstructor/pir/model.py type=PY role=lib module=pir
-u22: pir_reconstructor/templates/java.py type=PY role=lib module=templates
-u23: pir_reconstructor/templates/python.py type=PY role=lib module=templates
-u24: pir_reconstructor/templates/__init__.py type=PY role=lib module=templates
-u25: pir_reconstructor/templates/common.py type=PY role=lib module=templates
-u26: pir_reconstructor/templates/c.py type=PY role=lib module=templates
-u27: pir_reconstructor/reconstruct/interface.py type=PY role=lib module=reconstruct
-u28: pir_reconstructor/reconstruct/relations.py type=PY role=lib module=reconstruct
-u29: pir_reconstructor/reconstruct/__init__.py type=PY role=lib module=reconstruct
-u30: pir_reconstructor/reconstruct/documentation.py type=PY role=lib module=reconstruct
-u31: pir_reconstructor/reconstruct/enrichment.py type=PY role=lib module=reconstruct
-u32: pir_reconstructor/reconstruct/pipeline.py type=PY role=lib module=reconstruct
-u33: pir_reconstructor/reconstruct/audit.py type=PY role=lib module=reconstruct
-u34: pir_reconstructor/reconstruct/structure.py type=PY role=lib module=reconstruct
-u35: pir_reconstructor/writers/filesystem.py type=PY role=lib module=writers
-u36: pir_reconstructor/writers/graphviz.py type=PY role=lib module=writers
-u37: pir_reconstructor/writers/graphviz_pipeline.py type=PY role=lib module=writers
-u38: pir_reconstructor/writers/graphviz_module.py type=PY role=lib module=writers
-u39: pir_reconstructor/writers/mermaid.py type=PY role=lib module=writers
-u40: pir_reconstructor/writers/__init__.py type=PY role=lib module=writers
-u41: pir_reconstructor/writers/graphviz_pipeline_old.py type=PY role=lib module=writers
-u42: pir_reconstructor/writers/graphviz_arch.py type=PY role=lib module=writers
-u43: pir_reconstructor/writers/plantuml.py type=PY role=lib module=writers
-u44: pir_reconstructor/utils/constants.py type=PY role=lib module=utils
-u45: pir_reconstructor/utils/hash.py type=PY role=lib module=utils
-u46: pir_reconstructor/utils/ordering.py type=PY role=lib module=utils
-u47: pir_reconstructor/utils/__init__.py type=PY role=lib module=utils
+u15: pir-reconstructor/errors.py type=PY role=lib module=pir-reconstructor
+u16: pir-reconstructor/cli.py type=PY role=lib module=pir-reconstructor
+u17: pir-reconstructor/__init__.py type=PY role=lib module=pir-reconstructor
+u18: pir-reconstructor/pir/validator.py type=PY role=lib module=pir
+u19: pir-reconstructor/pir/__init__.py type=PY role=lib module=pir
+u20: pir-reconstructor/pir/parser.py type=PY role=lib module=pir
+u21: pir-reconstructor/pir/model.py type=PY role=lib module=pir
+u22: pir-reconstructor/templates/java.py type=PY role=lib module=templates
+u23: pir-reconstructor/templates/python.py type=PY role=lib module=templates
+u24: pir-reconstructor/templates/__init__.py type=PY role=lib module=templates
+u25: pir-reconstructor/templates/common.py type=PY role=lib module=templates
+u26: pir-reconstructor/templates/c.py type=PY role=lib module=templates
+u27: pir-reconstructor/reconstruct/interface.py type=PY role=lib module=reconstruct
+u28: pir-reconstructor/reconstruct/relations.py type=PY role=lib module=reconstruct
+u29: pir-reconstructor/reconstruct/__init__.py type=PY role=lib module=reconstruct
+u30: pir-reconstructor/reconstruct/documentation.py type=PY role=lib module=reconstruct
+u31: pir-reconstructor/reconstruct/enrichment.py type=PY role=lib module=reconstruct
+u32: pir-reconstructor/reconstruct/pipeline.py type=PY role=lib module=reconstruct
+u33: pir-reconstructor/reconstruct/audit.py type=PY role=lib module=reconstruct
+u34: pir-reconstructor/reconstruct/structure.py type=PY role=lib module=reconstruct
+u35: pir-reconstructor/writers/filesystem.py type=PY role=lib module=writers
+u36: pir-reconstructor/writers/graphviz.py type=PY role=lib module=writers
+u37: pir-reconstructor/writers/graphviz_pipeline.py type=PY role=lib module=writers
+u38: pir-reconstructor/writers/graphviz_module.py type=PY role=lib module=writers
+u39: pir-reconstructor/writers/mermaid.py type=PY role=lib module=writers
+u40: pir-reconstructor/writers/__init__.py type=PY role=lib module=writers
+u41: pir-reconstructor/writers/graphviz_pipeline_old.py type=PY role=lib module=writers
+u42: pir-reconstructor/writers/graphviz_arch.py type=PY role=lib module=writers
+u43: pir-reconstructor/writers/plantuml.py type=PY role=lib module=writers
+u44: pir-reconstructor/utils/constants.py type=PY role=lib module=utils
+u45: pir-reconstructor/utils/hash.py type=PY role=lib module=utils
+u46: pir-reconstructor/utils/ordering.py type=PY role=lib module=utils
+u47: pir-reconstructor/utils/__init__.py type=PY role=lib module=utils
 u48: air/app.py type=PY role=lib module=air
 u49: air/__main__.py type=PY role=lib module=air
 u50: air/__init__.py type=PY role=lib module=air
@@ -88,113 +88,94 @@ u78: ir规范/os2.py type=PY role=lib module=ir规范
 u79: ir规范/pirgen.py type=PY role=lib module=ir规范
 </units>
 <dependency-pool>
-d0: import:[..core.project_model]
-d1: import:[..errors]
-d2: import:[..pir.model]
-d3: import:[..templates.python]
-d4: import:[..utils.constants]
-d5: import:[..utils.hash]
-d6: import:[..writers.graphviz]
-d7: import:[..writers.graphviz_arch]
-d8: import:[..writers.graphviz_module]
-d9: import:[..writers.graphviz_pipeline]
-d10: import:[..writers.mermaid]
-d11: import:[..writers.plantuml]
-d12: import:[.analyzers]
-d13: import:[.app]
-d14: import:[.asm_ld_analyzer]
-d15: import:[.audit]
-d16: import:[.base]
-d17: import:[.c_analyzer]
-d18: import:[.core.analysis_cache]
-d19: import:[.core.dep_canon]
-d20: import:[.core.pir_builder]
-d21: import:[.core.profile_canon]
-d22: import:[.core.project_model]
-d23: import:[.documentation]
-d24: import:[.enrichment]
-d25: import:[.errors]
-d26: import:[.interface]
-d27: import:[.java_analyzer]
-d28: import:[.model]
-d29: import:[.pir.parser]
-d30: import:[.pir.validator]
-d31: import:[.pirgen]
-d32: import:[.project_model]
-d33: import:[.python_analyzer]
-d34: import:[.reconstruct.pipeline]
-d35: import:[.relations]
-d36: import:[.rust_analyzer]
-d37: import:[.structure]
-d38: import:[air.services.forward]
-d39: import:[air.services.reverse]
-d40: import:[analyzers]
-d41: import:[core.dep_canon]
-d42: import:[core.pir_builder]
-d43: import:[core.profile_canon]
-d44: import:[core.project_model]
-d45: import:[errors]
-d46: import:[forward]
-d47: import:[pir.model]
-d48: import:[pir.parser]
-d49: import:[pir.validator]
-d50: import:[pir_reconstructor.errors]
-d51: import:[pir_reconstructor.pir.parser]
-d52: import:[pir_reconstructor.pir.validator]
-d53: import:[pir_reconstructor.reconstruct.pipeline]
-d54: import:[pirgen.analyzers]
-d55: import:[pirgen.core.dep_canon]
-d56: import:[pirgen.core.pir_builder]
-d57: import:[pirgen.core.profile_canon]
-d58: import:[pirgen.core.project_model]
-d59: import:[pirgen]
-d60: import:[reconstruct.pipeline]
-d61: import:[reverse]
-d62: import:[stdlib:py]
+d0: import:[.app]
+d1: import:[.asm_ld_analyzer]
+d2: import:[.base]
+d3: import:[.c_analyzer]
+d4: import:[.java_analyzer]
+d5: import:[.project_model]
+d6: import:[.python_analyzer]
+d7: import:[.rust_analyzer]
+d8: import:[air.services.forward]
+d9: import:[air.services.reverse]
+d10: import:[analyzers]
+d11: import:[core.analysis_cache]
+d12: import:[core.dep_canon]
+d13: import:[core.pir_builder]
+d14: import:[core.profile_canon]
+d15: import:[core.project_model]
+d16: import:[errors]
+d17: import:[forward]
+d18: import:[pir.model]
+d19: import:[pir.parser]
+d20: import:[pir.validator]
+d21: import:[pirgen.analyzers]
+d22: import:[pirgen.core.dep_canon]
+d23: import:[pirgen.core.pir_builder]
+d24: import:[pirgen.core.profile_canon]
+d25: import:[pirgen.core.project_model]
+d26: import:[pirgen.pirgen]
+d27: import:[reconstruct.audit]
+d28: import:[reconstruct.documentation]
+d29: import:[reconstruct.enrichment]
+d30: import:[reconstruct.interface]
+d31: import:[reconstruct.pipeline]
+d32: import:[reconstruct.relations]
+d33: import:[reconstruct.structure]
+d34: import:[reverse]
+d35: import:[stdlib:py]
+d36: import:[templates.python]
+d37: import:[utils.constants]
+d38: import:[utils.hash]
+d39: import:[writers.graphviz]
+d40: import:[writers.graphviz_arch]
+d41: import:[writers.graphviz_module]
+d42: import:[writers.graphviz_pipeline]
+d43: import:[writers.mermaid]
+d44: import:[writers.plantuml]
 </dependency-pool>
 <dependencies>
-u0->refs:[d62 d46 d61]
-u16->refs:[d62 d29 d30 d34 d25]
-u18->refs:[d62 d28]
-u20->refs:[d62 d28]
-u21->refs:[d62]
-u27->refs:[d62 d3]
-u28->refs:[d62 d7 d8 d9 d10 d6 d11]
-u30->refs:[d62]
-u31->refs:[d62 d2]
-u32->refs:[d37 d26 d35 d23 d15 d24 d1]
-u33->refs:[d62 d5 d4]
-u34->refs:[d62 d1]
-u35->refs:[d62]
-u45->refs:[d62]
-u46->refs:[d62 d47]
-u48->refs:[d62 d38 d39]
-u49->refs:[d13]
-u52->refs:[d62 d58 d56 d55 d57 d54 d59]
-u53->refs:[d62 d51 d52 d53 d50]
-u55->refs:[d62]
-u56->refs:[d62]
-u57->refs:[d62]
-u58->refs:[d62]
-u59->refs:[d62 d44 d42 d41 d43 d40]
-u60->refs:[d62 d48 d49 d60 d45]
-u61->refs:[d31]
-u62->refs:[d62]
-u63->refs:[d62 d22 d20 d19 d21 d18 d12]
-u64->refs:[d62 d16 d0]
-u65->refs:[d62 d16 d0]
-u66->refs:[d62 d16 d0]
-u67->refs:[d62 d0]
-u68->refs:[d62 d16 d0]
-u69->refs:[d17 d33 d27 d36 d14]
-u70->refs:[d62 d16 d0]
-u71->refs:[d62]
-u73->refs:[d62]
-u74->refs:[d62]
-u75->refs:[d32]
-u77->refs:[d62]
-u78->refs:[d62]
-u79->refs:[d62]
+u0->refs:[d35 d17 d34]
+u16->refs:[d35 d19 d20 d31 d16]
+u18->refs:[d35 d18]
+u20->refs:[d35 d18]
+u21->refs:[d35]
+u27->refs:[d35 d36]
+u28->refs:[d35 d40 d41 d42 d43 d39 d44]
+u30->refs:[d35]
+u31->refs:[d35 d18]
+u32->refs:[d33 d30 d32 d28 d27 d29 d16]
+u33->refs:[d35 d38 d37]
+u34->refs:[d35 d16]
+u35->refs:[d35]
+u45->refs:[d35]
+u46->refs:[d35 d18]
+u48->refs:[d35 d8 d9]
+u49->refs:[d0]
+u52->refs:[d35 d25 d23 d22 d24 d21 d26]
+u53->refs:[d35 d19 d20 d31 d16]
+u55->refs:[d35]
+u56->refs:[d35]
+u57->refs:[d35]
+u58->refs:[d35]
+u59->refs:[d35 d15 d13 d12 d14 d10]
+u60->refs:[d35 d19 d20 d31 d16]
+u62->refs:[d35]
+u63->refs:[d35 d15 d13 d12 d14 d11 d10]
+u64->refs:[d35 d2 d15]
+u65->refs:[d35 d2 d15]
+u66->refs:[d35 d2 d15]
+u67->refs:[d35 d15]
+u68->refs:[d35 d2 d15]
+u69->refs:[d3 d6 d4 d7 d1]
+u70->refs:[d35 d2 d15]
+u71->refs:[d35]
+u73->refs:[d35]
+u74->refs:[d35]
+u75->refs:[d5]
+u77->refs:[d35]
+u78->refs:[d35]
+u79->refs:[d35]
 </dependencies>
 <symbols>
 main:u0 func entry=true

@@ -1,0 +1,28 @@
+{
+  "deps": [
+    "import:[os]",
+    "import:[sys]",
+    "import:[pathlib]",
+    "import:[core.project_model]",
+    "import:[core.pir_builder]",
+    "import:[core.dep_canon]",
+    "import:[core.profile_canon]",
+    "import:[analyzers]"
+  ],
+  "file": "../services/forward.py",
+  "hash": "526a61d70222c7994553abbbf35ed0bd88657f0f2ab4b53f72967077f2f223af",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "run_forward"
+    }
+  ],
+  "timestamp": "2025-12-24T06:03:54.709812",
+  "unit": {
+    "module": "services",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

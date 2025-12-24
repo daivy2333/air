@@ -1,14 +1,13 @@
-Metadata-Version: 2.4
+Metadata-Version: 2.1
 Name: air-tool
 Version: 0.1.0
 Summary: AIR - Application Interface Center for PIR forward and reverse engineering
-Author-email: daivy <2259492701@qq.com>
+Home-page: https://github.com/daivy/air
+Author: daivy
+Author-email: 2259492701@qq.com
 License: MIT
-Project-URL: Homepage, https://github.com/daivy/air
-Project-URL: Documentation, https://github.com/daivy/air#readme
-Project-URL: Repository, https://github.com/daivy/air
-Project-URL: Issues, https://github.com/daivy/air/issues
 Keywords: PIR,reverse-engineering,code-analysis,project-reconstruction
+Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha
 Classifier: Intended Audience :: Developers
 Classifier: License :: OSI Approved :: MIT License
@@ -20,146 +19,8 @@ Classifier: Programming Language :: Python :: 3.12
 Classifier: Topic :: Software Development :: Code Generators
 Classifier: Topic :: Software Development :: Reverse Engineering
 Requires-Python: >=3.9
+Description-Content-Type: text/markdown
 Provides-Extra: dev
-Requires-Dist: pytest>=7.0; extra == "dev"
-Requires-Dist: black>=23.0; extra == "dev"
-Requires-Dist: isort>=5.12; extra == "dev"
 
-# AIR - Application Interface Center
+UNKNOWN
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
-
-## 🚀 简介
-
-AIR (Application Interface Center) 是一个统一的命令行工具，用于 PIR (Project Intermediate Representation) 的正向生成和逆向重构。
-
-PIR 是一种面向 AI 优化的项目中间表示，旨在用最少的 token 完整描述项目架构。
-
-## ✨ 特性
-
-- ✅ 多语言支持 (Python, Rust, C/C++, Java, 汇编等)
-- ✅ 依赖关系池压缩算法
-- ✅ Profile-Aware 语义推断
-- ✅ 极简 Token 设计
-- ✅ 统一的命令行接口
-- ✅ 可作为系统命令安装使用
-
-## 📦 安装
-
-### 开发模式安装（推荐）
-
-在项目根目录执行：
-
-```bash
-pip install -e .
-```
-
-效果：
-- ✔ 立即生成 `air` 命令
-- ✔ 代码改动立即生效
-- ✔ 不污染系统（可卸载）
-
-### 正式安装
-
-```bash
-pip install .
-```
-
-## 🎯 使用方式
-
-### 正向生成 PIR
-
-从源代码生成 PIR 文件：
-
-```bash
-# 基本使用
-air forward /path/to/project
-
-# 指定输出文件
-air forward /path/to/project -o my_project.pir
-
-# 使用特定配置
-air forward /path/to/project --profile rust
-
-# 禁用缓存
-air forward /path/to/project --no-cache
-```
-
-### 逆向重构项目
-
-从 PIR 文件重构项目：
-
-```bash
-# 基本使用
-air reverse example.pir output/
-
-# 仅验证 PIR
-air reverse example.pir output/ --validate-only
-
-# 指定项目根目录
-air reverse example.pir output/ --project-root /path/to/source
-```
-
-### 使用 Python 模块方式
-
-```bash
-python -m air forward ./my_project
-python -m air reverse my_project.pir output/
-```
-
-## 📁 项目结构
-
-```
-air/
-├── air/                          # 主包目录
-│   ├── __init__.py              # 包初始化
-│   ├── __main__.py              # 支持 `python -m air`
-│   ├── app.py                   # 统一入口
-│   └── services/                # 服务层
-│       ├── __init__.py
-│       ├── forward.py           # 正向服务（PIR 生成）
-│       └── reverse.py           # 逆向服务（项目重构）
-├── pirgen/                      # 正向引擎
-├── pir-reconstructor/           # 逆向引擎
-├── pyproject.toml               # 项目配置
-└── README.md                    # 本文档
-```
-
-## 🔧 架构说明
-
-### 服务层（air/services/）
-
-- `forward.py`: 封装 pirgen 的功能，提供 PIR 生成服务
-- `reverse.py`: 封装 pir-reconstructor 的功能，提供项目重构服务
-
-### 应用层（air/app.py）
-
-- 提供统一的命令行接口
-- 调用相应的服务层功能
-- 处理命令行参数和错误
-
-## 📝 命令行参数
-
-### forward 命令
-
-- `src`: 源代码项目路径（必需）
-- `-o, --out`: 输出 PIR 文件路径（可选）
-- `--profile`: 配置文件名称（默认：generic）
-- `--name`: 项目名称（默认：目录名）
-- `--no-cache`: 禁用分析缓存
-
-### reverse 命令
-
-- `pir`: PIR 文件路径（必需）
-- `output_dir`: 输出目录（必需）
-- `--project-root`: 项目根目录（可选）
-- `--validate-only`: 仅验证 PIR 而不进行重构
-
-## 🤝 贡献
-
-欢迎提交 Issue 和 Pull Request！
-
-## 📄 许可证
-
-MIT License

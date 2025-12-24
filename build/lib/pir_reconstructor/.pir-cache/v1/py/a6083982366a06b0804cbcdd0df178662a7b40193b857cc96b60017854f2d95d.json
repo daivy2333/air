@@ -1,0 +1,21 @@
+{
+  "deps": [
+    "import:[pathlib]"
+  ],
+  "file": "../writers/filesystem.py",
+  "hash": "a6083982366a06b0804cbcdd0df178662a7b40193b857cc96b60017854f2d95d",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "FileSystemWriter"
+    }
+  ],
+  "timestamp": "2025-12-24T04:10:43.692276",
+  "unit": {
+    "module": "writers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

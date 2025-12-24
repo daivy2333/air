@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../services/__init__.py",
+  "hash": "c3ff3cf65395e30c21ac8bf7eadfab7d816accf97a0fc2e52f8136c2c5832cd7",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T06:03:54.709576",
+  "unit": {
+    "module": "services",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

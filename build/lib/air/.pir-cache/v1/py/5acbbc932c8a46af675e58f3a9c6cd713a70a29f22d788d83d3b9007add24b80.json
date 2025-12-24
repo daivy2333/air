@@ -1,0 +1,29 @@
+{
+  "deps": [
+    "import:[os]",
+    "import:[sys]",
+    "import:[pathlib]",
+    "import:[pirgen.core.project_model]",
+    "import:[pirgen.core.pir_builder]",
+    "import:[pirgen.core.dep_canon]",
+    "import:[pirgen.core.profile_canon]",
+    "import:[pirgen.analyzers]",
+    "import:[pirgen.pirgen]"
+  ],
+  "file": "../services/forward.py",
+  "hash": "5acbbc932c8a46af675e58f3a9c6cd713a70a29f22d788d83d3b9007add24b80",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "run_forward"
+    }
+  ],
+  "timestamp": "2025-12-24T06:34:00.520228",
+  "unit": {
+    "module": "services",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

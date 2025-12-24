@@ -6,15 +6,15 @@ import os
 import sys
 from pathlib import Path
 
-# Add pirgen to path
-pirgen_path = Path(__file__).parent.parent.parent.parent / "pirgen"
-sys.path.insert(0, str(pirgen_path))
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent
+sys.path.insert(0, str(project_root))
 
-from core.project_model import ProjectModel
-from core.pir_builder import PIRBuilder
-from core.dep_canon import canonicalize_dependencies
-from core.profile_canon import ProfileCanonicalizer
-from analyzers import get_analyzer
+from pirgen.core.project_model import ProjectModel
+from pirgen.core.pir_builder import PIRBuilder
+from pirgen.core.dep_canon import canonicalize_dependencies
+from pirgen.core.profile_canon import ProfileCanonicalizer
+from pirgen.analyzers import get_analyzer
 from pirgen import scan_project, resolve_dependencies
 
 

@@ -1,0 +1,24 @@
+{
+  "deps": [],
+  "file": "../templates/python.py",
+  "hash": "f2eaa054c0625438e0720c0ec931d8e9cfc98ce90206edb41d766d8bf5b5a4cf",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "python_func_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "python_class_template"
+    }
+  ],
+  "timestamp": "2025-12-24T04:10:43.685438",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

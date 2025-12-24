@@ -1,0 +1,34 @@
+{
+  "deps": [],
+  "file": "../errors.py",
+  "hash": "153b3630d8bac0bbcd2911409ad82d8da8add8086912914e21b251ad464682df",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ReconstructionError"
+    },
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ValidationError"
+    },
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ParserError"
+    },
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "LayerError"
+    }
+  ],
+  "timestamp": "2025-12-24T04:10:43.676999",
+  "unit": {
+    "module": "pir-reconstructor",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

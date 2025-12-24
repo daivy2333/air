@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[setuptools]",
+    "import:[os]"
+  ],
+  "file": "../setup.py",
+  "hash": "7547ae1b9f04853dd0fafcee429e7f10df60a83e8ebe3a6c53f9d8724682d437",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "read_readme"
+    }
+  ],
+  "timestamp": "2025-12-24T13:41:38.515714",
+  "unit": {
+    "module": "air",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

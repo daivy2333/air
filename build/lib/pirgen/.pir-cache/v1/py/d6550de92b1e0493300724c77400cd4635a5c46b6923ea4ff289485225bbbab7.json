@@ -1,0 +1,25 @@
+{
+  "deps": [
+    "import:[json]",
+    "import:[hashlib]",
+    "import:[os]",
+    "import:[typing]",
+    "import:[datetime]"
+  ],
+  "file": "../core/analysis_cache.py",
+  "hash": "d6550de92b1e0493300724c77400cd4635a5c46b6923ea4ff289485225bbbab7",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "AnalysisCache"
+    }
+  ],
+  "timestamp": "2025-12-23T14:43:43.783686",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

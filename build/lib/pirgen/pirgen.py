@@ -3,12 +3,12 @@ import os
 import argparse
 from collections import defaultdict
 
-from core.project_model import ProjectModel
-from core.pir_builder import PIRBuilder
-from core.dep_canon import canonicalize_dependencies
-from core.profile_canon import ProfileCanonicalizer
-from core.analysis_cache import AnalysisCache
-from analyzers import get_analyzer
+from .core.project_model import ProjectModel
+from .core.pir_builder import PIRBuilder
+from .core.dep_canon import canonicalize_dependencies
+from .core.profile_canon import ProfileCanonicalizer
+from .core.analysis_cache import AnalysisCache
+from .analyzers import get_analyzer
 
 
 # -----------------------------
