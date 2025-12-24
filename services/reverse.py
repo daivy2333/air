@@ -5,8 +5,8 @@ Wraps pir-reconstructor functionality
 import sys
 from pathlib import Path
 
-# Add pir-reconstructor to path
-recon_path = Path(__file__).parent.parent / "pir-reconstructor"
+# Add pir_reconstructor to path
+recon_path = Path(__file__).parent.parent / "pir_reconstructor"
 sys.path.insert(0, str(recon_path))
 
 from pir.parser import parse_pir

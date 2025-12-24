@@ -1,0 +1,15 @@
+{
+  "deps": [
+    "import:[.pirgen]"
+  ],
+  "file": "../__init__.py",
+  "hash": "93e2a64b3ad0143cc720cc0e7e15fc04c8c4ed72b6b8f3846f7fdbc6dc5bc5cf",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:06:16.545824",
+  "unit": {
+    "module": "pirgen",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

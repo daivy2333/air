@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pirgen/core/analysis_cache.py",
+  "hash": "e8975d2aa4e7174b844379dc158d90a111935a57ddbd2f73263d6fd67c11903b",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.378542",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

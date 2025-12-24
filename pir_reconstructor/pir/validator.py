@@ -27,7 +27,7 @@ def _validate_units(units: List[Unit]) -> None:
             raise ValidationError(f"Invalid unit uid format: {unit.uid}")
 
         # Check valid type
-        valid_types = {'PY', 'C', 'JAVA', 'ASM', 'LD', 'RS'}
+        valid_types = {'PY', 'C', 'JAVA', 'ASM', 'LD', 'RS', 'RUST', 'CPP', 'H', 'S'}
         if unit.type not in valid_types:
             raise ValidationError(f"Invalid unit type: {unit.type}")
 
@@ -39,7 +39,7 @@ def _validate_symbols(symbols: List[Symbol], unit_map: Dict[str, Unit]) -> None:
             raise ValidationError(f"Symbol {sym.name} references non-existent unit: {sym.unit}")
 
         # Check valid kind
-        valid_kinds = {'func', 'class', 'var', 'const'}
+        valid_kinds = {'func', 'class', 'var', 'const', 'struct', 'ld_entry', 'ld_symbol', 'label'}
         if sym.kind not in valid_kinds:
             raise ValidationError(f"Invalid symbol kind: {sym.kind}")
 

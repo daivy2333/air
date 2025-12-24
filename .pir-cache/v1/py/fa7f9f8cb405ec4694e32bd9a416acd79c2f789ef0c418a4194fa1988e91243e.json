@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/services/reverse.py",
+  "hash": "fa7f9f8cb405ec4694e32bd9a416acd79c2f789ef0c418a4194fa1988e91243e",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.371256",
+  "unit": {
+    "module": "services",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

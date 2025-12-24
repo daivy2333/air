@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/air/app.py",
+  "hash": "9ad5a7ecba44b78646fdd141158186f62e8201079ff4f13abe8b08019960c6d5",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.360295",
+  "unit": {
+    "module": "air",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/ir\u89c4\u8303/pirgen.py",
+  "hash": "f56f559a9e9ec5fb216c8e2850785278175bd13e6fa3dedc8534c74cd7d0444a",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.394071",
+  "unit": {
+    "module": "ir\u89c4\u8303",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

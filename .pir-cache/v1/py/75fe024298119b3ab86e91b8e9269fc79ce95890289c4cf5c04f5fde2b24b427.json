@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pirgen/analyzers/rust_analyzer.py",
+  "hash": "75fe024298119b3ab86e91b8e9269fc79ce95890289c4cf5c04f5fde2b24b427",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.374076",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

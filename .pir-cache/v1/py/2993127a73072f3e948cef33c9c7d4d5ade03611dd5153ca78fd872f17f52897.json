@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/out_app.py",
+  "hash": "2993127a73072f3e948cef33c9c7d4d5ade03611dd5153ca78fd872f17f52897",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.338488",
+  "unit": {
+    "module": "src",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

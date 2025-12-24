@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pirgen/min_token.py",
+  "hash": "1d1b9c6e54665a0f1602fc32d5c03230c3397aa987b4a7463eb9b6b1646a5ec6",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.371749",
+  "unit": {
+    "module": "pirgen",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

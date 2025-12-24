@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pir_reconstructor/writers/mermaid.py",
+  "hash": "2f6299450c4d9b509ff8178f54816e71333c4101e36f7bc8a45abb432b9ad82c",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.355673",
+  "unit": {
+    "module": "writers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

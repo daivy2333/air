@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pirgen/analyzers/c_analyzer.py",
+  "hash": "8f17fc2e1b70322bee61e37f0f0ebbbf46b8359aab5cc0d0b2f0b176c159c2c5",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.373403",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

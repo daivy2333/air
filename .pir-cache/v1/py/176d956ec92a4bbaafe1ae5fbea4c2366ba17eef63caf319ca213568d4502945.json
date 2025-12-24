@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pir_reconstructor/pir/validator.py",
+  "hash": "176d956ec92a4bbaafe1ae5fbea4c2366ba17eef63caf319ca213568d4502945",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.345565",
+  "unit": {
+    "module": "pir",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pir_reconstructor/writers/graphviz_module.py",
+  "hash": "1ebe8726cbd3a680e04eeaa5dfb957572ec41fa3874ab15c922c2f5628d44158",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.355143",
+  "unit": {
+    "module": "writers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

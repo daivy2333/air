@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pir_reconstructor/reconstruct/interface.py",
+  "hash": "78f6e91158e74f9c1ad3373afb3f01b2705398a0188ed081949a48f53549b34e",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.349494",
+  "unit": {
+    "module": "reconstruct",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

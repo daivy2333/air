@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/\u521d\u7248/canon_config1.py",
+  "hash": "fbe39bb7c612f17078e6b5ffe78dc68e81d72685b0e6600861b1d72404391579",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.367786",
+  "unit": {
+    "module": "\u521d\u7248",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

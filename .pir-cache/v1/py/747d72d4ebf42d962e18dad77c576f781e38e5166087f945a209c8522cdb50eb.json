@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/air/services/reverse.py",
+  "hash": "747d72d4ebf42d962e18dad77c576f781e38e5166087f945a209c8522cdb50eb",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.361619",
+  "unit": {
+    "module": "services",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

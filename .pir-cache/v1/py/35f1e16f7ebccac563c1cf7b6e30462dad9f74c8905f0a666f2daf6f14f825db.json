@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pirgen/analyzers/asm_ld_analyzer.py",
+  "hash": "35f1e16f7ebccac563c1cf7b6e30462dad9f74c8905f0a666f2daf6f14f825db",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.375890",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

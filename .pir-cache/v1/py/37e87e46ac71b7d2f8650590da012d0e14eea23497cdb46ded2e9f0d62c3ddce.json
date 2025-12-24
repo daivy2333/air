@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/\u521d\u7248/d.py",
+  "hash": "37e87e46ac71b7d2f8650590da012d0e14eea23497cdb46ded2e9f0d62c3ddce",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.370053",
+  "unit": {
+    "module": "\u521d\u7248",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

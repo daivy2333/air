@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/re/src/min_token.py",
+  "hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.342284",
+  "unit": {
+    "module": "src",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

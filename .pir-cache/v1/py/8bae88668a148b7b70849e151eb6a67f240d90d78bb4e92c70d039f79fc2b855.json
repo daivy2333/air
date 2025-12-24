@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/air/services/forward.py",
+  "hash": "8bae88668a148b7b70849e151eb6a67f240d90d78bb4e92c70d039f79fc2b855",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.361053",
+  "unit": {
+    "module": "services",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

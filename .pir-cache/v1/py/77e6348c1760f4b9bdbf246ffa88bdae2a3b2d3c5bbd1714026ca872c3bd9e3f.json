@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pirgen/core/dep_canon.py",
+  "hash": "77e6348c1760f4b9bdbf246ffa88bdae2a3b2d3c5bbd1714026ca872c3bd9e3f",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.382039",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

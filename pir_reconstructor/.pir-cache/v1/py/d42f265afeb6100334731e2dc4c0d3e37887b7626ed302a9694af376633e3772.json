@@ -1,0 +1,27 @@
+{
+  "deps": [
+    "import:[typing]",
+    "import:[.model]"
+  ],
+  "file": "../pir/validator.py",
+  "hash": "d42f265afeb6100334731e2dc4c0d3e37887b7626ed302a9694af376633e3772",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ValidationError"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "validate_pir"
+    }
+  ],
+  "timestamp": "2025-12-24T14:06:08.676357",
+  "unit": {
+    "module": "pir",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

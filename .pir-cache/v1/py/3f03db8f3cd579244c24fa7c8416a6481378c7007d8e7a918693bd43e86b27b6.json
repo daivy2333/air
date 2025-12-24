@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pirgen/core/pir_builder.py",
+  "hash": "3f03db8f3cd579244c24fa7c8416a6481378c7007d8e7a918693bd43e86b27b6",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.380536",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

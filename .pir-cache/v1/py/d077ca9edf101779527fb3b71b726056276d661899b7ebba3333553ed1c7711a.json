@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pir_reconstructor/errors.py",
+  "hash": "d077ca9edf101779527fb3b71b726056276d661899b7ebba3333553ed1c7711a",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.343985",
+  "unit": {
+    "module": "pir_reconstructor",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

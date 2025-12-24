@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pir_reconstructor/templates/c.py",
+  "hash": "3355d0387f3ad69151f7a5ee6049cbe148a90b5d64fbc2d8b1c6ffbd576bdbfa",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.348866",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

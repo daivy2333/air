@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/pir_reconstructor/utils/ordering.py",
+  "hash": "b2b8453aea191d2136610db07572437b92c78198eadc207efa1ec67d08768fed",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.359558",
+  "unit": {
+    "module": "utils",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

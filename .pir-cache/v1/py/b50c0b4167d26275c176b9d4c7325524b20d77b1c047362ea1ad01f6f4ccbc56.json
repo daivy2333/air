@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../re/src/ir\u89c4\u8303/os.py",
+  "hash": "b50c0b4167d26275c176b9d4c7325524b20d77b1c047362ea1ad01f6f4ccbc56",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:07:06.392080",
+  "unit": {
+    "module": "ir\u89c4\u8303",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}
