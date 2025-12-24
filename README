@@ -1,12 +1,12 @@
 # AIR - Application Interface Center
-
+AIR provides a language-agnostic Project Intermediate Representation (PIR) capable of modeling C, assembly, and linker semantics for system-level projects, enabling structural understanding of kernels, runtimes, and low-level software.
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python Version](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
 
 ## 🚀 简介
 
 AIR (Application Interface Center) 是一个统一的命令行工具，用于 PIR (Project Intermediate Representation) 的正向生成和逆向重构。
-
+PIR is an architectural-level IR, not a semantic or execution-level IR.
 PIR 是一种面向 AI 优化的项目中间表示，旨在用最少的 token 完整描述项目架构。
 
 ## ✨ 特性
