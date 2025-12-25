@@ -46,8 +46,12 @@ class AnalysisCache:
         Returns:
             Hex digest of SHA256 hash
         """
+        sha256 = hashlib.sha256()
         with open(path, "rb") as f:
-            return hashlib.sha256(f.read()).hexdigest()
+            # Read in chunks to reduce memory usage for large files
+            for chunk in iter(lambda: f.read(8192), b''):
+                sha256.update(chunk)
+        return sha256.hexdigest()
 
     def _get_cache_file(self, path: str, lang: str) -> str:
         """
@@ -161,19 +165,19 @@ class AnalysisCache:
         if not os.path.exists(self.root):
             return stats
 
-        for lang_dir in os.listdir(self.root):
-            lang_path = os.path.join(self.root, lang_dir)
-            if not os.path.isdir(lang_path):
+        for lang_entry in os.scandir(self.root):
+            if not lang_entry.is_dir():
                 continue
 
             count = 0
             size = 0
-            for cache_file in os.listdir(lang_path):
-                if cache_file.endswith(".json"):
-                    count += 1
-                    size += os.path.getsize(os.path.join(lang_path, cache_file))
+            with os.scandir(lang_entry.path) as cache_entries:
+                for cache_entry in cache_entries:
+                    if cache_entry.name.endswith(".json"):
+                        count += 1
+                        size += cache_entry.stat().st_size
 
-            stats["by_language"][lang_dir] = {
+            stats["by_language"][lang_entry.name] = {
                 "entries": count,
                 "size_bytes": size
             }

@@ -21,11 +21,19 @@ class ReconstructionPipeline:
         self.pir = pir_ast
         self.output = output_dir
         self.project_root = project_root
+        # Cache language types to avoid recomputation
+        self._lang_types = None
+
+    def _get_lang_types(self) -> set:
+        """Get cached language types"""
+        if self._lang_types is None:
+            self._lang_types = {unit.type for unit in self.pir.units}
+        return self._lang_types
 
     def _get_enrichment_layers(self) -> List[BaseEnrichmentLayer]:
         """获取适用于项目的 enrichment 层"""
         layers = []
-        lang_types = {unit.type for unit in self.pir.units}
+        lang_types = self._get_lang_types()
 
         # 语言映射到 enrichment 层
         lang_map = {

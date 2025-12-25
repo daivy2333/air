@@ -21,79 +21,60 @@ class PythonAnalyzer(BaseAnalyzer):
                 content = f.read()
 
             tree = ast.parse(content)
-            self._analyze_symbols(tree, unit_uid, model)
-            self._analyze_imports(tree, file_path, unit_uid, model)
+            # Single pass through AST to analyze both symbols and imports
+            for node in tree.body:
+                # 顶层函数
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    if node.name.startswith("_"):
+                        continue
+
+                    attrs = {}
+                    if node.name == "main":
+                        attrs["entry"] = "true"
+
+                    model.add_symbol(node.name, unit_uid, "func", **attrs)
+
+                # 顶层类
+                elif isinstance(node, ast.ClassDef):
+                    if node.name.startswith("_"):
+                        continue
+
+                    model.add_symbol(node.name, unit_uid, "class")
+
+                # import xxx
+                elif isinstance(node, ast.Import):
+                    for alias in node.names:
+                        name = alias.name
+                        kind = self._classify_import(name)
+                        model.add_dependency(
+                            unit_uid,
+                            "import",
+                            f"[{name}]",
+                            kind=kind,
+                        )
+
+                # from xxx import yyy
+                elif isinstance(node, ast.ImportFrom):
+                    module = node.module or ""
+                    level = node.level or 0
+
+                    if level > 0:
+                        kind = "import_relative"
+                        target = "." * level + (module or "")
+                    else:
+                        kind = self._classify_import(module)
+                        target = module
+
+                    if target:
+                        model.add_dependency(
+                            unit_uid,
+                            "import",
+                            f"[{target}]",
+                            kind=kind,
+                        )
 
         except Exception as e:
             print(f"Warning: Failed to analyze {file_path}: {e}")
-
-    # ----------------------------
-    # Symbol analysis
-    # ----------------------------
-
-    def _analyze_symbols(self, tree: ast.Module, unit_uid: str, model: ProjectModel):
-        for node in tree.body:
-            # 顶层函数
-            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-                if node.name.startswith("_"):
-                    continue
-
-                attrs = {}
-                if node.name == "main":
-                    attrs["entry"] = "true"
-
-                model.add_symbol(node.name, unit_uid, "func", **attrs)
-
-            # 顶层类
-            elif isinstance(node, ast.ClassDef):
-                if node.name.startswith("_"):
-                    continue
-
-                model.add_symbol(node.name, unit_uid, "class")
-
-    # ----------------------------
-    # Import analysis
-    # ----------------------------
-
-    def _analyze_imports(
-        self,
-        tree: ast.Module,
-        file_path: str,
-        unit_uid: str,
-        model: ProjectModel,
-    ):
-        for node in tree.body:
-            # import xxx
-            if isinstance(node, ast.Import):
-                for alias in node.names:
-                    name = alias.name
-                    kind = self._classify_import(name)
-                    model.add_dependency(
-                        unit_uid,
-                        "import",
-                        f"[{name}]",
-                        kind=kind,
-                    )
-
-            # from xxx import yyy
-            elif isinstance(node, ast.ImportFrom):
-                module = node.module or ""
-                level = node.level or 0
-
-                if level > 0:
-                    kind = "import_relative"
-                    target = "." * level + (module or "")
-                else:
-                    kind = self._classify_import(module)
-                    target = module
-
-                if target:
-                    model.add_dependency(
-                        unit_uid,
-                        "import",
-                        f"[{target}]",
-                        kind=kind,
-                    )
 
     # ----------------------------
     # Import classification

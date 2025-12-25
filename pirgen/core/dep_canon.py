@@ -77,17 +77,14 @@ def canonicalize_dependencies(model):
     new_all = set()
 
     for uid, keys in model._unit_dep_keys.items():
-        new_keys = []
+        new_keys_set = set()
         for k in keys:
             verb, target = k.split(":", 1)
             new_target = canonicalize_target(verb, target)
             new_k = f"{verb}:{new_target}"
-
-            if new_k not in new_keys:
-                new_keys.append(new_k)
-                new_all.add(new_k)
-
-        new_unit_keys[uid] = new_keys
+            new_keys_set.add(new_k)
+            new_all.add(new_k)
+        new_unit_keys[uid] = list(new_keys_set)
 
     model._unit_dep_keys = new_unit_keys
     model._all_dep_keys = new_all

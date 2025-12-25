@@ -58,10 +58,20 @@ class InterfaceLayer:
 
     def run(self):
         """按语言分组处理符号"""
-        # 按语言分组
+        # 按语言分组并去重
         lang_symbols = {}
+        seen = set()  # 用于去重的集合，存储 (name, unit, kind) 元组
+
         for sym in self.symbols:
             unit_type = self.unit_map[sym.unit].type
+            key = (sym.name, sym.unit, sym.kind)
+
+            # 如果这个符号已经处理过，跳过
+            if key in seen:
+                continue
+
+            seen.add(key)
+
             if unit_type not in lang_symbols:
                 lang_symbols[unit_type] = []
             lang_symbols[unit_type].append(sym)

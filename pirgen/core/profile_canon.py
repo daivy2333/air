@@ -150,6 +150,8 @@ JAVA_BUILD_TOOLS = {
 class ProfileCanonicalizer:
     """
     Infer semantic profiles with strict language ownership.
+
+    Optimized with caching to avoid redundant computations.
     """
 
     def __init__(self):
@@ -179,6 +181,14 @@ class ProfileCanonicalizer:
             "java-framework": (self._detect_java_framework, {LANG_JAVA}),
         }
 
+        # Cache for computed data to avoid redundant calculations
+        self._cache = {
+            'dominant_lang': None,
+            'path_lower_set': None,
+            'symbols_by_kind': None,
+            'model_hash': None
+        }
+
     # ========================================================
     # Entry
     # ========================================================
@@ -196,13 +206,27 @@ class ProfileCanonicalizer:
                 "Call model.finalize_dependencies() first."
             )
 
-        # Step 1: Infer dominant (target) language
-        dominant_lang = self._infer_dominant_language(model)
+        # Check cache validity
+        model_hash = self._compute_model_hash(model)
+        if self._cache['model_hash'] != model_hash:
+            # Invalidate cache if model changed
+            self._cache = {
+                'dominant_lang': None,
+                'path_lower_set': None,
+                'symbols_by_kind': None,
+                'model_hash': model_hash
+            }
+            # Pre-compute and cache commonly used data
+            self._cache['dominant_lang'] = self._infer_dominant_language(model)
+            self._cache['path_lower_set'] = {u.path.lower() for u in model.units}
+            self._cache['symbols_by_kind'] = self._group_symbols_by_kind(model)
 
-        # Step 2: Extract all dependency targets
+        dominant_lang = self._cache['dominant_lang']
+
+        # Step 1: Extract all dependency targets
         targets = self._extract_targets(model)
 
-        # Step 3: Apply each profile rule with language gate
+        # Step 2: Apply each profile rule with language gate
         detected = {}
         for name, (rule, owned_langs) in self.rules.items():
             # 🚫 Language ownership gate
@@ -219,11 +243,46 @@ class ProfileCanonicalizer:
             if result:
                 detected[name] = result
 
-        # Step 4: Set profiles on model
+        # Step 3: Set profiles on model
         model.profiles = detected
 
-        # Step 5: Set active profile (highest confidence)
+        # Step 4: Set active profile (highest confidence)
         model.active_profile = self._pick_active_profile(detected)
+
+    # ========================================================
+    # Cache Helpers
+    # ========================================================
+
+    def _compute_model_hash(self, model) -> str:
+        """
+        Compute a simple hash of model state for cache invalidation.
+
+        Args:
+            model: ProjectModel instance
+
+        Returns:
+            Hash string representing model state
+        """
+        # Use a combination of unit count, symbol count, and dependency count
+        # This is a lightweight check, not a cryptographic hash
+        return f"{len(model.units)}-{len(model.symbols)}-{len(model._all_dep_keys)}"
+
+    def _group_symbols_by_kind(self, model) -> Dict[str, Set[str]]:
+        """
+        Group symbols by their kind for fast lookup.
+
+        Args:
+            model: ProjectModel instance
+
+        Returns:
+            Dictionary mapping symbol kind to set of lowercase symbol names
+        """
+        symbols_by_kind = {}
+        for s in model.symbols:
+            if s.kind not in symbols_by_kind:
+                symbols_by_kind[s.kind] = set()
+            symbols_by_kind[s.kind].add(s.name.lower())
+        return symbols_by_kind
 
     # ========================================================
     # Core Helpers
@@ -325,7 +384,8 @@ class ProfileCanonicalizer:
             confidence += 0.3
             signals.append("layered-architecture")
 
-        class_names = {s.name.lower() for s in model.symbols if s.kind == "class"}
+        # Use cached symbols by kind
+        class_names = self._cache.get('symbols_by_kind', {}).get('class', set())
         if any(k in name for k in ("model", "builder", "canon", "analysis") for name in class_names):
             confidence += 0.2
             signals.append("semantic-classes")
@@ -367,9 +427,9 @@ class ProfileCanonicalizer:
             confidence += 0.15
             signals.append("multi-unit")
 
-        # Directory semantic signals
-        unit_names = {u.path.lower() for u in model.units}
-        if KERNEL_C_SIGNALS & unit_names:
+        # Use cached path_lower_set
+        path_lower = self._cache.get('path_lower_set', set())
+        if KERNEL_C_SIGNALS & path_lower:
             confidence += 0.25
             signals.append("kernel-layout")
 
@@ -429,8 +489,10 @@ class ProfileCanonicalizer:
         signals = []
         tags = ["lang:cpp", "domain:competitive-programming"]
 
+        # Use cached path_lower_set
+        path_lower = self._cache.get('path_lower_set', set())
+
         # Check for competitive programming patterns in file paths
-        path_lower = {u.path.lower() for u in model.units}
         competitive_patterns_found = CPP_COMPETITIVE_PATTERNS & path_lower
         if competitive_patterns_found:
             confidence += 0.4
@@ -622,15 +684,17 @@ class ProfileCanonicalizer:
         signals = []
         tags = ["lang:rust", "purpose:learning", "domain:algorithms"]
 
+        # Use cached path_lower_set
+        path_lower = self._cache.get('path_lower_set', set())
+
         # Check for learning patterns in file paths
-        path_lower = {u.path.lower() for u in model.units}
         learning_patterns_found = RUST_LEARNING_PATTERNS & path_lower
         if learning_patterns_found:
             confidence += 0.3
             signals.append("learning-patterns")
 
         # Check for Rust module structure
-        module_patterns_found = RUST_MODULE_PATTERNS & {u.path.lower() for u in model.units}
+        module_patterns_found = RUST_MODULE_PATTERNS & path_lower
         if module_patterns_found:
             confidence += 0.25
             signals.append("mod-structure")
@@ -654,14 +718,14 @@ class ProfileCanonicalizer:
             signals.append("pure-learning")
 
         # Check for multiple main.rs files (indicates multiple small projects)
-        main_rs_count = sum(1 for u in model.units if u.path.lower().endswith("main.rs"))
+        main_rs_count = sum(1 for path in path_lower if path.endswith("main.rs"))
         if main_rs_count >= 2:
             confidence += 0.15
             signals.append(f"multiple-main-rs({main_rs_count})")
 
         # Check for learning-related directory names
         learning_dirs = {"learn", "tutorial", "example", "demo", "test", "practice", "exercise"}
-        found_learning_dirs = any(d in path.lower() for d in learning_dirs for path in path_lower)
+        found_learning_dirs = any(d in path for d in learning_dirs for path in path_lower)
         if found_learning_dirs:
             confidence += 0.1
             signals.append("learning-directory")
@@ -669,7 +733,9 @@ class ProfileCanonicalizer:
         # Check for algorithm-related function names
         algo_keywords = {"sort", "search", "find", "tree", "graph", "heap", "stack", "queue", 
                          "hash", "binary", "dynamic", "greedy", "recursive", "iterative"}
-        func_names = {s.name.lower() for s in model.symbols if s.kind == "func"}
+        # Use cached symbols_by_kind
+        symbols_by_kind = self._cache.get('symbols_by_kind', {})
+        func_names = symbols_by_kind.get('func', set())
         found_algo_funcs = func_names & algo_keywords
         if found_algo_funcs:
             confidence += 0.1 * min(len(found_algo_funcs), 3)  # Max 0.3 bonus
@@ -684,8 +750,10 @@ class ProfileCanonicalizer:
 
         # Check for learning-related symbols
         learning_symbols = {"it_works", "test", "example", "demo"}
-        symbol_names = {s.name.lower() for s in model.symbols}
-        found_learning_symbols = symbol_names & learning_symbols
+        all_symbol_names = set()
+        for symbol_set in symbols_by_kind.values():
+            all_symbol_names.update(symbol_set)
+        found_learning_symbols = all_symbol_names & learning_symbols
         if found_learning_symbols:
             confidence += 0.05
             signals.append("learning-symbols")

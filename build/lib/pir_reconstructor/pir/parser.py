@@ -3,23 +3,29 @@ from .model import Unit, Symbol, Dependency, DependencyEdge, PIRAST
 
 def parse_pir(file_path: str) -> PIRAST:
     """Parse PIR XML-like text file into AST."""
+    import re
+
     ast = PIRAST()
 
     with open(file_path, 'r', encoding='utf-8') as f:
         content = f.read()
 
+    # Extract all blocks at once using regex for better performance
+    pattern = r'<(units|symbols|dependencies|dependency-pool)>(.*?)</\1>'
+    blocks = dict(re.findall(pattern, content, re.DOTALL))
+
     # Parse units
-    ast.units = _parse_units(content)
+    ast.units = _parse_units(blocks.get('units', ''))
     ast.unit_map = {u.uid: u for u in ast.units}
 
     # Parse symbols
-    ast.symbols = _parse_symbols(content, ast.unit_map)
+    ast.symbols = _parse_symbols(blocks.get('symbols', ''), ast.unit_map)
 
     # Parse dependencies
-    ast.dependencies = _parse_dependencies(content)
+    ast.dependencies = _parse_dependencies(blocks.get('dependency-pool', ''))
 
     # Parse dependency edges
-    ast.edges = _parse_edges(content, ast.unit_map)
+    ast.edges = _parse_edges(blocks.get('dependencies', ''), ast.unit_map)
 
     return ast
 
@@ -27,21 +33,8 @@ def _parse_units(content: str) -> List[Unit]:
     """Extract all unit definitions from PIR content."""
     units = []
 
-    # Find <units> block
-    units_start = content.find('<units>')
-    units_end = content.find('</units>')
-
-    if units_start == -1 or units_end == -1:
-        return units
-
-    units_block = content[units_start + 7:units_end]
-
     # Parse each unit line
-    for line in units_block.strip().split('\n'):
-        line = line.strip()
-        if not line:
-            continue
-
+    for line in filter(None, (line.strip() for line in content.split('\n'))):
         # Parse: u0: errors.py type=PY role=lib module=pir-reconstructor
         parts = line.split()
         if len(parts) < 5:
@@ -88,21 +81,8 @@ def _parse_symbols(content: str, unit_map: Dict[str, Unit]) -> List[Symbol]:
     """Extract all symbol definitions from PIR content."""
     symbols = []
 
-    # Find <symbols> block
-    symbols_start = content.find('<symbols>')
-    symbols_end = content.find('</symbols>')
-
-    if symbols_start == -1 or symbols_end == -1:
-        return symbols
-
-    symbols_block = content[symbols_start + 9:symbols_end]
-
     # Parse each symbol line
-    for line in symbols_block.strip().split('\n'):
-        line = line.strip()
-        if not line:
-            continue
-
+    for line in filter(None, (line.strip() for line in content.split('\n'))):
         # Parse: ReconstructionError:u0 class
         parts = line.split()
         if len(parts) < 2:
@@ -138,21 +118,8 @@ def _parse_dependencies(content: str) -> List[Dependency]:
     """Extract all dependency definitions from PIR content."""
     dependencies = []
 
-    # Find <dependency-pool> block
-    pool_start = content.find('<dependency-pool>')
-    pool_end = content.find('</dependency-pool>')
-
-    if pool_start == -1 or pool_end == -1:
-        return dependencies
-
-    pool_block = content[pool_start + 17:pool_end]
-
     # Parse each dependency line
-    for line in pool_block.strip().split('\n'):
-        line = line.strip()
-        if not line:
-            continue
-
+    for line in filter(None, (line.strip() for line in content.split('\n'))):
         # Parse: d0: import:[errors]
         parts = line.split(':', 1)
         if len(parts) != 2:
@@ -173,21 +140,8 @@ def _parse_edges(content: str, unit_map: Dict[str, Unit]) -> List[DependencyEdge
     # Build dependency pool map
     dep_pool = _parse_dependency_pool(content)
 
-    # Find <dependencies> block
-    deps_start = content.find('<dependencies>')
-    deps_end = content.find('</dependencies>')
-
-    if deps_start == -1 or deps_end == -1:
-        return edges
-
-    deps_block = content[deps_start + 14:deps_end]
-
     # Parse each dependency line
-    for line in deps_block.strip().split('\n'):
-        line = line.strip()
-        if not line:
-            continue
-
+    for line in filter(None, (line.strip() for line in content.split('\n'))):
         # Parse: u1->refs:[d10 d2 d3 d7 d0]
         if '->' not in line or ':' not in line:
             continue
@@ -223,19 +177,7 @@ def _parse_dependency_pool(content: str) -> Dict[str, str]:
     """Parse dependency pool and return mapping from dep_id to expression."""
     pool = {}
 
-    pool_start = content.find('<dependency-pool>')
-    pool_end = content.find('</dependency-pool>')
-
-    if pool_start == -1 or pool_end == -1:
-        return pool
-
-    pool_block = content[pool_start + 17:pool_end]
-
-    for line in pool_block.strip().split('\n'):
-        line = line.strip()
-        if not line:
-            continue
-
+    for line in filter(None, (line.strip() for line in content.split('\n'))):
         # Parse: d0: import:[errors]
         parts = line.split(':', 1)
         if len(parts) != 2:

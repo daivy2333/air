@@ -1,4 +1,5 @@
 # core/pir_builder.py
+from io import StringIO
 from .project_model import ProjectModel
 
 
@@ -13,19 +14,52 @@ class PIRBuilder:
                 "Dependencies not finalized. Call model.finalize_dependencies() first."
             )
 
-        sections = [
-            "<pir>",
-            self._build_meta(),
-            self._build_units(),
-            self._build_dependency_pool(),
-            self._build_dependencies(),
-            self._build_symbols(),
-            self._build_profiles(),
-            self._build_layout(),
-            self._build_snippets(),
-            "</pir>",
-        ]
-        return "\n".join(s for s in sections if s)
+        # Use StringIO for better string concatenation performance
+        output = StringIO()
+        output.write("<pir>\n")
+
+        meta = self._build_meta()
+        if meta:
+            output.write(meta)
+            output.write("\n")
+
+        units = self._build_units()
+        if units:
+            output.write(units)
+            output.write("\n")
+
+        dep_pool = self._build_dependency_pool()
+        if dep_pool:
+            output.write(dep_pool)
+            output.write("\n")
+
+        deps = self._build_dependencies()
+        if deps:
+            output.write(deps)
+            output.write("\n")
+
+        symbols = self._build_symbols()
+        if symbols:
+            output.write(symbols)
+            output.write("\n")
+
+        profiles = self._build_profiles()
+        if profiles:
+            output.write(profiles)
+            output.write("\n")
+
+        layout = self._build_layout()
+        if layout:
+            output.write(layout)
+            output.write("\n")
+
+        snippets = self._build_snippets()
+        if snippets:
+            output.write(snippets)
+            output.write("\n")
+
+        output.write("</pir>")
+        return output.getvalue()
 
     # -------------------------
     # Meta

@@ -108,9 +108,12 @@ class ProjectModel:
 
         key = f"{verb}:{target}"
         self._all_dep_keys.add(key)
-        lst = self._unit_dep_keys.setdefault(src_uid, [])
-        if key not in lst:
-            lst.append(key)
+        # Use set for deduplication during add
+        if src_uid not in self._unit_dep_keys:
+            self._unit_dep_keys[src_uid] = []
+        # Check for duplicates efficiently
+        if key not in self._unit_dep_keys[src_uid]:
+            self._unit_dep_keys[src_uid].append(key)
 
 
     # -------------------------
