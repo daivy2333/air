@@ -1,0 +1,39 @@
+{
+  "deps": [],
+  "file": "../pir_reconstructor/templates/riscv.py",
+  "hash": "5172f8d1bd11b9ad253ab84c17b8bb66027ad0ff921fb537362f57d6d5759673",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "riscv_label_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "riscv_func_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "riscv_csr_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "riscv_trap_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "riscv_memory_barrier_template"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.550122",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

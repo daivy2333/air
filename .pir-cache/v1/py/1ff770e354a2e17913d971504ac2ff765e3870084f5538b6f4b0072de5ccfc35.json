@@ -1,0 +1,43 @@
+{
+  "deps": [
+    "import:[typing]",
+    "import:[dataclasses]",
+    "import:[..pir.model]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/layout.py",
+  "hash": "1ff770e354a2e17913d971504ac2ff765e3870084f5538b6f4b0072de5ccfc35",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "MemoryRegion"
+    },
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Section"
+    },
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "RISCVLayoutGenerator"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "generate_riscv_linker_script"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "extract_memory_layout"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.555524",
+  "unit": {
+    "module": "reconstruct",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

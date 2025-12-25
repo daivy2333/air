@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[pathlib]",
+    "import:[..errors]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/structure.py",
+  "hash": "02713e878c98de82d9f8e0189bb1511fc3c5f3c7b916a5e161c95d1743a81684",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "StructureLayer"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.556035",
+  "unit": {
+    "module": "reconstruct",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

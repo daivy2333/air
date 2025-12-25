@@ -165,6 +165,7 @@ class ProfileCanonicalizer:
             "embedded-c": (self._detect_embedded_c, {LANG_C, LANG_CPP}),
             "cpp-competitive": (self._detect_cpp_competitive, {LANG_C, LANG_CPP}),
             "c-framework": (self._detect_c_framework, {LANG_C, LANG_CPP}),
+            "riscv-os": (self._detect_riscv_os, {LANG_C, LANG_CPP}),
 
             # Rust profiles
             "rust-embedded": (self._detect_rust_embedded, {LANG_RUST}),
@@ -206,8 +207,13 @@ class ProfileCanonicalizer:
         for name, (rule, owned_langs) in self.rules.items():
             # 🚫 Language ownership gate
             # A profile can only be active on languages it owns
+            # 特殊处理：对于RISC-V和C语言项目，允许同时识别
             if dominant_lang and dominant_lang not in owned_langs:
-                continue
+                # 如果是riscv-os或c相关profile，且项目包含C语言，则允许检测
+                if name in ["riscv-os", "system-c", "embedded-c", "c-framework"] and LANG_C in model.langs:
+                    pass  # 允许检测
+                else:
+                    continue
 
             result = rule(model, targets, dominant_lang)
             if result:
@@ -487,6 +493,63 @@ class ProfileCanonicalizer:
                 "stack:c-framework"
             ]
         }
+
+    def _detect_riscv_os(self, model, targets, lang):
+        """
+        Detect RISC-V OS profile.
+
+        Rules:
+        - Presence of RISC-V runtime (riscv-rt)
+        - Linker script with RISC-V specific sections
+        - Assembly files with RISC-V instructions (ecall, mret, sret, CSR)
+        - RISC-V specific symbols (_start, trap_vector, etc.)
+        """
+        confidence = 0.0
+        signals = []
+        tags = ["lang:c", "domain:os", "arch:riscv"]
+
+        # Check for RISC-V runtime
+        if "riscv-rt" in targets:
+            confidence += 0.3
+            signals.append("riscv-rt")
+
+        # Check for embedded C libraries
+        embedded_libs = EMBEDDED_C_LIBS & targets
+        if embedded_libs:
+            confidence += 0.2
+            signals.append(f"embedded-libs({len(embedded_libs)})")
+
+        # Check for linker scripts
+        has_ld = any(u.path.endswith(".ld") or u.path.endswith(".lds") for u in model.units)
+        if has_ld:
+            confidence += 0.15
+            signals.append("linker-script")
+
+        # Check for RISC-V specific symbols
+        riscv_symbols = {"_start", "trap_vector", "trap_entry", "irq_handler"}
+        found_riscv_syms = riscv_symbols & {s.name for s in model.symbols}
+        if found_riscv_syms:
+            confidence += 0.2
+            signals.append(f"riscv-symbols({len(found_riscv_syms)})")
+
+        # Check for RISC-V specific unit paths
+        riscv_paths = sum(1 for u in model.units if "riscv" in u.path.lower())
+        if riscv_paths > 0:
+            confidence += 0.15
+            signals.append(f"riscv-paths({riscv_paths})")
+
+        confidence = min(confidence, 0.95)
+
+        if confidence < 0.4:
+            return None
+
+        result = {
+            "confidence": round(confidence, 2),
+            "tags": tags + [f"lib:{lib}" for lib in sorted(embedded_libs)],
+            "signals": signals
+        }
+
+        return result
 
     # ========================================================
     # Rust Profiles

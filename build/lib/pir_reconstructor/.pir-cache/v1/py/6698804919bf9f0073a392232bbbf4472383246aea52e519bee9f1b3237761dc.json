@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../templates/__init__.py",
+  "hash": "6698804919bf9f0073a392232bbbf4472383246aea52e519bee9f1b3237761dc",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-24T14:06:08.679573",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

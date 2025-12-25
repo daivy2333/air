@@ -1,0 +1,26 @@
+{
+  "deps": [
+    "import:[sys]",
+    "import:[pathlib]",
+    "import:[pir.parser]",
+    "import:[pir.validator]",
+    "import:[reconstruct.pipeline]",
+    "import:[errors]"
+  ],
+  "file": "../services/reverse.py",
+  "hash": "73d3cb768d7d2ee3df9efffede75d4fc8d8f001d5c46298b5a133d8f4fdb950f",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "run_reverse"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.571527",
+  "unit": {
+    "module": "services",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

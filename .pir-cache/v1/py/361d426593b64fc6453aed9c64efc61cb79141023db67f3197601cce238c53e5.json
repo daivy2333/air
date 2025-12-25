@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[.base]",
+    "import:[...pir.model]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/enrichment/asm.py",
+  "hash": "361d426593b64fc6453aed9c64efc61cb79141023db67f3197601cce238c53e5",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ASMEnrichmentLayer"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.557266",
+  "unit": {
+    "module": "enrichment",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

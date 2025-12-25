@@ -9,6 +9,7 @@ from . import java
 from . import asm
 from . import ld
 from . import common
+from . import riscv
 
 __all__ = [
     'python',
@@ -18,4 +19,5 @@ __all__ = [
     'asm',
     'ld',
     'common',
+    'riscv',
 ]

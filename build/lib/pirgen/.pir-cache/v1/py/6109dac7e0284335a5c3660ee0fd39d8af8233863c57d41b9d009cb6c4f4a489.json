@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[.base]",
+    "import:[..core.project_model]"
+  ],
+  "file": "../analyzers/c_analyzer.py",
+  "hash": "6109dac7e0284335a5c3660ee0fd39d8af8233863c57d41b9d009cb6c4f4a489",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "CAnalyzer"
+    }
+  ],
+  "timestamp": "2025-12-24T14:06:16.548676",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,21 @@
+{
+  "deps": [
+    "import:[.base]",
+    "import:[.python]",
+    "import:[.c]",
+    "import:[.rust]",
+    "import:[.java]",
+    "import:[.asm]",
+    "import:[.ld]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/enrichment/__init__.py",
+  "hash": "f052eb39336345b0d1a96f4e921e3be2c3ae3e8bbd40ebe1161e438fc76e4048",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2025-12-25T01:58:37.560660",
+  "unit": {
+    "module": "enrichment",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

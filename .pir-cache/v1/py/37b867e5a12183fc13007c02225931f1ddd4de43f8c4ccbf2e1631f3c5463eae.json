@@ -1,0 +1,24 @@
+{
+  "deps": [],
+  "file": "../pir_reconstructor/templates/asm.py",
+  "hash": "37b867e5a12183fc13007c02225931f1ddd4de43f8c4ccbf2e1631f3c5463eae",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "asm_label_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "asm_func_template"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.546709",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

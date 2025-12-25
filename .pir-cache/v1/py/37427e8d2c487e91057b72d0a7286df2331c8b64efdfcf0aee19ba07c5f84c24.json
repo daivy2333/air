@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[.base]",
+    "import:[...pir.model]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/enrichment/ld.py",
+  "hash": "37427e8d2c487e91057b72d0a7286df2331c8b64efdfcf0aee19ba07c5f84c24",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "LDEnrichmentLayer"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.559062",
+  "unit": {
+    "module": "enrichment",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

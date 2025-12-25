@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[ast]",
+    "import:[typing]",
+    "import:[.base]",
+    "import:[...pir.model]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/enrichment/python.py",
+  "hash": "bdd8a38dcf9fd362d1253d85c7e232655df1aa8aee5c3413169051ecd447354a",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "PythonEnrichmentLayer"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.560407",
+  "unit": {
+    "module": "enrichment",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

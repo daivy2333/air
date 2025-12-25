@@ -1,0 +1,42 @@
+{
+  "deps": [
+    "import:[typing]",
+    "import:[dataclasses]"
+  ],
+  "file": "../pirgen/core/profile_riscv.py",
+  "hash": "55e9628139c6192de3ea7cfc548a188d1804b308a77943e158185958a353ee27",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "RISCVMemoryLayout"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "get_riscv_extension_name"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "is_riscv_special_symbol"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "get_csr_address"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "get_exception_code"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.577543",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

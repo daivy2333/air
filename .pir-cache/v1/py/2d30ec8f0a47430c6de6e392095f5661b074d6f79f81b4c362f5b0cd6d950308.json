@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[.base]",
+    "import:[...pir.model]"
+  ],
+  "file": "../pir_reconstructor/reconstruct/enrichment/java.py",
+  "hash": "2d30ec8f0a47430c6de6e392095f5661b074d6f79f81b4c362f5b0cd6d950308",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "JavaEnrichmentLayer"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.557709",
+  "unit": {
+    "module": "enrichment",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[.base]",
+    "import:[..core.project_model]"
+  ],
+  "file": "../analyzers/rust_analyzer.py",
+  "hash": "21fedd997e0f62684a063c3cc8326c38867c3f1af99cf0f203de7871a33d2946",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "RustAnalyzer"
+    }
+  ],
+  "timestamp": "2025-12-24T14:06:16.549021",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,24 @@
+{
+  "deps": [],
+  "file": "../pir_reconstructor/templates/ld.py",
+  "hash": "bef20d796f4ed4a705d047ea8000ff0feea4c95cc072c5b386e4b868b50b8534",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "ld_entry_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "ld_symbol_template"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.547674",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

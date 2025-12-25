@@ -1,0 +1,34 @@
+{
+  "deps": [],
+  "file": "../pir_reconstructor/templates/rust.py",
+  "hash": "f35d7622bcd6f9a4673397cbff6c36d44f5ae9e7519655c8588f499c7bce8e24",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "rust_func_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "rust_struct_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "rust_enum_template"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "rust_trait_template"
+    }
+  ],
+  "timestamp": "2025-12-25T01:58:37.547458",
+  "unit": {
+    "module": "templates",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}
