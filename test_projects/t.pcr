@@ -10,103 +10,23 @@ ref: main
 view: impl
 </need>
 <need>
-type: symbol
-ref: Calculator
-view: impl
-</need>
-<need>
-type: symbol
-ref: u17#Calculator
-view: impl
-</need>
-<need>
-type: symbol
-ref: Calculation
-view: impl
-</need>
-<need>
-type: symbol
-ref: add
-view: impl
-</need>
-<need>
-type: symbol
-ref: u21#add
-view: impl
-</need>
-<need>
-type: symbol
-ref: validate_number
-view: impl
-</need>
-<need>
-type: symbol
-ref: greet
-view: impl
-</need>
-<need>
-type: symbol
-ref: format_result
-view: impl
-</need>
-<need>
-type: unit
-ref: u28
-view: asm
-</need>
-<need>
-type: symbol
-ref: _start
-view: impl
-</need>
-<need>
-type: symbol
-ref: init_page_tables
-view: impl
-</need>
-<need>
-type: symbol
-ref: kfree
-view: impl
-</need>
-<need>
-type: symbol
-ref: scheduler_init
-view: impl
-</need>
-<need>
-type: symbol
-ref: schedule
-view: impl
-</need>
-<need>
-type: symbol
-ref: c_calculate_sum
-view: impl
-</need>
-<need>
-type: symbol
-ref: panic
-view: impl
-</need>
-<need>
-type: symbol
-ref: internal_divide
-view: impl
-</need>
-<need>
 type: unit
 ref: u3
 view: summary
 </need>
 <need>
 type: unit
-ref: u18
+ref: u10
 view: summary
 </need>
 <need>
 type: unit
 ref: u14
+view: summary
+</need>
+<need>
+type: unit
+ref: u18
 view: summary
 </need>
 <need>
@@ -120,73 +40,378 @@ ref: u30
 view: summary
 </need>
 <need>
-type: unit
-ref: u28
-view: summary
-</need>
-<need>
-type: unit
-ref: u0
-view: summary
-</need>
-<need>
-type: unit
-ref: u4
-view: summary
-</need>
-<need>
-type: layout
-ref: .stack
-view: summary
-</need>
-<need>
-type: layout
-ref: .text
-view: summary
-</need>
-<need>
 type: symbol
-ref: not_exist_symbol
+ref: u3#main
 view: impl
 </need>
 <need>
-type: unit
-ref: u100
-view: api
+type: symbol
+ref: u10#main
+view: impl
 </need>
 <need>
-type: unit
-ref: u0
-view: api
+type: symbol
+ref: u14#main
+view: impl
 </need>
 <need>
-type: unit
-ref: u1
-view: api
+type: symbol
+ref: u18#main
+view: impl
 </need>
 <need>
-type: unit
-ref: u2
-view: api
+type: symbol
+ref: u20#main
+view: impl
 </need>
 <need>
-type: unit
-ref: u3
-view: api
+type: symbol
+ref: u30#main
+view: impl
 </need>
 <need>
-type: unit
-ref: u0
-view: callchain
+type: symbol
+ref: panic
+view: exist
 </need>
 <need>
-type: unit
-ref: u28
-view: callchain
+type: symbol
+ref: u7#panic
+view: impl
 </need>
 <need>
-type: unit
-ref: u30
-view: callchain
+type: symbol
+ref: Calculator
+view: exist
+</need>
+<need>
+type: symbol
+ref: u15#Calculator
+view: impl
+</need>
+<need>
+type: symbol
+ref: u17#Calculator
+view: impl
+</need>
+<need>
+type: symbol
+ref: add
+view: exist
+</need>
+<need>
+type: symbol
+ref: u17#add
+view: impl
+</need>
+<need>
+type: symbol
+ref: u21#add
+view: impl
+</need>
+<need>
+type: symbol
+ref: subtract
+view: exist
+</need>
+<need>
+type: symbol
+ref: u17#subtract
+view: impl
+</need>
+<need>
+type: symbol
+ref: u21#subtract
+view: impl
+</need>
+<need>
+type: symbol
+ref: greet
+view: exist
+</need>
+<need>
+type: symbol
+ref: u16#greet
+view: impl
+</need>
+<need>
+type: symbol
+ref: u19#greet
+view: impl
+</need>
+<need>
+type: symbol
+ref: validate_number
+view: exist
+</need>
+<need>
+type: symbol
+ref: u2#validate_number
+view: impl
+</need>
+<need>
+type: symbol
+ref: u16#validate_number
+view: impl
+</need>
+<need>
+type: symbol
+ref: u19#validate_number
+view: impl
+</need>
+<need>
+type: symbol
+ref: u22#validate_number
+view: impl
+</need>
+<need>
+type: symbol
+ref: _start
+view: exist
+</need>
+<need>
+type: symbol
+ref: u28#_start
+view: impl
+</need>
+<need>
+type: symbol
+ref: u30#_start
+view: impl
+</need>
+<need>
+type: symbol
+ref: schedule
+view: exist
+</need>
+<need>
+type: symbol
+ref: u26#schedule
+view: impl
+</need>
+<need>
+type: symbol
+ref: mm_init
+view: exist
+</need>
+<need>
+type: symbol
+ref: u27#mm_init
+view: impl
+</need>
+<need>
+type: symbol
+ref: scheduler_init
+view: exist
+</need>
+<need>
+type: symbol
+ref: u26#scheduler_init
+view: impl
+</need>
+<need>
+type: symbol
+ref: init_system
+view: exist
+</need>
+<need>
+type: symbol
+ref: u30#init_system
+view: impl
+</need>
+<need>
+type: symbol
+ref: format_result
+view: exist
+</need>
+<need>
+type: symbol
+ref: u16#format_result
+view: impl
+</need>
+<need>
+type: symbol
+ref: u19#format_result
+view: impl
+</need>
+<need>
+type: symbol
+ref: internal_multiply
+view: exist
+</need>
+<need>
+type: symbol
+ref: u6#internal_multiply
+view: impl
+</need>
+<need>
+type: symbol
+ref: c_calculate_sum
+view: exist
+</need>
+<need>
+type: symbol
+ref: u6#c_calculate_sum
+view: impl
+</need>
+<need>
+type: symbol
+ref: init_calculator
+view: exist
+</need>
+<need>
+type: symbol
+ref: u21#init_calculator
+view: impl
+</need>
+<need>
+type: symbol
+ref: u17#Calculation
+view: impl
+</need>
+<need>
+type: symbol
+ref: u17#get_history
+view: impl
+</need>
+<need>
+type: symbol
+ref: u17#print_history
+view: impl
+</need>
+<need>
+type: symbol
+ref: u17#add_to_history
+view: impl
+</need>
+<need>
+type: symbol
+ref: u17#new
+view: impl
+</need>
+<need>
+type: symbol
+ref: multiply
+view: exist
+</need>
+<need>
+type: symbol
+ref: u17#multiply
+view: impl
+</need>
+<need>
+type: symbol
+ref: u21#multiply
+view: impl
+</need>
+<need>
+type: symbol
+ref: divide
+view: exist
+</need>
+<need>
+type: symbol
+ref: u17#divide
+view: impl
+</need>
+<need>
+type: symbol
+ref: u21#divide
+view: impl
+</need>
+<need>
+type: symbol
+ref: u7#internal_divide
+view: impl
+</need>
+<need>
+type: symbol
+ref: u6#c_print_message
+view: impl
+</need>
+<need>
+type: symbol
+ref: u6#c_calculate_power
+view: impl
+</need>
+<need>
+type: symbol
+ref: u26#terminate_task
+view: impl
+</need>
+<need>
+type: symbol
+ref: u26#block_task
+view: impl
+</need>
+<need>
+type: symbol
+ref: u26#wakeup_task
+view: impl
+</need>
+<need>
+type: symbol
+ref: u27#kfree
+view: impl
+</need>
+<need>
+type: symbol
+ref: u27#init_page_tables
+view: impl
+</need>
+<need>
+type: symbol
+ref: u28#kernel_entry
+view: impl
+</need>
+<need>
+type: symbol
+ref: u28#kernel_init
+view: impl
+</need>
+<need>
+type: symbol
+ref: u28#enable_interrupts
+view: impl
+</need>
+<need>
+type: symbol
+ref: u28#kernel_main
+view: impl
+</need>
+<need>
+type: symbol
+ref: u30#init_gpio
+view: impl
+</need>
+<need>
+type: symbol
+ref: u30#init_uart
+view: impl
+</need>
+<need>
+type: symbol
+ref: u30#init_timer
+view: impl
+</need>
+<need>
+type: symbol
+ref: u30#check_events
+view: impl
+</need>
+<need>
+type: symbol
+ref: u30#process_events
+view: impl
+</need>
+<need>
+type: symbol
+ref: u30#delay
+view: impl
+</need>
+<need>
+type: symbol
+ref: u30#main_loop
+view: impl
 </need>
 </pcr>

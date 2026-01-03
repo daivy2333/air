@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../models/__init__.py",
+  "hash": "caa74a1cbc1db95d31440816675804b3b678f8cddca6f770272c0b7218855efd",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2026-01-02T15:29:48.662040",
+  "unit": {
+    "module": "models",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

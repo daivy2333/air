@@ -192,6 +192,41 @@ class LDAnalyzer(BaseAnalyzer):
             'flow': []
         }
 
+    def extract_behavior(self, symbol_name: str) -> List[str]:
+        """
+        提取行为描述（链接器脚本不适用）
+
+        对于链接器脚本中的符号，返回其定义信息
+        """
+        behaviors = []
+
+        # 检查是否是段符号
+        if symbol_name in self.sections:
+            section = self.sections[symbol_name]
+            behaviors.append(f"defines section: {section['name']}")
+            if section.get('flags'):
+                flags_str = ', '.join(k for k, v in section['flags'].items() if v)
+                behaviors.append(f"section flags: {flags_str}")
+            if section.get('address'):
+                behaviors.append(f"section address: {section['address']}")
+            return behaviors
+
+        # 检查是否是符号定义
+        if symbol_name in self.symbols:
+            behaviors.append(f"defines symbol: {symbol_name}")
+            behaviors.append(f"symbol value: {self.symbols[symbol_name]}")
+            return behaviors
+
+        # 检查是否是内存区域
+        if symbol_name in self.memory_regions:
+            region = self.memory_regions[symbol_name]
+            behaviors.append(f"defines memory region: {symbol_name}")
+            behaviors.append(f"region origin: {region['origin']}")
+            behaviors.append(f"region length: {region['length']}")
+            return behaviors
+
+        return behaviors
+
     def get_section_info(self, section_name: str) -> Optional[Dict]:
         """
         获取段信息

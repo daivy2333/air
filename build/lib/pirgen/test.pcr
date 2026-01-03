@@ -1,0 +1,52 @@
+<pcr>
+<need>
+type: unit
+ref: u2
+view: api
+</need>
+<need>
+type: symbol
+ref: u2#scan_project
+view: impl
+</need>
+<need>
+type: symbol
+ref: u2#resolve_dependencies
+view: api
+</need>
+<need>
+type: symbol
+ref: u2#main
+view: exist
+</need>
+<need>
+type: symbol
+ref: PIRBuilder
+view: definition
+</need>
+<need>
+type: symbol
+ref: main
+view: exist
+</need>
+<need>
+type: symbol
+ref: ProjectModel
+view: api
+</need>
+<need>
+type: unit
+ref: u13
+view: summary
+</need>
+<need>
+type: symbol
+ref: u8
+view: api
+</need>
+<need>
+type: symbol
+ref: get_analyzer
+view: impl
+</need>
+</pcr>

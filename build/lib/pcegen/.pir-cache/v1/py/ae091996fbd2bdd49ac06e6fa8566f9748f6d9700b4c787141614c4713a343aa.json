@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../__init__.py",
+  "hash": "ae091996fbd2bdd49ac06e6fa8566f9748f6d9700b4c787141614c4713a343aa",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2026-01-02T15:29:48.655372",
+  "unit": {
+    "module": "pcegen",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

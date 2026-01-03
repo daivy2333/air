@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[analyzers.base]"
+  ],
+  "file": "../analyzers/asm.py",
+  "hash": "c05e234c5e406f35578b9f0275d1a569b605ebc902598a898a1327d160bcd224",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ASMAnalyzer"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.948430",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

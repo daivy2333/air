@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[dataclasses]",
+    "import:[typing]"
+  ],
+  "file": "../models/resolved_ref.py",
+  "hash": "99f093edd6e70c9466a8fb46e09658ffb0e46d02d3c720c9c350b3282325851e",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "ResolvedRef"
+    }
+  ],
+  "timestamp": "2026-01-02T15:29:48.662244",
+  "unit": {
+    "module": "models",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

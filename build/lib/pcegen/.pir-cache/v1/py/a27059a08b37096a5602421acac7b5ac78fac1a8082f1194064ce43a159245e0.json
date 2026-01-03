@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[analyzers.base]"
+  ],
+  "file": "../analyzers/cpp.py",
+  "hash": "a27059a08b37096a5602421acac7b5ac78fac1a8082f1194064ce43a159245e0",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "CppAnalyzer"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.949378",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

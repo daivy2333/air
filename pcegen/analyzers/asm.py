@@ -177,10 +177,16 @@ class ASMAnalyzer(BaseAnalyzer):
 
         start_line = self.label_index[symbol_name]
 
-        # 查找 call 指令
+        # 查找调用指令（支持多种架构）
         for i in range(start_line, len(self.lines)):
             line = self.lines[i].strip()
-            if not line or line.startswith('.'):
+
+            # 跳过空行和注释
+            if not line or line.startswith(';') or line.startswith('#'):
+                continue
+
+            # 跳过伪指令
+            if line.startswith('.'):
                 continue
 
             # 遇到下一个标签则停止
@@ -190,11 +196,25 @@ class ASMAnalyzer(BaseAnalyzer):
             match = self.INSTRUCTION_PATTERN.match(line)
             if match:
                 opcode = match.group('opcode').lower()
-                if opcode == 'call':
-                    operands = match.group('operands') or ''
+                operands = match.group('operands') or ''
+
+                # 处理不同架构的调用指令
+                if opcode in ['call', 'jal', 'jalr', 'bl', 'blx']:
                     # 提取调用的目标
-                    target = operands.strip().split()[0]
-                    if target:
+                    if opcode == 'call':
+                        target = operands.strip().split()[0]
+                    elif opcode in ['jal', 'jalr']:
+                        # RISC-V: jal rd, offset 或 jalr rd, rs1, offset
+                        parts = operands.split(',')
+                        if len(parts) >= 2:
+                            target = parts[-1].strip()
+                        else:
+                            target = operands.strip()
+                    else:  # bl, blx
+                        # ARM: bl label
+                        target = operands.strip()
+
+                    if target and target not in ['zero', 'x0', 'ra', 'x1']:  # 排除特殊寄存器
                         callchain.append(target)
 
         return callchain
@@ -209,10 +229,19 @@ class ASMAnalyzer(BaseAnalyzer):
 
         start_line = self.label_index[symbol_name]
 
+        # 首先添加标签本身的信息
+        behaviors.append(f"assembly label: {symbol_name}")
+
         # 分析指令
         for i in range(start_line, len(self.lines)):
             line = self.lines[i].strip()
-            if not line or line.startswith('.'):
+
+            # 跳过空行和注释
+            if not line or line.startswith(';') or line.startswith('#'):
+                continue
+
+            # 跳过伪指令
+            if line.startswith('.'):
                 continue
 
             # 遇到下一个标签则停止
@@ -240,10 +269,17 @@ class ASMAnalyzer(BaseAnalyzer):
 
         start_line = self.label_index[symbol_name]
 
-        # 提取指令直到下一个标签
+        # 提取指令直到下一个标签或文件结束
         for i in range(start_line, len(self.lines)):
             line = self.lines[i].strip()
-            if not line or line.startswith('.'):
+
+            # 跳过空行和注释
+            if not line or line.startswith(';') or line.startswith('#'):
+                continue
+
+            # 保留伪指令和段定义（以.开头的行）
+            if line.startswith('.'):
+                implementation.append(line)
                 continue
 
             # 遇到下一个标签则停止
@@ -253,6 +289,9 @@ class ASMAnalyzer(BaseAnalyzer):
             # 保留所有指令
             match = self.INSTRUCTION_PATTERN.match(line)
             if match:
+                implementation.append(line)
+            else:
+                # 保留其他非空行（可能是伪指令或其他汇编指令）
                 implementation.append(line)
 
         return implementation
@@ -273,7 +312,14 @@ class ASMAnalyzer(BaseAnalyzer):
         # 分析控制流和所有指令
         for i in range(start_line, len(self.lines)):
             line = self.lines[i].strip()
-            if not line or line.startswith('.'):
+
+            # 跳过空行和注释
+            if not line or line.startswith(';') or line.startswith('#'):
+                continue
+
+            # 保留伪指令和段定义
+            if line.startswith('.'):
+                instructions.append(line)
                 continue
 
             # 遇到下一个标签则停止
@@ -297,6 +343,9 @@ class ASMAnalyzer(BaseAnalyzer):
                         flow.append(f"{opcode} {target}")
                     else:
                         flow.append(instruction)
+            else:
+                # 保留其他非空行
+                instructions.append(line)
 
         return {
             'labels': labels,

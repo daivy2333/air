@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[typing]",
+    "import:[models.resolved_ref]",
+    "import:[models.evidence]"
+  ],
+  "file": "../core/compressor.py",
+  "hash": "9b7bccdc9b9f850e54d1f2c19a88baa0c47b706264f405c4abebd50167678ad3",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Compressor"
+    }
+  ],
+  "timestamp": "2026-01-02T15:29:48.663609",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

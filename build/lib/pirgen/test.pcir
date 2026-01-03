@@ -1,0 +1,282 @@
+<pcir>
+<evidence>
+ref: u2
+view: api
+source: u2
+content:
+  signatures:
+    - def discover_source_files(root_path):
+    - def infer_unit_meta(file_path, project_root):
+    - def scan_project(root_path, model, use_cache=True):
+    - def resolve_dependencies(model):
+    - def main():
+</evidence>
+<evidence>
+ref: u2#scan_project
+view: impl
+source: u2
+content:
+  implementation:
+    ['def scan_project(root_path, model, use_cache=True):', 'print(f"Scanning project: {root_path}")', 'cache = AnalysisCache(model.root) if use_cache else None', 'cache_hits = 0', 'cache_misses = 0', 'unit_cache = {}  # rel_path -> uid', 'for file_path in discover_source_files(root_path):', 'rel_path, lang, module = infer_unit_meta(file_path, model.root)', 'if rel_path not in unit_cache:', 'uid = model.add_unit(', 'lang=lang,', 'role="lib",', 'module=module', 'unit_cache[rel_path] = uid', 'else:', 'uid = unit_cache[rel_path]', 'analyzer = get_analyzer(os.path.splitext(file_path)[1])', 'if not analyzer:', 'if cache:', 'cached = cache.load(file_path, lang)', 'if cached:', 'for s in cached.get("symbols", []):', 'model.add_symbol(s["name"], uid, s["kind"], **s.get("attrs", {}))', 'for k in cached.get("deps", []):', 'verb, target = k.split(":", 1)', 'model.add_dependency(uid, verb, target)', 'cache_hits += 1', 'cache_misses += 1', 'analyzer.analyze(file_path, uid, model)', 'if cache:', 'for s in model.symbols', 'if s.unit_uid == uid', '"deps": model._unit_dep_keys.get(uid, [])', 'if cache:', 'print(f"  Cache hits: {cache_hits}, misses: {cache_misses}")', 'stats = cache.get_stats()', 'print(f"  Cache stats: {stats[\'total_entries\']} entries, {stats[\'total_size_bytes\']} bytes")']
+</evidence>
+<evidence>
+ref: u2#resolve_dependencies
+view: api
+source: u2
+content:
+  signatures:
+    - def resolve_dependencies(model):
+</evidence>
+<evidence>
+ref: u2#main
+view: exist
+source: u2
+content:
+  status: yes
+  location: pirgen.py:163
+</evidence>
+<evidence>
+ref: PIRBuilder
+view: definition
+source: u14
+content:
+  kind: class
+  unit: u14
+  definition:
+    class PIRBuilder:
+        def __init__(self, model: ProjectModel):
+            self.model = model
+    
+        def build(self) -> str:
+            # ❗ Builder 不再偷偷改 model
+            if not self.model.deps_finalized:
+                raise RuntimeError(
+                    "Dependencies not finalized. Call model.finalize_dependencies() first."
+                )
+    
+            # Use StringIO for better string concatenation performance
+            output = StringIO()
+            output.write("<pir>\n")
+    
+            meta = self._build_meta()
+            if meta:
+                output.write(meta)
+                output.write("\n")
+    
+            units = self._build_units()
+            if units:
+                output.write(units)
+                output.write("\n")
+    
+            dep_pool = self._build_dependency_pool()
+            if dep_pool:
+                output.write(dep_pool)
+                output.write("\n")
+    
+            deps = self._build_dependencies()
+            if deps:
+                output.write(deps)
+                output.write("\n")
+    
+            symbols = self._build_symbols()
+            if symbols:
+                output.write(symbols)
+                output.write("\n")
+    
+            profiles = self._build_profiles()
+            if profiles:
+                output.write(profiles)
+                output.write("\n")
+    
+            layout = self._build_layout()
+            if layout:
+                output.write(layout)
+                output.write("\n")
+    
+            snippets = self._build_snippets()
+            if snippets:
+                output.write(snippets)
+                output.write("\n")
+    
+            output.write("</pir>")
+            return output.getvalue()
+    
+        # -------------------------
+        # Meta
+        # -------------------------
+        def _build_meta(self) -> str:
+            langs = ",".join(sorted(self.model.langs))
+            return (
+                "<meta>\n"
+                f"name: {self.model.name}\n"
+                f"root: {self.model.root}\n"
+                f"profile: {self.model.profile}\n"
+                f"lang: {langs}\n"
+                "</meta>"
+            )
+    
+        # -------------------------
+        # Units
+        # -------------------------
+        def _build_units(self) -> str:
+            lines = ["<units>"]
+            for u in self.model.units:
+                lines.append(
+                    f"{u.uid}: {u.path} "
+                    f"type={u.lang} role={u.role} module={u.module}"
+                )
+            lines.append("</units>")
+            return "\n".join(lines)
+    
+        # -------------------------
+        # Dependency Pool
+        # -------------------------
+        def _build_dependency_pool(self) -> str:
+            if not self.model.dep_pool_items:
+                return ""
+            lines = ["<dependency-pool>"]
+            for did, verb, target in self.model.dep_pool_items:
+                lines.append(f"{did}: {verb}:{target}")
+            lines.append("</dependency-pool>")
+            return "\n".join(lines)
+    
+        # -------------------------
+        # Dependency Refs
+        # -------------------------
+        def _build_dependencies(self) -> str:
+            if not self.model.dep_refs:
+                return ""
+            lines = ["<dependencies>"]
+    
+            # u0, u1, u2 顺序稳定
+            for uid in sorted(self.model.dep_refs, key=lambda x: int(x[1:])):
+                refs = self.model.dep_refs[uid]
+                if refs:
+                    lines.append(f"{uid}->refs:[{' '.join(refs)}]")
+    
+            lines.append("</dependencies>")
+            return "\n".join(lines)
+    
+        # -------------------------
+        # Symbols
+        # -------------------------
+        def _build_symbols(self) -> str:
+            if not self.model.symbols:
+                return ""
+            lines = ["<symbols>"]
+    
+            for s in self.model.symbols:
+                attrs = (
+                    " " + ", ".join(f"{k}={v}" for k, v in sorted(s.attrs.items()))
+                    if s.attrs else ""
+                )
+                lines.append(f"{s.name}:{s.unit_uid} {s.kind}{attrs}")
+    
+            lines.append("</symbols>")
+            return "\n".join(lines)
+    
+        # -------------------------
+        # Profiles (v0.4 extension)
+        # -------------------------
+        def _build_profiles(self) -> str:
+            if not self.model.profiles:
+                return ""
+    
+            lines = ["<profiles>"]
+    
+            # Active profile
+            if self.model.active_profile:
+                lines.append(f"  active: {self.model.active_profile}")
+    
+            # Profile definitions
+            for profile_name, profile_data in sorted(self.model.profiles.items()):
+                confidence = profile_data.get("confidence", 0.0)
+                tags = profile_data.get("tags", [])
+                signals = profile_data.get("signals", [])
+    
+                lines.append(f"  {profile_name}:")
+                lines.append(f"    confidence: {confidence}")
+    
+                if tags:
+                    lines.append("    tags:")
+                    for tag in sorted(tags):
+                        lines.append(f"      - {tag}")
+    
+                if signals:
+                    lines.append("    signals:")
+                    for signal in sorted(signals):
+                        lines.append(f"      - {signal}")
+    
+            lines.append("</profiles>")
+            return "\n".join(lines)
+    
+        # -------------------------
+        # Layout
+        # -------------------------
+        def _build_layout(self) -> str:
+            if not self.model.layout_lines:
+                return ""
+            return "\n".join(["<layout>", *self.model.layout_lines, "</layout>"])
+    
+        # -------------------------
+        # Code Snippets
+        # -------------------------
+        def _build_snippets(self) -> str:
+            if not self.model.snippets:
+                return ""
+            lines = ["<code-snippets>"]
+            for uid, content in self.model.snippets:
+                lines.extend([
+                    f'<snippet unit="{uid}">',
+                    "<![CDATA[",
+                    content.strip(),
+                    "]]>",
+                    "</snippet>",
+                ])
+            lines.append("</code-snippets>")
+            return "\n".join(lines)
+    
+</evidence>
+<evidence>
+ref: main
+view: exist
+source: unknown
+content:
+  status: ambiguous
+</evidence>
+<evidence>
+ref: ProjectModel
+view: api
+source: u13
+content:
+  signatures:
+    - class ProjectModel:
+</evidence>
+<evidence>
+ref: u13
+view: summary
+source: u13
+content:
+  type: PY
+  module: core
+  role: lib
+  path: core/project_model.py
+  symbol_count: 4
+</evidence>
+<evidence>
+ref: u8
+view: api
+source: u8
+content:
+  signatures:
+    - def get_analyzer(ext):
+</evidence>
+<evidence>
+ref: get_analyzer
+view: impl
+source: u8
+content:
+  implementation:
+    ['def get_analyzer(ext):', 'return ANALYZER_MAP.get(ext.lower())']
+</evidence>
+</pcir>

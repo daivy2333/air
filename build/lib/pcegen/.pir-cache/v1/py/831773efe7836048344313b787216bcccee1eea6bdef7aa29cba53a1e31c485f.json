@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[pathlib]",
+    "import:[typing]"
+  ],
+  "file": "../core/language_detector.py",
+  "hash": "831773efe7836048344313b787216bcccee1eea6bdef7aa29cba53a1e31c485f",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "LanguageDetector"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.958672",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

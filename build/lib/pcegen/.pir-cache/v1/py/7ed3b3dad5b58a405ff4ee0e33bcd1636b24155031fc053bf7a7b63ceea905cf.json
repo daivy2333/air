@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[analyzers.base]"
+  ],
+  "file": "../analyzers/ld.py",
+  "hash": "7ed3b3dad5b58a405ff4ee0e33bcd1636b24155031fc053bf7a7b63ceea905cf",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "LDAnalyzer"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.951428",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

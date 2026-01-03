@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[dataclasses]",
+    "import:[typing]"
+  ],
+  "file": "../models/need.py",
+  "hash": "32777c60479bb0416f04dbda4a3a3722e365ae9330c5ef16f7b06324a1da2f60",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Need"
+    }
+  ],
+  "timestamp": "2026-01-02T15:29:48.661851",
+  "unit": {
+    "module": "models",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

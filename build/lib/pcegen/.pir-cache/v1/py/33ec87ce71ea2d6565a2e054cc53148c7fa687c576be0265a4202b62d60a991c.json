@@ -1,0 +1,18 @@
+{
+  "deps": [
+    "import:[core.pir_index]",
+    "import:[core.pcr_parser]",
+    "import:[core.resolver]",
+    "import:[core.extractor]"
+  ],
+  "file": "../test_pir.py",
+  "hash": "33ec87ce71ea2d6565a2e054cc53148c7fa687c576be0265a4202b62d60a991c",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2026-01-03T08:51:25.936836",
+  "unit": {
+    "module": "pcegen",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[dataclasses]",
+    "import:[typing]"
+  ],
+  "file": "../models/evidence.py",
+  "hash": "777850497315c5ca53667aa7efb1bfe2e072e6d8a1355bacbc4d0ba0c71afe1f",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Evidence"
+    }
+  ],
+  "timestamp": "2026-01-02T15:29:48.661513",
+  "unit": {
+    "module": "models",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}
