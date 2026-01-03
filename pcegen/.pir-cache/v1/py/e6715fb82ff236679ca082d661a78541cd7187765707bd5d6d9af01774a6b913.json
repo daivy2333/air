@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[models.need]"
+  ],
+  "file": "../core/pcr_parser.py",
+  "hash": "e6715fb82ff236679ca082d661a78541cd7187765707bd5d6d9af01774a6b913",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "PCRParser"
+    }
+  ],
+  "timestamp": "2026-01-02T15:29:48.665267",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

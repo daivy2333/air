@@ -1,0 +1,25 @@
+{
+  "deps": [
+    "include:[stdio.h]",
+    "include:[stdlib.h]",
+    "include:[string.h]",
+    "include:[ctype.h]",
+    "include:[utils.h]"
+  ],
+  "file": "../c_project/utils.c",
+  "hash": "a4e5c06268eb344ebc0437dc01d63b0d9987fd7bb2c7bcd13ad0761c9ead7ab2",
+  "lang": "C",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "validate_number"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.172580",
+  "unit": {
+    "module": "c_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

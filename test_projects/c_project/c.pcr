@@ -1,0 +1,32 @@
+<pcr>
+<need>
+type: symbol
+ref: u0#main
+view: impl
+</need>
+<need>
+type: unit
+ref: u1
+view: api
+</need>
+<need>
+type: unit
+ref: u2
+view: api
+</need>
+<need>
+type: symbol
+ref: init_calculator
+view: impl
+</need>
+<need>
+type: symbol
+ref: print_history
+view: impl
+</need>
+<need>
+type: symbol
+ref: validate_number
+view: impl
+</need>
+</pcr>

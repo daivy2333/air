@@ -1,0 +1,15 @@
+{
+  "deps": [
+    "import:[re]"
+  ],
+  "file": "../cross_project/check_parentheses.py",
+  "hash": "c8b04c16834af8d653db7c276f7062dc920fcdc6214c40745ec49b95983b605f",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2026-01-03T10:08:33.495535",
+  "unit": {
+    "module": "cross_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

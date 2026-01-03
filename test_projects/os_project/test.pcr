@@ -1,0 +1,135 @@
+<pcr>
+<!-- 测试启动代码 -->
+<need>
+type: unit
+ref: u1
+view: exist
+</need>
+<need>
+type: unit
+ref: u1
+view: api
+</need>
+<need>
+type: symbol
+ref: u1#_start
+view: exist
+</need>
+<need>
+type: symbol
+ref: u1#kernel_entry
+view: definition
+</need>
+<need>
+type: symbol
+ref: u1#kernel_init
+view: impl
+</need>
+<need>
+type: symbol
+ref: u1#kernel_main
+view: callchain
+</need>
+
+<!-- 测试内存管理 -->
+<need>
+type: unit
+ref: u2
+view: api
+</need>
+<need>
+type: symbol
+ref: u2#kmalloc
+view: api
+</need>
+<need>
+type: symbol
+ref: u2#kmalloc
+view: impl
+</need>
+<need>
+type: symbol
+ref: u2#kfree
+view: impl
+</need>
+<need>
+type: symbol
+ref: u2#init_page_tables
+view: impl
+</need>
+
+<!-- 测试内存结构 -->
+<need>
+type: symbol
+ref: u3#memory_block_t
+view: definition
+</need>
+<need>
+type: symbol
+ref: u3#page_table_entry_t
+view: definition
+</need>
+
+<!-- 测试调度器 -->
+<need>
+type: unit
+ref: u4
+view: api
+</need>
+<need>
+type: symbol
+ref: u4#create_task
+view: api
+</need>
+<need>
+type: symbol
+ref: u4#create_task
+view: impl
+</need>
+<need>
+type: symbol
+ref: u4#schedule
+view: impl
+</need>
+<need>
+type: symbol
+ref: u4#terminate_task
+view: impl
+</need>
+
+<!-- 测试任务结构 -->
+<need>
+type: symbol
+ref: u5#task_t
+view: definition
+</need>
+<need>
+type: symbol
+ref: u5#task_state_t
+view: definition
+</need>
+
+<!-- 测试跨模块调用链 -->
+<need>
+type: symbol
+ref: u1#kernel_init
+view: callchain
+</need>
+<need>
+type: symbol
+ref: u4#create_task
+view: callchain
+</need>
+
+<!-- 测试 entry -->
+<need>
+type: entry
+ref: _start
+view: exist
+</need>
+<need>
+type: entry
+ref: _start
+view: definition
+</need>
+</pcr>

@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[ast]",
+    "import:[os]",
+    "import:[.base]",
+    "import:[..core.project_model]"
+  ],
+  "file": "../analyzers/python_analyzer.py",
+  "hash": "ce520cecfda498fa164738374f7da593d4fa68161060173aeb9c41638cd12ad6",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "PythonAnalyzer"
+    }
+  ],
+  "timestamp": "2025-12-25T03:36:09.051978",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

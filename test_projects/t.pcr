@@ -1,0 +1,192 @@
+<pcr>
+<need>
+type: entry
+ref: main
+view: exist
+</need>
+<need>
+type: entry
+ref: main
+view: impl
+</need>
+<need>
+type: symbol
+ref: Calculator
+view: impl
+</need>
+<need>
+type: symbol
+ref: u17#Calculator
+view: impl
+</need>
+<need>
+type: symbol
+ref: Calculation
+view: impl
+</need>
+<need>
+type: symbol
+ref: add
+view: impl
+</need>
+<need>
+type: symbol
+ref: u21#add
+view: impl
+</need>
+<need>
+type: symbol
+ref: validate_number
+view: impl
+</need>
+<need>
+type: symbol
+ref: greet
+view: impl
+</need>
+<need>
+type: symbol
+ref: format_result
+view: impl
+</need>
+<need>
+type: unit
+ref: u28
+view: asm
+</need>
+<need>
+type: symbol
+ref: _start
+view: impl
+</need>
+<need>
+type: symbol
+ref: init_page_tables
+view: impl
+</need>
+<need>
+type: symbol
+ref: kfree
+view: impl
+</need>
+<need>
+type: symbol
+ref: scheduler_init
+view: impl
+</need>
+<need>
+type: symbol
+ref: schedule
+view: impl
+</need>
+<need>
+type: symbol
+ref: c_calculate_sum
+view: impl
+</need>
+<need>
+type: symbol
+ref: panic
+view: impl
+</need>
+<need>
+type: symbol
+ref: internal_divide
+view: impl
+</need>
+<need>
+type: unit
+ref: u3
+view: summary
+</need>
+<need>
+type: unit
+ref: u18
+view: summary
+</need>
+<need>
+type: unit
+ref: u14
+view: summary
+</need>
+<need>
+type: unit
+ref: u20
+view: summary
+</need>
+<need>
+type: unit
+ref: u30
+view: summary
+</need>
+<need>
+type: unit
+ref: u28
+view: summary
+</need>
+<need>
+type: unit
+ref: u0
+view: summary
+</need>
+<need>
+type: unit
+ref: u4
+view: summary
+</need>
+<need>
+type: layout
+ref: .stack
+view: summary
+</need>
+<need>
+type: layout
+ref: .text
+view: summary
+</need>
+<need>
+type: symbol
+ref: not_exist_symbol
+view: impl
+</need>
+<need>
+type: unit
+ref: u100
+view: api
+</need>
+<need>
+type: unit
+ref: u0
+view: api
+</need>
+<need>
+type: unit
+ref: u1
+view: api
+</need>
+<need>
+type: unit
+ref: u2
+view: api
+</need>
+<need>
+type: unit
+ref: u3
+view: api
+</need>
+<need>
+type: unit
+ref: u0
+view: callchain
+</need>
+<need>
+type: unit
+ref: u28
+view: callchain
+</need>
+<need>
+type: unit
+ref: u30
+view: callchain
+</need>
+</pcr>

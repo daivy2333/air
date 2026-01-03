@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "use:[calculator::Calculator]",
+    "use:[utils::{greet, format_result}]"
+  ],
+  "file": "../rust_project/main.rs",
+  "hash": "2a549110937e95207edb8b008b8410c726c6efb834279e0eb5aac9cbba6a2806",
+  "lang": "Rust",
+  "symbols": [
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.171872",
+  "unit": {
+    "module": "rust_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

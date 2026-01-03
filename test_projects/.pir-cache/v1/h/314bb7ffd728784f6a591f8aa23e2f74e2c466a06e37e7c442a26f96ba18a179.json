@@ -1,0 +1,16 @@
+{
+  "deps": [
+    "include:[vector]",
+    "include:[string]"
+  ],
+  "file": "../cpp_project/calculator.h",
+  "hash": "314bb7ffd728784f6a591f8aa23e2f74e2c466a06e37e7c442a26f96ba18a179",
+  "lang": "H",
+  "symbols": [],
+  "timestamp": "2026-01-03T07:54:54.169065",
+  "unit": {
+    "module": "cpp_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,42 @@
+<pcr>
+<need>
+type: symbol
+ref: add
+view: impl
+</need>
+<need>
+type: symbol
+ref: subtract
+view: impl
+</need>
+<need>
+type: symbol
+ref: multiply
+view: impl
+</need>
+<need>
+type: symbol
+ref: divide
+view: impl
+</need>
+<need>
+type: symbol
+ref: get_history
+view: impl
+</need>
+<need>
+type: unit
+ref: u0
+view: api
+</need>
+<need>
+type: symbol
+ref: u0#Calculator
+view: summary
+</need>
+<need>
+type: symbol
+ref: u0#Calculation
+view: summary
+</need>
+</pcr>

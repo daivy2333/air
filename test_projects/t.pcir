@@ -1,0 +1,339 @@
+<pcir>
+<evidence>
+ref: main
+view: exist
+source: unknown
+content:
+  status: ambiguous
+  suggestions:
+    - {'ref': 'u3#main', 'desc': 'func in '}
+    - {'ref': 'u10#main', 'desc': 'func in '}
+    - {'ref': 'u14#main', 'desc': 'func in '}
+    - {'ref': 'u18#main', 'desc': 'func in '}
+    - {'ref': 'u20#main', 'desc': 'func in '}
+    - {'ref': 'u30#main', 'desc': 'label in '}
+</evidence>
+<evidence>
+ref: main
+view: impl
+source: unknown
+content:
+  status: ambiguous
+  suggestions:
+    - {'ref': 'u3#main', 'desc': 'func in '}
+    - {'ref': 'u10#main', 'desc': 'func in '}
+    - {'ref': 'u14#main', 'desc': 'func in '}
+    - {'ref': 'u18#main', 'desc': 'func in '}
+    - {'ref': 'u20#main', 'desc': 'func in '}
+    - {'ref': 'u30#main', 'desc': 'label in '}
+</evidence>
+<evidence>
+ref: Calculator
+view: impl
+source: unknown
+content:
+  status: ambiguous
+  suggestions:
+    - {'ref': 'u15#Calculator', 'desc': 'class in '}
+    - {'ref': 'u17#Calculator', 'desc': 'struct in '}
+</evidence>
+<evidence>
+ref: u17#Calculator
+view: impl
+source: u17
+content:
+  implementation:
+    ['struct Calculator {\n    history: Vec<Calculation>,\n}']
+</evidence>
+<evidence>
+ref: Calculation
+view: impl
+source: u17
+content:
+  implementation:
+    ['struct Calculation {\n    pub a: f64,\n    pub b: f64,\n    pub result: f64,\n}']
+</evidence>
+<evidence>
+ref: add
+view: impl
+source: unknown
+content:
+  status: ambiguous
+  suggestions:
+    - {'ref': 'u17#add', 'desc': 'func in '}
+    - {'ref': 'u21#add', 'desc': 'func in '}
+</evidence>
+<evidence>
+ref: u21#add
+view: impl
+source: u21
+content:
+  implementation:
+    ['double result = a + b;', 'if (calc->count < MAX_HISTORY) {', 'calc->history[calc->count].a = a;', 'calc->history[calc->count].b = b;', 'calc->history[calc->count].result = result;', 'return result;']
+</evidence>
+<evidence>
+ref: validate_number
+view: impl
+source: unknown
+content:
+  status: ambiguous
+  suggestions:
+    - {'ref': 'u2#validate_number', 'desc': 'func in '}
+    - {'ref': 'u16#validate_number', 'desc': 'func in '}
+    - {'ref': 'u19#validate_number', 'desc': 'func in '}
+    - {'ref': 'u22#validate_number', 'desc': 'func in '}
+</evidence>
+<evidence>
+ref: greet
+view: impl
+source: unknown
+content:
+  status: ambiguous
+  suggestions:
+    - {'ref': 'u16#greet', 'desc': 'func in '}
+    - {'ref': 'u19#greet', 'desc': 'func in '}
+</evidence>
+<evidence>
+ref: format_result
+view: impl
+source: unknown
+content:
+  status: ambiguous
+  suggestions:
+    - {'ref': 'u16#format_result', 'desc': 'func in '}
+    - {'ref': 'u19#format_result', 'desc': 'func in '}
+</evidence>
+<evidence>
+ref: u28
+view: asm
+source: u28
+content:
+  labels:
+  flow:
+</evidence>
+<evidence>
+ref: _start
+view: impl
+source: unknown
+content:
+  status: ambiguous
+  suggestions:
+    - {'ref': 'u28#_start', 'desc': 'label in '}
+    - {'ref': 'u30#_start', 'desc': 'label in '}
+</evidence>
+<evidence>
+ref: init_page_tables
+view: impl
+source: u27
+content:
+</evidence>
+<evidence>
+ref: kfree
+view: impl
+source: u27
+content:
+  implementation:
+    ['if (ptr == NULL) return;', 'memory_block_t* block = memory_blocks;', 'while (block != NULL) {', 'if (block->start == (uint32_t)ptr) {', 'block->used = 0;', 'memory_block_t* current = memory_blocks;', 'while (current != NULL && current->next != NULL) {', 'if (!current->used && !current->next->used) {', 'current->size += current->next->size + sizeof(memory_block_t);', 'current->next = current->next->next;', 'current = current->next;', 'return;', 'block = block->next;']
+</evidence>
+<evidence>
+ref: scheduler_init
+view: impl
+source: u26
+content:
+  implementation:
+    ['current_task = NULL;', 'task_queue = NULL;', 'next_task_id = 0;']
+</evidence>
+<evidence>
+ref: schedule
+view: impl
+source: u26
+content:
+  implementation:
+    ['if (task_queue == NULL) {', 'return;', 'if (current_task != NULL && current_task->state == TASK_RUNNING) {', 'current_task->state = TASK_READY;', 'task_t* next = task_queue;', 'task_t* highest = NULL;', 'uint32_t highest_priority = 0;', 'while (next != NULL) {', 'if (next->state == TASK_READY &&', '(highest == NULL || next->priority > highest_priority)) {', 'highest = next;', 'highest_priority = next->priority;', 'next = next->next;', 'if (highest != NULL) {', 'current_task = highest;', 'current_task->state = TASK_RUNNING;']
+</evidence>
+<evidence>
+ref: c_calculate_sum
+view: impl
+source: u6
+content:
+  implementation:
+    ['return a + b;']
+</evidence>
+<evidence>
+ref: panic
+view: impl
+source: u7
+content:
+  implementation:
+    ['loop {}']
+</evidence>
+<evidence>
+ref: internal_divide
+view: impl
+source: u7
+content:
+  implementation:
+    ['if b == 0 {', '} else {']
+</evidence>
+<evidence>
+ref: u3
+view: summary
+source: u3
+content:
+  type: CPP
+  module: cpp_project
+  role: lib
+  path: cpp_project/main.cpp
+  symbol_count: 1
+</evidence>
+<evidence>
+ref: u18
+view: summary
+source: u18
+content:
+  type: Rust
+  module: rust_project
+  role: lib
+  path: rust_project/main.rs
+  symbol_count: 1
+</evidence>
+<evidence>
+ref: u14
+view: summary
+source: u14
+content:
+  type: PY
+  module: python_project
+  role: lib
+  path: python_project/main.py
+  symbol_count: 1
+</evidence>
+<evidence>
+ref: u20
+view: summary
+source: u20
+content:
+  type: C
+  module: c_project
+  role: lib
+  path: c_project/main.c
+  symbol_count: 1
+</evidence>
+<evidence>
+ref: u30
+view: summary
+source: u30
+content:
+  type: S
+  module: asm_project
+  role: lib
+  path: asm_project/start.S
+  symbol_count: 10
+</evidence>
+<evidence>
+ref: u28
+view: summary
+source: u28
+content:
+  type: S
+  module: os_project
+  role: lib
+  path: os_project/boot.S
+  symbol_count: 7
+</evidence>
+<evidence>
+ref: u0
+view: summary
+source: u0
+content:
+  type: H
+  module: cpp_project
+  role: lib
+  path: cpp_project/calculator.h
+  symbol_count: 0
+</evidence>
+<evidence>
+ref: u4
+view: summary
+source: u4
+content:
+  type: H
+  module: cpp_project
+  role: lib
+  path: cpp_project/utils.h
+  symbol_count: 0
+</evidence>
+<evidence>
+ref: .stack
+view: summary
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: .text
+view: summary
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: not_exist_symbol
+view: impl
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: u100
+view: api
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: u0
+view: api
+source: u0
+content:
+</evidence>
+<evidence>
+ref: u1
+view: api
+source: u1
+content:
+</evidence>
+<evidence>
+ref: u2
+view: api
+source: u2
+content:
+</evidence>
+<evidence>
+ref: u3
+view: api
+source: u3
+content:
+</evidence>
+<evidence>
+ref: u0
+view: callchain
+source: u0
+content:
+  path:
+</evidence>
+<evidence>
+ref: u28
+view: callchain
+source: u28
+content:
+  path:
+</evidence>
+<evidence>
+ref: u30
+view: callchain
+source: u30
+content:
+  path:
+</evidence>
+</pcir>

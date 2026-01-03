@@ -1,0 +1,132 @@
+<pcir>
+<evidence>
+ref: main
+view: impl
+source: u2
+content:
+  implementation:
+    ['int sum = c_calculate_sum(10, 20);', 'c_print_message("Calculation completed");', 'int product = rust_calculate_product(sum, 3);', 'rust_print_stats(2, sum + product);', 'std::cout << "Final Result: " << (sum + product) << std::endl;', 'return 0;']
+</evidence>
+<evidence>
+ref: u0
+view: api
+source: u0
+content:
+</evidence>
+<evidence>
+ref: u1
+view: api
+source: u1
+content:
+</evidence>
+<evidence>
+ref: u2
+view: api
+source: u2
+content:
+</evidence>
+<evidence>
+ref: c_calculate_sum
+view: impl
+source: u0
+content:
+  implementation:
+    ['return a + b;']
+</evidence>
+<evidence>
+ref: rust_calculate_power
+view: impl
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: c_print_message
+view: asm
+source: u0
+content:
+  labels:
+  flow:
+</evidence>
+<evidence>
+ref: internal_multiply
+view: summary
+source: u0
+content:
+  type: func
+  unit_id: u0
+</evidence>
+<evidence>
+ref: internal_divide
+view: summary
+source: u1
+content:
+  type: func
+  unit_id: u1
+</evidence>
+<evidence>
+ref: panic
+view: asm
+source: u1
+content:
+  labels:
+  flow:
+</evidence>
+<evidence>
+ref: u0
+view: asm
+source: u0
+content:
+  labels:
+  flow:
+</evidence>
+<evidence>
+ref: .stack
+view: summary
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: .text
+view: summary
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: std::cout
+view: impl
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: not_exist_function
+view: impl
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: u5
+view: api
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: ambiguous_symbol
+view: exist
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: u0
+view: callchain
+source: u0
+content:
+  path:
+</evidence>
+</pcir>

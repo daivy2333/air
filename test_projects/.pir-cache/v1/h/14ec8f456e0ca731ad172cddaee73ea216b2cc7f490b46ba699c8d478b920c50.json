@@ -1,0 +1,15 @@
+{
+  "deps": [
+    "include:[stdint.h]"
+  ],
+  "file": "../os_project/scheduler.h",
+  "hash": "14ec8f456e0ca731ad172cddaee73ea216b2cc7f490b46ba699c8d478b920c50",
+  "lang": "H",
+  "symbols": [],
+  "timestamp": "2026-01-03T07:54:54.173622",
+  "unit": {
+    "module": "os_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

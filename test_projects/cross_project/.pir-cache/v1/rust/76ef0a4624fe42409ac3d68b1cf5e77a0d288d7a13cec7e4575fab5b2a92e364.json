@@ -1,0 +1,26 @@
+{
+  "deps": [
+    "use:[core::panic::PanicInfo]"
+  ],
+  "file": "../rust_module.rs",
+  "hash": "76ef0a4624fe42409ac3d68b1cf5e77a0d288d7a13cec7e4575fab5b2a92e364",
+  "lang": "Rust",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "panic"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "internal_divide"
+    }
+  ],
+  "timestamp": "2026-01-03T08:48:04.480776",
+  "unit": {
+    "module": "cross_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

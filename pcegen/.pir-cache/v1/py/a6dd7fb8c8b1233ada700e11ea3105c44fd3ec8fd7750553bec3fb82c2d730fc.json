@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[models.resolved_ref]",
+    "import:[core.language_detector]"
+  ],
+  "file": "../core/extractor.py",
+  "hash": "a6dd7fb8c8b1233ada700e11ea3105c44fd3ec8fd7750553bec3fb82c2d730fc",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Extractor"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.958327",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

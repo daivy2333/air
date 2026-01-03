@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[json]",
+    "import:[typing]"
+  ],
+  "file": "../core/pir_index.py",
+  "hash": "777191b3468c44315762162733b7a09acf7f4f2280bd03850543869571a59382",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "PIRIndex"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.960030",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
 Name: air-tool
 Version: 0.1.0
-Summary: AIR - Application Interface Center for PIR forward and reverse engineering
+Summary: AIR - Application Interface Center for PIR forward, reverse, and evidence generation
 Home-page: https://github.com/daivy/air
 Author: daivy
 Author-email: 2259492701@qq.com
 License: MIT
-Keywords: PIR,reverse-engineering,code-analysis,project-reconstruction
+Keywords: PIR,reverse-engineering,code-analysis,project-reconstruction,PCES,PCR
 Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha
 Classifier: Intended Audience :: Developers

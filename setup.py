@@ -12,18 +12,18 @@ def read_readme():
 setup(
     name="air-tool",
     version="0.1.0",
-    description="AIR - Application Interface Center for PIR forward and reverse engineering",
+    description="AIR - Application Interface Center for PIR forward, reverse, and evidence generation",
     long_description=read_readme(),
     long_description_content_type="text/markdown",
     author="daivy",
     author_email="2259492701@qq.com",
     url="https://github.com/daivy/air",
     license="MIT",
-    keywords=["PIR", "reverse-engineering", "code-analysis", "project-reconstruction"],
+    keywords=["PIR", "reverse-engineering", "code-analysis", "project-reconstruction", "PCES", "PCR"],
 
     # 包的配置
     packages=find_packages(
-        include=["air", "air.*", "pirgen", "pirgen.*", "pir_reconstructor", "pir_reconstructor.*"],
+        include=["air", "air.*", "pirgen", "pirgen.*", "pir_reconstructor", "pir_reconstructor.*", "pcegen", "pcegen.*"],
         exclude=["tests*", "docs*", "md*", "spec*", "初版*", "re*", "ir规范*", "talk*", "services*"]
     ),
     # 包含数据文件

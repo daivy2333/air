@@ -1,0 +1,47 @@
+{
+  "deps": [
+    "include:[stdio.h]",
+    "include:[calculator.h]"
+  ],
+  "file": "../c_project/calculator.c",
+  "hash": "dfe2b6ca0d4938ec7376c45d06bb6e798da5f964c157f394dd0d89853e127102",
+  "lang": "C",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "init_calculator"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "add"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "subtract"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "multiply"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "divide"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "print_history"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.172389",
+  "unit": {
+    "module": "c_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

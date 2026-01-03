@@ -1,0 +1,42 @@
+{
+  "deps": [
+    "import:[argparse]",
+    "import:[json]",
+    "import:[sys]",
+    "import:[pathlib]",
+    "import:[core.pir_index]",
+    "import:[core.pcr_parser]",
+    "import:[core.resolver]",
+    "import:[core.extractor]",
+    "import:[core.compressor]",
+    "import:[core.serializer]"
+  ],
+  "file": "../pcegen.py",
+  "hash": "43609ef821440a2614a8d51a0ba249a768bb24bee23c1435ce42d5fc2e627874",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "load_source_code"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "process_pcr"
+    },
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2026-01-02T15:29:48.656514",
+  "unit": {
+    "module": "pcegen",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,36 @@
+{
+  "deps": [
+    "include:[stdio.h]"
+  ],
+  "file": "../c_module.c",
+  "hash": "afa968dc186573476a567e66c7963f1ae8810d937c1f154d27cce265788e193d",
+  "lang": "C",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "c_calculate_sum"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "c_print_message"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "internal_multiply"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "c_calculate_power"
+    }
+  ],
+  "timestamp": "2026-01-03T08:48:04.480219",
+  "unit": {
+    "module": "cross_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

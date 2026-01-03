@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[ast]",
+    "import:[typing]",
+    "import:[analyzers.base]"
+  ],
+  "file": "../analyzers/python.py",
+  "hash": "ac4bdf53f361677a8b39502958d5e4ff1fd9c4fdd2673f0ae4c8a27e2997cba3",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "PythonAnalyzer"
+    }
+  ],
+  "timestamp": "2026-01-02T15:29:48.660312",
+  "unit": {
+    "module": "analyzers",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

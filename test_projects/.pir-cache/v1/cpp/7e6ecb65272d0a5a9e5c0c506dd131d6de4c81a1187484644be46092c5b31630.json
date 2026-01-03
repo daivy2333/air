@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "include:[sstream]",
+    "include:[iomanip]",
+    "include:[utils.h]"
+  ],
+  "file": "../cpp_project/utils.cpp",
+  "hash": "7e6ecb65272d0a5a9e5c0c506dd131d6de4c81a1187484644be46092c5b31630",
+  "lang": "CPP",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "validate_number"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.169633",
+  "unit": {
+    "module": "cpp_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

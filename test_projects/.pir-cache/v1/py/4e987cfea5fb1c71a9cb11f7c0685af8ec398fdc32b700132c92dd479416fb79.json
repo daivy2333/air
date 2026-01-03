@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../cross_project/check_pos27.py",
+  "hash": "4e987cfea5fb1c71a9cb11f7c0685af8ec398fdc32b700132c92dd479416fb79",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2026-01-03T10:08:33.495316",
+  "unit": {
+    "module": "cross_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

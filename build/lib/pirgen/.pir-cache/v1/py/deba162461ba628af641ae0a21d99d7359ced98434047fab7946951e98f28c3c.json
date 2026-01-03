@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[io]",
+    "import:[.project_model]"
+  ],
+  "file": "../core/pir_builder.py",
+  "hash": "deba162461ba628af641ae0a21d99d7359ced98434047fab7946951e98f28c3c",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "PIRBuilder"
+    }
+  ],
+  "timestamp": "2025-12-25T03:36:09.058366",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

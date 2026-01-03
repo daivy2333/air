@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "include:[iostream]",
+    "include:[memory]"
+  ],
+  "file": "../cross_project/main.cpp",
+  "hash": "2bb7fd5282e7ccb312f052d0ac4a71ce5839638c46ca5976c737a4562db2ac0f",
+  "lang": "CPP",
+  "symbols": [
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.170595",
+  "unit": {
+    "module": "cross_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

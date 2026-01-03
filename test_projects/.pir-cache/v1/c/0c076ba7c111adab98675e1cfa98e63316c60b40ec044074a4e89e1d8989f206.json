@@ -1,0 +1,31 @@
+{
+  "deps": [
+    "include:[stdint.h]"
+  ],
+  "file": "../os_project/mm.c",
+  "hash": "0c076ba7c111adab98675e1cfa98e63316c60b40ec044074a4e89e1d8989f206",
+  "lang": "C",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "mm_init"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "kfree"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "init_page_tables"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.174088",
+  "unit": {
+    "module": "os_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

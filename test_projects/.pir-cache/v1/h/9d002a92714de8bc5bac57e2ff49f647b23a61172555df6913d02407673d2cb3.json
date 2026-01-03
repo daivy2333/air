@@ -1,0 +1,15 @@
+{
+  "deps": [
+    "include:[stdint.h]"
+  ],
+  "file": "../os_project/mm.h",
+  "hash": "9d002a92714de8bc5bac57e2ff49f647b23a61172555df6913d02407673d2cb3",
+  "lang": "H",
+  "symbols": [],
+  "timestamp": "2026-01-03T07:54:54.174849",
+  "unit": {
+    "module": "os_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

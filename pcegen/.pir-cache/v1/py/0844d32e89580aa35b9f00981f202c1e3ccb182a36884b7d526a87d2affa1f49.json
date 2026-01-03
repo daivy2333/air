@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[re]",
+    "import:[typing]",
+    "import:[models.need]",
+    "import:[models.resolved_ref]"
+  ],
+  "file": "../core/resolver.py",
+  "hash": "0844d32e89580aa35b9f00981f202c1e3ccb182a36884b7d526a87d2affa1f49",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Resolver"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.961701",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

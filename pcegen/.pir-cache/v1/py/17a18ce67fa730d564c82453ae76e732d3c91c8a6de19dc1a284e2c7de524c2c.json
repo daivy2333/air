@@ -1,0 +1,23 @@
+{
+  "deps": [
+    "import:[typing]",
+    "import:[models.resolved_ref]",
+    "import:[models.evidence]"
+  ],
+  "file": "../core/evidence_builder.py",
+  "hash": "17a18ce67fa730d564c82453ae76e732d3c91c8a6de19dc1a284e2c7de524c2c",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "EvidenceBuilder"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.955960",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

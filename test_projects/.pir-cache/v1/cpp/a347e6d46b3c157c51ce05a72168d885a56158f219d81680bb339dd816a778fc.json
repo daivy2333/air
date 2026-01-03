@@ -1,0 +1,26 @@
+{
+  "deps": [
+    "include:[iostream]",
+    "include:[memory]",
+    "include:[calculator.h]",
+    "include:[utils.h]"
+  ],
+  "file": "../cpp_project/main.cpp",
+  "hash": "a347e6d46b3c157c51ce05a72168d885a56158f219d81680bb339dd816a778fc",
+  "lang": "CPP",
+  "symbols": [
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.169792",
+  "unit": {
+    "module": "cpp_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,69 @@
+{
+  "deps": [],
+  "file": "../rust_project/calculator.rs",
+  "hash": "106f4c55176544a3dc64f2f7db0c893ba71a8f944f38a6474f39d00db966067f",
+  "lang": "Rust",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "new"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "new"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "add"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "subtract"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "multiply"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "divide"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "get_history"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "print_history"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "add_to_history"
+    },
+    {
+      "attrs": {},
+      "kind": "struct",
+      "name": "Calculation"
+    },
+    {
+      "attrs": {},
+      "kind": "struct",
+      "name": "Calculator"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.171674",
+  "unit": {
+    "module": "rust_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,15 @@
+{
+  "deps": [
+    "import:[re]"
+  ],
+  "file": "../cross_project/check_char.py",
+  "hash": "d25d5e378bf88ecbec3ca23fff4c4fc139dcee138e84bd301607d331ae83a1db",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2026-01-03T10:08:33.492973",
+  "unit": {
+    "module": "cross_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

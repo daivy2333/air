@@ -1,0 +1,29 @@
+{
+  "deps": [],
+  "file": "../utils.py",
+  "hash": "8eedbc90df729229cabefe7103d66d9eddb473a6c4de76595e1922d74875ada0",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "greet"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "format_result"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "validate_number"
+    }
+  ],
+  "timestamp": "2026-01-03T08:40:48.616065",
+  "unit": {
+    "module": "python_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,157 @@
+<pcr>
+<need>
+type: unit
+ref: u2
+view: api
+</need>
+<need>
+type: unit
+ref: u1
+view: api
+</need>
+<need>
+type: unit
+ref: u13
+view: api
+</need>
+<need>
+type: unit
+ref: u14
+view: api
+</need>
+<need>
+type: unit
+ref: u16
+view: api
+</need>
+<need>
+type: symbol
+ref: PIRBuilder
+view: impl
+</need>
+<need>
+type: symbol
+ref: u13#ProjectModel
+view: impl
+</need>
+<need>
+type: symbol
+ref: u13#Unit
+view: impl
+</need>
+<need>
+type: symbol
+ref: u13#Symbol
+view: impl
+</need>
+<need>
+type: symbol
+ref: u13#Dependency
+view: impl
+</need>
+<need>
+type: symbol
+ref: scan_project
+view: summary
+</need>
+<need>
+type: symbol
+ref: resolve_dependencies
+view: summary
+</need>
+<need>
+type: symbol
+ref: u2#main
+view: impl
+</need>
+<need>
+type: symbol
+ref: u1#main
+view: impl
+</need>
+<need>
+type: entry
+ref: main
+view: definition
+</need>
+<need>
+type: symbol
+ref: get_analyzer
+view: callchain
+</need>
+<need>
+type: unit
+ref: u8
+view: impl
+</need>
+<need>
+type: unit
+ref: u3
+view: api
+</need>
+<need>
+type: unit
+ref: u4
+view: api
+</need>
+<need>
+type: unit
+ref: u5
+view: api
+</need>
+<need>
+type: unit
+ref: u7
+view: api
+</need>
+<need>
+type: unit
+ref: u9
+view: api
+</need>
+<need>
+type: unit
+ref: u6
+view: api
+</need>
+<need>
+type: unit
+ref: u10
+view: api
+</need>
+<need>
+type: unit
+ref: u12
+view: api
+</need>
+<need>
+type: unit
+ref: u15
+view: api
+</need>
+<need>
+type: symbol
+ref: BaseAnalyzer
+view: impl
+</need>
+<need>
+type: symbol
+ref: ProfileCanonicalizer
+view: summary
+</need>
+<need>
+type: symbol
+ref: canonicalize_target
+view: summary
+</need>
+<need>
+type: symbol
+ref: canonicalize_dependencies
+view: summary
+</need>
+<need>
+type: symbol
+ref: RISCVMemoryLayout
+view: impl
+</need>
+</pcr>

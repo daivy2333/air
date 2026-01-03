@@ -1,0 +1,29 @@
+{
+  "deps": [],
+  "file": "../utils.rs",
+  "hash": "bfcc72ee821755c8256541e276119d63d01e79c800087a27f06a5a878a578faf",
+  "lang": "Rust",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "greet"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "format_result"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "validate_number"
+    }
+  ],
+  "timestamp": "2026-01-03T08:43:59.456801",
+  "unit": {
+    "module": "rust_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

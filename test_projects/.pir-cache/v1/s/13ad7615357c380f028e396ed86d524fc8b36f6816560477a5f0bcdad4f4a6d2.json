@@ -1,0 +1,74 @@
+{
+  "deps": [
+    "call:[main]",
+    "call:[init_system]",
+    "call:[main_loop]",
+    "call:[init_gpio]",
+    "call:[init_uart]",
+    "call:[init_timer]",
+    "call:[check_events]",
+    "call:[process_events]",
+    "call:[delay]"
+  ],
+  "file": "../asm_project/start.S",
+  "hash": "13ad7615357c380f028e396ed86d524fc8b36f6816560477a5f0bcdad4f4a6d2",
+  "lang": "S",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "_start"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "main"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "init_system"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "main_loop"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "init_gpio"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "init_uart"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "init_timer"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "check_events"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "process_events"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "delay"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.175169",
+  "unit": {
+    "module": "asm_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

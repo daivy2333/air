@@ -1,0 +1,125 @@
+Parsed 31 needs
+
+Processing need 1/31: type=unit, ref=u2, view=api
+ResolvedRef: kind=unit, unit_id=u2, symbol=None
+Evidence: ref=u2, view=api
+
+Processing need 2/31: type=unit, ref=u1, view=api
+ResolvedRef: kind=unit, unit_id=u1, symbol=None
+Evidence: ref=u1, view=api
+
+Processing need 3/31: type=unit, ref=u13, view=api
+ResolvedRef: kind=unit, unit_id=u13, symbol=None
+Evidence: ref=u13, view=api
+
+Processing need 4/31: type=unit, ref=u14, view=api
+ResolvedRef: kind=unit, unit_id=u14, symbol=None
+Evidence: ref=u14, view=api
+
+Processing need 5/31: type=unit, ref=u16, view=api
+ResolvedRef: kind=unit, unit_id=u16, symbol=None
+Evidence: ref=u16, view=api
+
+Processing need 6/31: type=symbol, ref=PIRBuilder, view=impl
+ResolvedRef: kind=symbol, unit_id=u14, symbol=PIRBuilder
+Evidence: ref=PIRBuilder, view=impl
+
+Processing need 7/31: type=symbol, ref=u13#ProjectModel, view=impl
+ResolvedRef: kind=symbol, unit_id=u13, symbol=ProjectModel
+Evidence: ref=u13#ProjectModel, view=impl
+
+Processing need 8/31: type=symbol, ref=u13#Unit, view=impl
+ResolvedRef: kind=symbol, unit_id=u13, symbol=Unit
+Evidence: ref=u13#Unit, view=impl
+
+Processing need 9/31: type=symbol, ref=u13#Symbol, view=impl
+ResolvedRef: kind=symbol, unit_id=u13, symbol=Symbol
+Evidence: ref=u13#Symbol, view=impl
+
+Processing need 10/31: type=symbol, ref=u13#Dependency, view=impl
+ResolvedRef: kind=symbol, unit_id=u13, symbol=Dependency
+Evidence: ref=u13#Dependency, view=impl
+
+Processing need 11/31: type=symbol, ref=scan_project, view=summary
+ResolvedRef: kind=symbol, unit_id=u2, symbol=scan_project
+Evidence: ref=scan_project, view=summary
+
+Processing need 12/31: type=symbol, ref=resolve_dependencies, view=summary
+ResolvedRef: kind=symbol, unit_id=u2, symbol=resolve_dependencies
+Evidence: ref=resolve_dependencies, view=summary
+
+Processing need 13/31: type=symbol, ref=u2#main, view=impl
+ResolvedRef: kind=symbol, unit_id=u2, symbol=main
+Evidence: ref=u2#main, view=impl
+
+Processing need 14/31: type=symbol, ref=u1#main, view=impl
+ResolvedRef: kind=symbol, unit_id=u1, symbol=main
+Evidence: ref=u1#main, view=impl
+
+Processing need 15/31: type=entry, ref=main, view=definition
+ResolvedRef: kind=symbol, unit_id=None, symbol=main
+Evidence: ref=main, view=definition
+
+Processing need 16/31: type=symbol, ref=get_analyzer, view=callchain
+ResolvedRef: kind=symbol, unit_id=u8, symbol=get_analyzer
+Evidence: ref=get_analyzer, view=callchain
+
+Processing need 17/31: type=unit, ref=u8, view=impl
+ResolvedRef: kind=unit, unit_id=u8, symbol=None
+Evidence: ref=u8, view=impl
+
+Processing need 18/31: type=unit, ref=u3, view=api
+ResolvedRef: kind=unit, unit_id=u3, symbol=None
+Evidence: ref=u3, view=api
+
+Processing need 19/31: type=unit, ref=u4, view=api
+ResolvedRef: kind=unit, unit_id=u4, symbol=None
+Evidence: ref=u4, view=api
+
+Processing need 20/31: type=unit, ref=u5, view=api
+ResolvedRef: kind=unit, unit_id=u5, symbol=None
+Evidence: ref=u5, view=api
+
+Processing need 21/31: type=unit, ref=u7, view=api
+ResolvedRef: kind=unit, unit_id=u7, symbol=None
+Evidence: ref=u7, view=api
+
+Processing need 22/31: type=unit, ref=u9, view=api
+ResolvedRef: kind=unit, unit_id=u9, symbol=None
+Evidence: ref=u9, view=api
+
+Processing need 23/31: type=unit, ref=u6, view=api
+ResolvedRef: kind=unit, unit_id=u6, symbol=None
+Evidence: ref=u6, view=api
+
+Processing need 24/31: type=unit, ref=u10, view=api
+ResolvedRef: kind=unit, unit_id=u10, symbol=None
+Evidence: ref=u10, view=api
+
+Processing need 25/31: type=unit, ref=u12, view=api
+ResolvedRef: kind=unit, unit_id=u12, symbol=None
+Evidence: ref=u12, view=api
+
+Processing need 26/31: type=unit, ref=u15, view=api
+ResolvedRef: kind=unit, unit_id=u15, symbol=None
+Evidence: ref=u15, view=api
+
+Processing need 27/31: type=symbol, ref=BaseAnalyzer, view=impl
+ResolvedRef: kind=symbol, unit_id=u6, symbol=BaseAnalyzer
+Evidence: ref=BaseAnalyzer, view=impl
+
+Processing need 28/31: type=symbol, ref=ProfileCanonicalizer, view=summary
+ResolvedRef: kind=symbol, unit_id=u10, symbol=ProfileCanonicalizer
+Evidence: ref=ProfileCanonicalizer, view=summary
+
+Processing need 29/31: type=symbol, ref=canonicalize_target, view=summary
+ResolvedRef: kind=symbol, unit_id=u16, symbol=canonicalize_target
+Evidence: ref=canonicalize_target, view=summary
+
+Processing need 30/31: type=symbol, ref=canonicalize_dependencies, view=summary
+ResolvedRef: kind=symbol, unit_id=u16, symbol=canonicalize_dependencies
+Evidence: ref=canonicalize_dependencies, view=summary
+
+Processing need 31/31: type=symbol, ref=RISCVMemoryLayout, view=impl
+ResolvedRef: kind=symbol, unit_id=u15, symbol=RISCVMemoryLayout
+Evidence: ref=RISCVMemoryLayout, view=impl

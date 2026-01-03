@@ -1,0 +1,16 @@
+{
+  "deps": [
+    "include:[iostream]",
+    "include:[calculator.h]"
+  ],
+  "file": "../cpp_project/calculator.cpp",
+  "hash": "f60ab9778a5f5258f1c95cee82bf29c19ba22316ab4236faa52514b3a72e34ba",
+  "lang": "CPP",
+  "symbols": [],
+  "timestamp": "2026-01-03T07:54:54.169474",
+  "unit": {
+    "module": "cpp_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

@@ -1,0 +1,118 @@
+<pcr>
+<!-- 测试 unit 类型的各种视图 -->
+<need>
+type: unit
+ref: u1
+view: exist
+</need>
+<need>
+type: unit
+ref: u1
+view: api
+</need>
+<need>
+type: unit
+ref: u1
+view: impl
+</need>
+<need>
+type: unit
+ref: u1
+view: summary
+</need>
+
+<!-- 测试 symbol 类型的各种视图 -->
+<need>
+type: symbol
+ref: u1#main
+view: exist
+</need>
+<need>
+type: symbol
+ref: u1#main
+view: definition
+</need>
+<need>
+type: symbol
+ref: u1#main
+view: api
+</need>
+<need>
+type: symbol
+ref: u1#main
+view: impl
+</need>
+<need>
+type: symbol
+ref: u1#main
+view: summary
+</need>
+<need>
+type: symbol
+ref: u1#main
+view: callchain
+</need>
+
+<!-- 测试类 -->
+<need>
+type: symbol
+ref: u2#Calculator
+view: exist
+</need>
+<need>
+type: symbol
+ref: u2#Calculator
+view: definition
+</need>
+<need>
+type: symbol
+ref: u2#Calculation
+view: definition
+</need>
+
+<!-- 测试方法 -->
+<need>
+type: symbol
+ref: u2#Calculator::add
+view: api
+</need>
+<need>
+type: symbol
+ref: u2#Calculator::add
+view: impl
+</need>
+<need>
+type: symbol
+ref: u2#Calculator::divide
+view: impl
+</need>
+
+<!-- 测试工具函数 -->
+<need>
+type: unit
+ref: u4
+view: api
+</need>
+<need>
+type: symbol
+ref: u4#greet
+view: api
+</need>
+<need>
+type: symbol
+ref: u4#format_result
+view: impl
+</need>
+
+<!-- 测试 entry 类型 -->
+<need>
+type: entry
+ref: main
+view: exist
+</need>
+<need>
+type: entry
+ref: main
+view: definition
+</need>
+</pcr>

@@ -1,0 +1,24 @@
+{
+  "deps": [
+    "import:[calculator]",
+    "import:[utils]"
+  ],
+  "file": "../python_project/main.py",
+  "hash": "ece35639e62177b37337a1031915ad3eb8599523253cdb0b22962c8e84fce39a",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.171014",
+  "unit": {
+    "module": "python_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

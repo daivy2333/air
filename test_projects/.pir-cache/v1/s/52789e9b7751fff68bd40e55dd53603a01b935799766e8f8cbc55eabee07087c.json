@@ -1,0 +1,61 @@
+{
+  "deps": [
+    "call:[kernel_entry]",
+    "call:[kernel_init]",
+    "call:[enable_interrupts]",
+    "call:[kernel_main]",
+    "call:[.]",
+    "call:[mm_init]",
+    "call:[intc_init]",
+    "call:[timer_init]",
+    "call:[scheduler_init]",
+    "call:[schedule]",
+    "call:[check_interrupts]"
+  ],
+  "file": "../os_project/boot.S",
+  "hash": "52789e9b7751fff68bd40e55dd53603a01b935799766e8f8cbc55eabee07087c",
+  "lang": "S",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "_start"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "kernel_entry"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "kernel_init"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "enable_interrupts"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "kernel_main"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "_stack_bottom"
+    },
+    {
+      "attrs": {},
+      "kind": "label",
+      "name": "_stack_top"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.174688",
+  "unit": {
+    "module": "os_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

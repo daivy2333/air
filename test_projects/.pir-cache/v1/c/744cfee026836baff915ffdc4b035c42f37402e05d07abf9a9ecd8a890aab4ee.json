@@ -1,0 +1,41 @@
+{
+  "deps": [
+    "include:[stdint.h]"
+  ],
+  "file": "../os_project/scheduler.c",
+  "hash": "744cfee026836baff915ffdc4b035c42f37402e05d07abf9a9ecd8a890aab4ee",
+  "lang": "C",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "scheduler_init"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "schedule"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "terminate_task"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "block_task"
+    },
+    {
+      "attrs": {},
+      "kind": "func",
+      "name": "wakeup_task"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.173839",
+  "unit": {
+    "module": "os_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

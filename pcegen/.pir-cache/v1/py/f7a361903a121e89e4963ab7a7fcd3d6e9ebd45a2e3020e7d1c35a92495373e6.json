@@ -1,0 +1,22 @@
+{
+  "deps": [
+    "import:[typing]",
+    "import:[models.evidence]"
+  ],
+  "file": "../core/serializer.py",
+  "hash": "f7a361903a121e89e4963ab7a7fcd3d6e9ebd45a2e3020e7d1c35a92495373e6",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "PCESerializer"
+    }
+  ],
+  "timestamp": "2026-01-03T08:51:25.962353",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

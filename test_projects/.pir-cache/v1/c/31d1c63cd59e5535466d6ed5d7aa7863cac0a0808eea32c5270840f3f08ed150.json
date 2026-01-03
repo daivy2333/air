@@ -1,0 +1,25 @@
+{
+  "deps": [
+    "include:[stdio.h]",
+    "include:[calculator.h]",
+    "include:[utils.h]"
+  ],
+  "file": "../c_project/main.c",
+  "hash": "31d1c63cd59e5535466d6ed5d7aa7863cac0a0808eea32c5270840f3f08ed150",
+  "lang": "C",
+  "symbols": [
+    {
+      "attrs": {
+        "entry": "true"
+      },
+      "kind": "func",
+      "name": "main"
+    }
+  ],
+  "timestamp": "2026-01-03T07:54:54.172214",
+  "unit": {
+    "module": "c_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

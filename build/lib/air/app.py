@@ -8,6 +8,7 @@ import sys
 
 from air.services.forward import run_forward
 from air.services.reverse import run_reverse
+from air.services.peek import run_peek
 
 
 def main():
@@ -62,6 +63,21 @@ def main():
         help="Only validate PIR without reconstruction"
     )
 
+    # Peek command (PCES generation)
+    peek_parser = subparsers.add_parser("peek", help="Generate PCES from PCR")
+    peek_parser.add_argument(
+        "pcr",
+        help="Path to PCR file"
+    )
+    peek_parser.add_argument(
+        "--source-dir",
+        help="Directory containing source code (default: current directory)"
+    )
+    peek_parser.add_argument(
+        "-o", "--output",
+        help="Output file path (default: stdout)"
+    )
+
     args = parser.parse_args()
 
     try:
@@ -89,6 +105,15 @@ def main():
             else:
                 print(f"✅ Reconstruction complete")
                 print(f"   Output directory: {args.output_dir}")
+
+        elif args.cmd == "peek":
+            output_file = run_peek(
+                pcr_path=args.pcr,
+                source_dir=args.source_dir,
+                output=args.output
+            )
+            print(f"✅ PCES generation complete")
+            print(f"   Output: {output_file}")
 
         return 0
 

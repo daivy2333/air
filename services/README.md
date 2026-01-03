@@ -58,6 +58,38 @@ python3 app.py reverse example.pir output/ --validate-only
 python3 app.py reverse example.pir output/ --project-root /path/to/source
 ```
 
+### 生成 PCES（代码证据）
+
+从 PCR 文件生成 PCES 静态证据：
+
+```bash
+python3 app.py peek request.pcr
+```
+
+可选参数：
+
+- `--source-dir`: 指定源码目录（默认：PCR 文件所在目录）
+- `-o, --output`: 指定输出文件路径（默认：标准输出）
+
+特点：
+
+- 自动查找同目录下的 `.pir` 文件
+- 无需手动指定 PIR 路径
+- 支持 PCR 规范 v1
+
+示例：
+
+```bash
+# 基本使用（自动查找同目录的 .pir 文件）
+python3 app.py peek request.pcr
+
+# 指定源码目录
+python3 app.py peek request.pcr --source-dir /path/to/source
+
+# 输出到文件
+python3 app.py peek request.pcr -o evidence.pces
+```
+
 ## 项目结构
 
 ```
@@ -66,9 +98,11 @@ air/
 ├── services/
 │   ├── forward.py      # 正向服务（PIR 生成）
 │   ├── reverse.py      # 逆向服务（项目重构）
+│   ├── peek.py         # 证据服务（PCES 生成）
 │   └── README.md       # 本文档
 ├── pirgen/             # 正向引擎
-└── pir-reconstructor/  # 逆向引擎
+├── pir-reconstructor/  # 逆向引擎
+└── pcegen/             # 证据生成引擎
 ```
 
 ## 架构说明
@@ -77,6 +111,7 @@ air/
 
 - `forward.py`: 封装 pirgen 的功能，提供 PIR 生成服务
 - `reverse.py`: 封装 pir-reconstructor 的功能，提供项目重构服务
+- `peek.py`: 封装 pcegen 的功能，提供 PCES 生成服务
 
 ### 应用层（app.py）
 

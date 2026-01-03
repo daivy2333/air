@@ -1,3 +1,4 @@
 air
+pcegen
 pir_reconstructor
 pirgen

@@ -1,0 +1,19 @@
+{
+  "deps": [],
+  "file": "../calculator.py",
+  "hash": "75c28d58c0c55dd3eb92e4537e5e1b466f4cd6376ee676bac073f9972cab5bfd",
+  "lang": "PY",
+  "symbols": [
+    {
+      "attrs": {},
+      "kind": "class",
+      "name": "Calculator"
+    }
+  ],
+  "timestamp": "2026-01-03T08:40:48.615851",
+  "unit": {
+    "module": "python_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

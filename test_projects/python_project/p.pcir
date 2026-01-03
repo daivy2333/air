@@ -1,0 +1,71 @@
+<pcir>
+<evidence>
+ref: u0#main
+view: impl
+source: u0
+content:
+  implementation:
+    ["'主函数 - 程序入口点'", "print(greet('Python Calculator'))", 'calc = Calculator()', 'result1 = calc.add(10, 5)', "print(format_result('10 + 5', result1))", 'result2 = calc.multiply(result1, 2)', "print(format_result('(10 + 5) * 2', result2))", 'result3 = calc.divide(result2, 3)', "print(format_result('(10 + 5) * 2 / 3', result3))"]
+</evidence>
+<evidence>
+ref: Calculator
+view: impl
+source: u1
+content:
+  implementation:
+    ['def __init__(self):\n    """初始化计算器"""\n    self.history = []', 'def add(self, a, b):\n    """加法运算"""\n    result = a + b\n    self.history.append(f\'{a} + {b} = {result}\')\n    return result', 'def subtract(self, a, b):\n    """减法运算"""\n    result = a - b\n    self.history.append(f\'{a} - {b} = {result}\')\n    return result', 'def multiply(self, a, b):\n    """乘法运算"""\n    result = a * b\n    self.history.append(f\'{a} * {b} = {result}\')\n    return result', 'def divide(self, a, b):\n    """除法运算"""\n    if b == 0:\n        raise ValueError(\'Division by zero\')\n    result = a / b\n    self.history.append(f\'{a} / {b} = {result}\')\n    return result', 'def get_history(self):\n    """获取计算历史"""\n    return self.history.copy()']
+</evidence>
+<evidence>
+ref: u1
+view: summary
+source: u1
+content:
+  type: PY
+  module: python_project
+  role: lib
+  path: calculator.py
+  symbol_count: 1
+</evidence>
+<evidence>
+ref: greet
+view: impl
+source: u2
+content:
+  implementation:
+    ["'生成问候语'", "return f'Hello, {name}!'"]
+</evidence>
+<evidence>
+ref: format_result
+view: impl
+source: u2
+content:
+  implementation:
+    ["'格式化计算结果'", "return f'{expression} = {result}'"]
+</evidence>
+<evidence>
+ref: validate_number
+view: impl
+source: u2
+content:
+  implementation:
+    ["'验证数字是否有效'", 'try:\n    float(value)\n    return True\nexcept (ValueError, TypeError):\n    return False']
+</evidence>
+<evidence>
+ref: u2
+view: summary
+source: u2
+content:
+  type: PY
+  module: python_project
+  role: lib
+  path: utils.py
+  symbol_count: 3
+</evidence>
+<evidence>
+ref: main
+view: summary
+source: unknown
+content:
+  status: missing
+</evidence>
+</pcir>

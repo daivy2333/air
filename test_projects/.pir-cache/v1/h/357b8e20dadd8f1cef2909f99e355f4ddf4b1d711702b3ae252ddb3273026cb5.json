@@ -1,0 +1,15 @@
+{
+  "deps": [
+    "include:[string]"
+  ],
+  "file": "../cpp_project/utils.h",
+  "hash": "357b8e20dadd8f1cef2909f99e355f4ddf4b1d711702b3ae252ddb3273026cb5",
+  "lang": "H",
+  "symbols": [],
+  "timestamp": "2026-01-03T07:54:54.169934",
+  "unit": {
+    "module": "cpp_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

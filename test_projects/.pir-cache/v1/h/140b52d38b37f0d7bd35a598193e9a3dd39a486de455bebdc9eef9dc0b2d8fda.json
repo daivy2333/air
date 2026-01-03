@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../c_project/utils.h",
+  "hash": "140b52d38b37f0d7bd35a598193e9a3dd39a486de455bebdc9eef9dc0b2d8fda",
+  "lang": "H",
+  "symbols": [],
+  "timestamp": "2026-01-03T07:54:54.173493",
+  "unit": {
+    "module": "c_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

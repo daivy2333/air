@@ -1,0 +1,268 @@
+<pcir>
+<evidence>
+ref: u2
+view: api
+source: u2
+content:
+  signatures:
+    - def discover_source_files(root_path):
+    - def infer_unit_meta(file_path, project_root):
+    - def scan_project(root_path, model, use_cache=True):
+    - def resolve_dependencies(model):
+    - def main():
+</evidence>
+<evidence>
+ref: u1
+view: api
+source: u1
+content:
+  signatures:
+    - def is_source_file(filename):
+    - def strip_c_comments(text):
+    - def minify_c_style(content):
+    - def minify_python(content):
+    - def process_directory(directory, output_file):
+    - def main():
+</evidence>
+<evidence>
+ref: u13
+view: api
+source: u13
+content:
+  signatures:
+    - class Unit:
+    - class Symbol:
+    - class Dependency:
+    - class ProjectModel:
+</evidence>
+<evidence>
+ref: u14
+view: api
+source: u14
+content:
+  signatures:
+    - class PIRBuilder:
+</evidence>
+<evidence>
+ref: u16
+view: api
+source: u16
+content:
+  signatures:
+    - def canonicalize_target(verb: str, target: str) -> str:
+    - def canonicalize_dependencies(model):
+</evidence>
+<evidence>
+ref: PIRBuilder
+view: impl
+source: u14
+content:
+  implementation:
+    ['def __init__(self, model: ProjectModel):\n    self.model = model', "def build(self) -> str:\n    if not self.model.deps_finalized:\n        raise RuntimeError('Dependencies not finalized. Call model.finalize_dependencies() first.')\n    output = StringIO()\n    output.write('<pir>\\n')\n    meta = self._build_meta()\n    if meta:\n        output.write(meta)\n        output.write('\\n')\n    units = self._build_units()\n    if units:\n        output.write(units)\n        output.write('\\n')\n    dep_pool = self._build_dependency_pool()\n    if dep_pool:\n        output.write(dep_pool)\n        output.write('\\n')\n    deps = self._build_dependencies()\n    if deps:\n        output.write(deps)\n        output.write('\\n')\n    symbols = self._build_symbols()\n    if symbols:\n        output.write(symbols)\n        output.write('\\n')\n    profiles = self._build_profiles()\n    if profiles:\n        output.write(profiles)\n        output.write('\\n')\n    layout = self._build_layout()\n    if layout:\n        output.write(layout)\n        output.write('\\n')\n    snippets = self._build_snippets()\n    if snippets:\n        output.write(snippets)\n        output.write('\\n')\n    output.write('</pir>')\n    return output.getvalue()", "def _build_meta(self) -> str:\n    langs = ','.join(sorted(self.model.langs))\n    return f'<meta>\\nname: {self.model.name}\\nroot: {self.model.root}\\nprofile: {self.model.profile}\\nlang: {langs}\\n</meta>'", "def _build_units(self) -> str:\n    lines = ['<units>']\n    for u in self.model.units:\n        lines.append(f'{u.uid}: {u.path} type={u.lang} role={u.role} module={u.module}')\n    lines.append('</units>')\n    return '\\n'.join(lines)", "def _build_dependency_pool(self) -> str:\n    if not self.model.dep_pool_items:\n        return ''\n    lines = ['<dependency-pool>']\n    for (did, verb, target) in self.model.dep_pool_items:\n        lines.append(f'{did}: {verb}:{target}')\n    lines.append('</dependency-pool>')\n    return '\\n'.join(lines)", 'def _build_dependencies(self) -> str:\n    if not self.model.dep_refs:\n        return \'\'\n    lines = [\'<dependencies>\']\n    for uid in sorted(self.model.dep_refs, key=lambda x: int(x[1:])):\n        refs = self.model.dep_refs[uid]\n        if refs:\n            lines.append(f"{uid}->refs:[{\' \'.join(refs)}]")\n    lines.append(\'</dependencies>\')\n    return \'\\n\'.join(lines)', "def _build_symbols(self) -> str:\n    if not self.model.symbols:\n        return ''\n    lines = ['<symbols>']\n    for s in self.model.symbols:\n        attrs = ' ' + ', '.join((f'{k}={v}' for (k, v) in sorted(s.attrs.items()))) if s.attrs else ''\n        lines.append(f'{s.name}:{s.unit_uid} {s.kind}{attrs}')\n    lines.append('</symbols>')\n    return '\\n'.join(lines)", "def _build_profiles(self) -> str:\n    if not self.model.profiles:\n        return ''\n    lines = ['<profiles>']\n    if self.model.active_profile:\n        lines.append(f'  active: {self.model.active_profile}')\n    for (profile_name, profile_data) in sorted(self.model.profiles.items()):\n        confidence = profile_data.get('confidence', 0.0)\n        tags = profile_data.get('tags', [])\n        signals = profile_data.get('signals', [])\n        lines.append(f'  {profile_name}:')\n        lines.append(f'    confidence: {confidence}')\n        if tags:\n            lines.append('    tags:')\n            for tag in sorted(tags):\n                lines.append(f'      - {tag}')\n        if signals:\n            lines.append('    signals:')\n            for signal in sorted(signals):\n                lines.append(f'      - {signal}')\n    lines.append('</profiles>')\n    return '\\n'.join(lines)", "def _build_layout(self) -> str:\n    if not self.model.layout_lines:\n        return ''\n    return '\\n'.join(['<layout>', *self.model.layout_lines, '</layout>'])", 'def _build_snippets(self) -> str:\n    if not self.model.snippets:\n        return \'\'\n    lines = [\'<code-snippets>\']\n    for (uid, content) in self.model.snippets:\n        lines.extend([f\'<snippet unit="{uid}">\', \'<![CDATA[\', content.strip(), \']]>\', \'</snippet>\'])\n    lines.append(\'</code-snippets>\')\n    return \'\\n\'.join(lines)']
+</evidence>
+<evidence>
+ref: u13#ProjectModel
+view: impl
+source: u13
+content:
+  implementation:
+    ['def __init__(self, name: str, root: str, profile: str):\n    self.name = name\n    self.root = root\n    self.profile = profile\n    self.langs: Set[str] = set()\n    self.units: List[Unit] = []\n    self._path_to_uid: Dict[str, str] = {}\n    self.symbols: List[Symbol] = []\n    self._unit_dep_keys: Dict[str, List[str]] = {}\n    self._all_dep_keys: Set[str] = set()\n    self.dep_pool_items: List[Tuple[str, str, str]] = []\n    self.dep_refs: Dict[str, List[str]] = {}\n    self.deps_finalized: bool = False\n    self.profiles: Dict[str, Dict] = {}\n    self.active_profile: Optional[str] = None\n    self.layout_lines: List[str] = []\n    self.snippets: List[Tuple[str, str]] = []', "def add_unit(self, path: str, lang: str, role='lib', module='common') -> str:\n    if path in self._path_to_uid:\n        return self._path_to_uid[path]\n    uid = f'u{len(self.units)}'\n    self.units.append(Unit(uid, path, lang, role, module))\n    self._path_to_uid[path] = uid\n    self.langs.add(lang)\n    return uid", 'def get_uid_by_path(self, path: str) -> Optional[str]:\n    return self._path_to_uid.get(path)', 'def add_symbol(self, name: str, unit_uid: str, kind: str, **attrs):\n    self.symbols.append(Symbol(name, unit_uid, kind, attrs))', 'def add_dependency(self, src_uid: str, verb: str=None, target: str=None, **kwargs):\n    """\n        兼容旧接口：\n        - add_dependency(uid, verb, target)\n        - add_dependency(uid, kind=..., target=...)\n        """\n    if self.deps_finalized:\n        raise RuntimeError(\'Cannot add dependency after finalize\')\n    if verb is None:\n        verb = kwargs.get(\'kind\')\n    if verb is None or target is None:\n        raise ValueError(\'Dependency requires verb/kind and target\')\n    key = f\'{verb}:{target}\'\n    self._all_dep_keys.add(key)\n    if src_uid not in self._unit_dep_keys:\n        self._unit_dep_keys[src_uid] = []\n    if key not in self._unit_dep_keys[src_uid]:\n        self._unit_dep_keys[src_uid].append(key)', "def finalize_dependencies(self):\n    if self.deps_finalized:\n        return\n    sorted_keys = sorted(self._all_dep_keys)\n    key_to_did = {k: f'd{i}' for (i, k) in enumerate(sorted_keys)}\n    self.dep_pool_items = []\n    for k in sorted_keys:\n        (verb, target) = k.split(':', 1)\n        self.dep_pool_items.append((key_to_did[k], verb, target))\n    self.dep_refs = {}\n    for (uid, keys) in self._unit_dep_keys.items():\n        self.dep_refs[uid] = [key_to_did[k] for k in keys]\n    self.deps_finalized = True"]
+</evidence>
+<evidence>
+ref: u13#Unit
+view: impl
+source: u13
+content:
+</evidence>
+<evidence>
+ref: u13#Symbol
+view: impl
+source: u13
+content:
+  implementation:
+    ['name: str', 'unit_uid: str', 'kind: str', 'attrs: Dict[str, str] = field(default_factory=dict)']
+</evidence>
+<evidence>
+ref: u13#Dependency
+view: impl
+source: u13
+content:
+</evidence>
+<evidence>
+ref: scan_project
+view: summary
+source: u2
+content:
+  type: func
+  unit_id: u2
+  signature: def scan_project(root_path, model, use_cache=True):
+</evidence>
+<evidence>
+ref: resolve_dependencies
+view: summary
+source: u2
+content:
+  type: func
+  unit_id: u2
+  signature: def resolve_dependencies(model):
+</evidence>
+<evidence>
+ref: u2#main
+view: impl
+source: u2
+content:
+  implementation:
+    ["parser = argparse.ArgumentParser(description='PIR Generator v0.4 (with cache)')", "parser.add_argument('path', help='Project root path')", "parser.add_argument('--name', default='my_project')", "parser.add_argument('--profile', default='generic')", "parser.add_argument('--no-cache', action='store_true', help='Disable analysis cache')", 'args = parser.parse_args()', 'abs_root = os.path.abspath(args.path)', "if not os.path.exists(abs_root):\n    print(f'Error: Path {abs_root} does not exist.')\n    return", 'model = ProjectModel(name=args.name, root=abs_root, profile=args.profile)', 'scan_project(abs_root, model, use_cache=not args.no_cache)', 'resolve_dependencies(model)', 'canonicalize_dependencies(model)', 'model.finalize_dependencies()', 'ProfileCanonicalizer().apply(model)', 'builder = PIRBuilder(model)', 'pir_content = builder.build()', "output_file = f'{args.name}.pir'", "with open(output_file, 'w', encoding='utf-8') as f:\n    f.write(pir_content)", "print('\\n✅ PIR generation complete')", "print(f'   Output: {output_file}')", "print(f'   Units: {len(model.units)}')", "print(f'   Symbols: {len(model.symbols)}')", "print(f'   Dependencies: {len(model.dep_pool_items)}')"]
+</evidence>
+<evidence>
+ref: u1#main
+view: impl
+source: u1
+content:
+  implementation:
+    ["parser = argparse.ArgumentParser(description='OS开发专用代码压缩器')", "parser.add_argument('directory', help='源代码目录')", "parser.add_argument('-o', '--output', default='daima.txt', help='输出文件名')", 'args = parser.parse_args()', "if not os.path.isdir(args.directory):\n    print('错误: 目录不存在')\n    sys.exit(1)", 'process_directory(args.directory, args.output)']
+</evidence>
+<evidence>
+ref: main
+view: definition
+source: unknown
+content:
+  status: missing
+</evidence>
+<evidence>
+ref: get_analyzer
+view: callchain
+source: u8
+content:
+  path:
+    - u8#ANALYZER_MAP.get(ext.lower())
+    - u8#ext.lower()
+</evidence>
+<evidence>
+ref: u8
+view: impl
+source: u8
+content:
+  implementation:
+    [{'symbol': 'get_analyzer', 'kind': 'func', 'implementation': ['return ANALYZER_MAP.get(ext.lower())']}]
+</evidence>
+<evidence>
+ref: u3
+view: api
+source: u3
+content:
+  signatures:
+    - class CAnalyzer(BaseAnalyzer):
+</evidence>
+<evidence>
+ref: u4
+view: api
+source: u4
+content:
+  signatures:
+    - class RustAnalyzer(BaseAnalyzer):
+</evidence>
+<evidence>
+ref: u5
+view: api
+source: u5
+content:
+  signatures:
+    - class JavaAnalyzer(BaseAnalyzer):
+</evidence>
+<evidence>
+ref: u7
+view: api
+source: u7
+content:
+  signatures:
+    - class AsmLdAnalyzer(BaseAnalyzer):
+</evidence>
+<evidence>
+ref: u9
+view: api
+source: u9
+content:
+  signatures:
+    - class PythonAnalyzer(BaseAnalyzer):
+</evidence>
+<evidence>
+ref: u6
+view: api
+source: u6
+content:
+  signatures:
+    - class BaseAnalyzer(ABC):
+</evidence>
+<evidence>
+ref: u10
+view: api
+source: u10
+content:
+  signatures:
+    - class ProfileCanonicalizer:
+</evidence>
+<evidence>
+ref: u12
+view: api
+source: u12
+content:
+  signatures:
+    - class AnalysisCache:
+</evidence>
+<evidence>
+ref: u15
+view: api
+source: u15
+content:
+  signatures:
+    - class RISCVMemoryLayout:
+    - def get_riscv_extension_name(code: str) -> Optional[str]:
+    - def is_riscv_special_symbol(name: str) -> bool:
+    - def get_csr_address(name: str) -> Optional[int]:
+    - def get_exception_code(name: str) -> Optional[int]:
+</evidence>
+<evidence>
+ref: BaseAnalyzer
+view: impl
+source: u6
+content:
+  implementation:
+    ['@abstractmethod\ndef analyze(self, file_path: str, unit_uid: str, model: ProjectModel):\n    """\n        分析单个文件，提取符号和依赖，填充到 model 中。\n        """\n    pass']
+</evidence>
+<evidence>
+ref: ProfileCanonicalizer
+view: summary
+source: u10
+content:
+  type: class
+  unit_id: u10
+  signature: class ProfileCanonicalizer:
+</evidence>
+<evidence>
+ref: canonicalize_target
+view: summary
+source: u16
+content:
+  type: func
+  unit_id: u16
+  signature: def canonicalize_target(verb: str, target: str) -> str:
+</evidence>
+<evidence>
+ref: canonicalize_dependencies
+view: summary
+source: u16
+content:
+  type: func
+  unit_id: u16
+  signature: def canonicalize_dependencies(model):
+</evidence>
+<evidence>
+ref: RISCVMemoryLayout
+view: impl
+source: u15
+content:
+  implementation:
+    ['regions: Dict[str, Dict[str, str]]', 'sections: List[Dict[str, any]]', 'symbols: Dict[str, str]']
+</evidence>
+</pcir>

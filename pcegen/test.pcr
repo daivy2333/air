@@ -1,0 +1,27 @@
+<pcr>
+<need>
+type: unit
+ref: u1
+view: api
+</need>
+<need>
+type: symbol
+ref: u1#main
+view: impl
+</need>
+<need>
+type: symbol
+ref: u16
+view: definition
+</need>
+<need>
+type: symbol
+ref: PCRParser
+view: api
+</need>
+<need>
+type: symbol
+ref: main
+view: exist
+</need>
+</pcr>

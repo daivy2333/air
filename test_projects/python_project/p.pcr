@@ -1,0 +1,42 @@
+<pcr>
+<need>
+type: symbol
+ref: u0#main
+view: impl
+</need>
+<need>
+type: symbol
+ref: Calculator
+view: impl
+</need>
+<need>
+type: unit
+ref: u1
+view: summary
+</need>
+<need>
+type: symbol
+ref: greet
+view: impl
+</need>
+<need>
+type: symbol
+ref: format_result
+view: impl
+</need>
+<need>
+type: symbol
+ref: validate_number
+view: impl
+</need>
+<need>
+type: unit
+ref: u2
+view: summary
+</need>
+<need>
+type: entry
+ref: main
+view: summary
+</need>
+</pcr>

@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../calculator.h",
+  "hash": "7938cd02af0c953d3e1426053e54df0544908f178983cc98cae024bd1ea24eb8",
+  "lang": "H",
+  "symbols": [],
+  "timestamp": "2026-01-03T08:31:44.580446",
+  "unit": {
+    "module": "c_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

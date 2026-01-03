@@ -1,0 +1,15 @@
+{
+  "deps": [
+    "import:[re]"
+  ],
+  "file": "../cross_project/check_rust_parentheses.py",
+  "hash": "f37d316fb60d0fca2429dc0a6c3807de10476e967b5f206c3b93d19a8e2ed772",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2026-01-03T10:08:33.495138",
+  "unit": {
+    "module": "cross_project",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

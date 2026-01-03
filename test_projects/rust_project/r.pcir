@@ -1,0 +1,62 @@
+<pcir>
+<evidence>
+ref: add
+view: impl
+source: u0
+content:
+  implementation:
+    ['let result = a + b;', 'self.add_to_history(a, b, result);']
+</evidence>
+<evidence>
+ref: subtract
+view: impl
+source: u0
+content:
+  implementation:
+    ['let result = a - b;', 'self.add_to_history(a, b, result);']
+</evidence>
+<evidence>
+ref: multiply
+view: impl
+source: u0
+content:
+  implementation:
+    ['let result = a * b;', 'self.add_to_history(a, b, result);']
+</evidence>
+<evidence>
+ref: divide
+view: impl
+source: u0
+content:
+  implementation:
+    ['if b == 0.0 {', 'return Err("Division by zero".to_string());', 'let result = a / b;', 'self.add_to_history(a, b, result);', 'Ok(result)']
+</evidence>
+<evidence>
+ref: get_history
+view: impl
+source: u0
+content:
+</evidence>
+<evidence>
+ref: u0
+view: api
+source: u0
+content:
+</evidence>
+<evidence>
+ref: u0#Calculator
+view: summary
+source: u0
+content:
+  type: struct
+  unit_id: u0
+</evidence>
+<evidence>
+ref: u0#Calculation
+view: summary
+source: u0
+content:
+  type: struct
+  unit_id: u0
+</evidence>
+</pcir>

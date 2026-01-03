@@ -1,0 +1,13 @@
+{
+  "deps": [],
+  "file": "../core/__init__.py",
+  "hash": "6c76f18bb57ae47d8d4a7b605e16e9e4f3d059e72a8a19d570c9fb39ef4e1d1a",
+  "lang": "PY",
+  "symbols": [],
+  "timestamp": "2026-01-02T15:29:48.663799",
+  "unit": {
+    "module": "core",
+    "role": "lib"
+  },
+  "version": "pir-analyzer-v1"
+}

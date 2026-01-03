@@ -1,0 +1,97 @@
+<pcr>
+<need>
+type: entry
+ref: main
+view: impl
+</need>
+<need>
+type: unit
+ref: u0
+view: api
+</need>
+<need>
+type: unit
+ref: u1
+view: api
+</need>
+<need>
+type: unit
+ref: u2
+view: api
+</need>
+<need>
+type: symbol
+ref: c_calculate_sum
+view: impl
+</need>
+<need>
+type: symbol
+ref: rust_calculate_power
+view: impl
+</need>
+<need>
+type: symbol
+ref: c_print_message
+view: asm
+</need>
+<need>
+type: symbol
+ref: internal_multiply
+view: summary
+</need>
+<need>
+type: symbol
+ref: internal_divide
+view: summary
+</need>
+<need>
+type: unit
+ref: u1
+view: layout
+</need>
+<need>
+type: symbol
+ref: panic
+view: asm
+</need>
+<need>
+type: unit
+ref: u0
+view: asm
+</need>
+<need>
+type: layout
+ref: .stack
+view: summary
+</need>
+<need>
+type: layout
+ref: .text
+view: summary
+</need>
+<need>
+type: symbol
+ref: std::cout
+view: impl
+</need>
+<need>
+type: symbol
+ref: not_exist_function
+view: impl
+</need>
+<need>
+type: unit
+ref: u5
+view: api
+</need>
+<need>
+type: symbol
+ref: ambiguous_symbol
+view: exist
+</need>
+<need>
+type: unit
+ref: u0
+view: callchain
+</need>
+</pcr>
