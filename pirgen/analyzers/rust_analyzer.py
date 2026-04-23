@@ -15,22 +15,15 @@ class RustAnalyzer(BaseAnalyzer):
     """
 
     # fn 定义（要求有函数体）
-    _fn_pattern = re.compile(
-        r'^\s*(?:pub\s+)?fn\s+(\w+)\s*[^;{]*\{',
-        re.MULTILINE
-    )
+    _fn_pattern = re.compile(r"^\s*(?:pub\s+)?fn\s+(\w+)\s*[^;{]*\{", re.MULTILINE)
 
     # struct / enum / trait 定义
     _type_pattern = re.compile(
-        r'^\s*(?:pub\s+)?(struct|enum|trait)\s+(\w+)',
-        re.MULTILINE
+        r"^\s*(?:pub\s+)?(struct|enum|trait)\s+(\w+)", re.MULTILINE
     )
 
     # use 路径
-    _use_pattern = re.compile(
-        r'^\s*use\s+([^;]+);',
-        re.MULTILINE
-    )
+    _use_pattern = re.compile(r"^\s*use\s+([^;]+);", re.MULTILINE)
 
     def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
         try:
@@ -49,8 +42,12 @@ class RustAnalyzer(BaseAnalyzer):
     # ----------------------------
 
     def _analyze_functions(self, content: str, unit_uid: str, model: ProjectModel):
+        found = set()
         for match in self._fn_pattern.finditer(content):
             name = match.group(1)
+            if name in found:
+                continue
+            found.add(name)
 
             attrs = {}
             if name == "main":
@@ -84,9 +81,4 @@ class RustAnalyzer(BaseAnalyzer):
             else:
                 dep_kind = "use_external"
 
-            model.add_dependency(
-                unit_uid,
-                "use",
-                f"[{path}]",
-                kind=dep_kind
-            )
+            model.add_dependency(unit_uid, "use", f"[{path}]", kind=dep_kind)

@@ -1,3 +1,0 @@
-"""
-Analyzer modules for pcegen
-"""

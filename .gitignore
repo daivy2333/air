@@ -1,8 +1,19 @@
-/re/
-/air_tool.egg-info/
-/man/
-/talk/
-/旧代码/
-/md/
-/.pir-cache/
-/.vscode/
+# Build artifacts
+*.egg-info/
+/build/*
+dist/
+*.pyc
+__pycache__/
+
+# PIR cache
+.pir-cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Test outputs
+*.pir
+*.pcr
+*.pcir
+*.json

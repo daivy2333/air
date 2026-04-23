@@ -3,7 +3,7 @@ import os
 import argparse
 from collections import defaultdict
 
-from .core.project_model import ProjectModel
+from .core.project_model import ProjectModel, Unit
 from .core.pir_builder import PIRBuilder
 from .core.dep_canon import canonicalize_dependencies
 from .core.profile_canon import ProfileCanonicalizer
@@ -14,7 +14,8 @@ from .analyzers import get_analyzer
 # -----------------------------
 # 1. 扫描阶段：只做文件发现
 # -----------------------------
-IGNORED_DIRS = {'.git', '.idea', '__pycache__', 'build', 'target'}
+IGNORED_DIRS = {".git", ".idea", "__pycache__", "build", "target"}
+
 
 def discover_source_files(root_path):
     """返回 (file_path, ext) 列表"""
@@ -42,6 +43,13 @@ def infer_unit_meta(file_path, project_root):
     return rel_path, lang, module
 
 
+def sync_entry_roles(model):
+    entry_uids = {s.unit_uid for s in model.symbols if s.attrs.get("entry") == "true"}
+    for i, unit in enumerate(model.units):
+        if unit.uid in entry_uids and unit.role == "lib":
+            model.units[i] = Unit(unit.uid, unit.path, unit.lang, "entry", unit.module)
+
+
 def scan_project(root_path, model, use_cache=True):
     print(f"Scanning project: {root_path}")
 
@@ -55,12 +63,7 @@ def scan_project(root_path, model, use_cache=True):
         rel_path, lang, module = infer_unit_meta(file_path, model.root)
 
         if rel_path not in unit_cache:
-            uid = model.add_unit(
-                rel_path,
-                lang=lang,
-                role="lib",
-                module=module
-            )
+            uid = model.add_unit(rel_path, lang=lang, role="lib", module=module)
             unit_cache[rel_path] = uid
         else:
             uid = unit_cache[rel_path]
@@ -89,39 +92,32 @@ def scan_project(root_path, model, use_cache=True):
 
         # Save to cache
         if cache:
-            cache.save(file_path, lang, {
-                "unit": {
-                    "role": "lib",
-                    "module": module
+            cache.save(
+                file_path,
+                lang,
+                {
+                    "unit": {"role": "lib", "module": module},
+                    "symbols": [
+                        {"name": s.name, "kind": s.kind, "attrs": s.attrs}
+                        for s in model.symbols
+                        if s.unit_uid == uid
+                    ],
+                    "deps": model._unit_dep_keys.get(uid, []),
                 },
-                "symbols": [
-                    {
-                        "name": s.name,
-                        "kind": s.kind,
-                        "attrs": s.attrs
-                    }
-                    for s in model.symbols
-                    if s.unit_uid == uid
-                ],
-                "deps": model._unit_dep_keys.get(uid, [])
-            })
+            )
 
     if cache:
         print(f"  Cache hits: {cache_hits}, misses: {cache_misses}")
         stats = cache.get_stats()
-        print(f"  Cache stats: {stats['total_entries']} entries, {stats['total_size_bytes']} bytes")
+        print(
+            f"  Cache stats: {stats['total_entries']} entries, {stats['total_size_bytes']} bytes"
+        )
 
 
 # -----------------------------
 # 3. 依赖消歧（算法优化重点）
 # -----------------------------
 def resolve_dependencies(model):
-    """
-    改进点：
-    - 预构建 symbol -> [unit_uid] 映射
-    - 只处理 [] 包裹的符号
-    - 避免重复字符串 split / join
-    """
     print("Resolving dependencies...")
 
     symbol_index = defaultdict(list)
@@ -129,6 +125,7 @@ def resolve_dependencies(model):
         symbol_index[sym.name].append(sym.unit_uid)
 
     resolved = 0
+    dropped = 0
     new_all_keys = set()
 
     for uid, dep_keys in model._unit_dep_keys.items():
@@ -141,20 +138,25 @@ def resolve_dependencies(model):
                 name = target[1:-1]
                 candidates = symbol_index.get(name)
 
-                # 只在“唯一可判定”时消歧
                 if candidates and len(candidates) == 1:
                     target = f"{candidates[0]}#{name}"
                     resolved += 1
+                elif verb == "call":
+                    dropped += 1
+                    continue
+                else:
+                    pass
 
             new_key = f"{verb}:{target}"
             resolved_keys.append(new_key)
             new_all_keys.add(new_key)
 
-        # 保序去重
         model._unit_dep_keys[uid] = list(dict.fromkeys(resolved_keys))
 
     model._all_dep_keys = new_all_keys
-    print(f"  - Resolved {resolved} internal references")
+    print(
+        f"  - Resolved {resolved} internal references, dropped {dropped} unresolvable"
+    )
 
 
 # -----------------------------
@@ -165,7 +167,9 @@ def main():
     parser.add_argument("path", help="Project root path")
     parser.add_argument("--name", default="my_project")
     parser.add_argument("--profile", default="generic")
-    parser.add_argument("--no-cache", action="store_true", help="Disable analysis cache")
+    parser.add_argument(
+        "--no-cache", action="store_true", help="Disable analysis cache"
+    )
     args = parser.parse_args()
 
     abs_root = os.path.abspath(args.path)
@@ -173,13 +177,10 @@ def main():
         print(f"Error: Path {abs_root} does not exist.")
         return
 
-    model = ProjectModel(
-        name=args.name,
-        root=abs_root,
-        profile=args.profile
-    )
+    model = ProjectModel(name=args.name, root=abs_root, profile=args.profile)
 
     scan_project(abs_root, model, use_cache=not args.no_cache)
+    sync_entry_roles(model)
     resolve_dependencies(model)
     canonicalize_dependencies(model)
     model.finalize_dependencies()

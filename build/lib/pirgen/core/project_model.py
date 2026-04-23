@@ -90,7 +90,9 @@ class ProjectModel:
     # -------------------------
     # Dependency
     # -------------------------
-    def add_dependency(self, src_uid: str, verb: str = None, target: str = None, **kwargs):
+    def add_dependency(
+        self, src_uid: str, verb: str | None = None, target: str | None = None, **kwargs
+    ):
         """
         兼容旧接口：
         - add_dependency(uid, verb, target)
@@ -114,7 +116,6 @@ class ProjectModel:
         # Check for duplicates efficiently
         if key not in self._unit_dep_keys[src_uid]:
             self._unit_dep_keys[src_uid].append(key)
-
 
     # -------------------------
     # Finalize Dependencies

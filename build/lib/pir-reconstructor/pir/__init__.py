@@ -1,3 +1,0 @@
-"""
-PIR Parser and Validator
-"""

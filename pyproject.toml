@@ -1,18 +1,18 @@
 [build-system]
-requires = ["setuptools>=45", "wheel", "setuptools_scm>=6.2"]
+requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "air-tool"
-version = "0.1.0"
-description = "AIR - Application Interface Center for PIR forward, reverse, and evidence generation"
+name = "pirgen"
+version = "0.6.0"
+description = "AIR - AI-friendly Project Intermediate Representation (Token-optimized)"
 authors = [
     { name = "daivy", email = "2259492701@qq.com" }
 ]
-readme = "README"
+readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "MIT" }
-keywords = ["PIR", "reverse-engineering", "code-analysis", "project-reconstruction", "PCES", "PCR"]
+keywords = ["PIR", "reverse-engineering", "code-analysis", "intermediate-representation"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
@@ -36,24 +36,22 @@ dev = [
 ]
 
 [project.scripts]
-air = "air.app:main"
+air = "pirgen.pirgen:main"
 
 [project.urls]
 Homepage = "https://github.com/daivy/air"
-Documentation = "https://github.com/daivy/air#readme"
 Repository = "https://github.com/daivy/air"
-Issues = "https://github.com/daivy/air/issues"
 
 [tool.setuptools]
 package-dir = {"" = "."}
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["air", "air.*", "pirgen", "pirgen.*", "pir_reconstructor", "pir_reconstructor.*", "pcegen", "pcegen.*"]
-exclude = ["tests*", "docs*", "md*", "spec*", "初版*", "re*", "ir规范*", "talk*", "services"]
+include = ["pirgen", "pirgen.*"]
+exclude = ["tests*", "docs*", "test_projects*", "build*", "dist*", "*.egg-info*", "spec*"]
 
 [tool.setuptools.package-data]
-"*" = ["*.md", "*.txt", "*.json", "*.toml", "*.yaml", "*.yml"]
+"*" = ["*.md", "*.txt", "*.toml", "*.yaml", "*.yml"]
 
 [tool.black]
 line-length = 100
