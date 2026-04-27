@@ -14,15 +14,24 @@ class RustAnalyzer(BaseAnalyzer):
     - Enable dependency factoring at PIR build stage
     """
 
-    # fn 定义（要求有函数体）
-    _fn_pattern = re.compile(r"^\s*(?:pub\s+)?fn\s+(\w+)\s*[^;{]*\{", re.MULTILINE)
+    # fn 定义（要求有函数体） - 支持 async fn 和泛型函数
+    # 格式: [pub] [async] fn name<T>(...) { 或 [pub] [async] fn name(...) {
+    _fn_pattern = re.compile(
+        r"^\s*(?:pub\s+)?(?:async\s+)?fn\s+(\w+)\s*(?:<[^>]*>)?\s*[^;{]*\{",
+        re.MULTILINE
+    )
 
     # struct / enum / trait 定义
     _type_pattern = re.compile(
         r"^\s*(?:pub\s+)?(struct|enum|trait)\s+(\w+)", re.MULTILINE
     )
 
-    # use 路径
+    # impl 定义 - 支持 impl Struct 和 impl Trait for Struct
+    _impl_pattern = re.compile(
+        r"^\s*(?:pub\s+)?impl\s+(?:\w+\s+for\s+)?(\w+)\s*\{", re.MULTILINE
+    )
+
+    # use 路径 - 支持复杂路径和分组导入
     _use_pattern = re.compile(r"^\s*use\s+([^;]+);", re.MULTILINE)
 
     def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
@@ -32,6 +41,7 @@ class RustAnalyzer(BaseAnalyzer):
 
             self._analyze_functions(content, unit_uid, model)
             self._analyze_types(content, unit_uid, model)
+            self._analyze_impls(content, unit_uid, model)
             self._analyze_uses(content, unit_uid, model)
 
         except Exception as e:
@@ -63,6 +73,19 @@ class RustAnalyzer(BaseAnalyzer):
         for match in self._type_pattern.finditer(content):
             kind, name = match.groups()
             model.add_symbol(name, unit_uid, kind)
+
+    # ----------------------------
+    # Impl analysis
+    # ----------------------------
+
+    def _analyze_impls(self, content: str, unit_uid: str, model: ProjectModel):
+        found = set()
+        for match in self._impl_pattern.finditer(content):
+            name = match.group(1)
+            if name in found:
+                continue
+            found.add(name)
+            model.add_symbol(name, unit_uid, "impl")
 
     # ----------------------------
     # Use dependency analysis

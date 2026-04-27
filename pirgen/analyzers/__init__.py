@@ -1,7 +1,6 @@
 # analyzers/__init__.py
 from .c_analyzer import CAnalyzer
 from .python_analyzer import PythonAnalyzer
-from .java_analyzer import JavaAnalyzer
 from .rust_analyzer import RustAnalyzer
 from .asm_ld_analyzer import AsmLdAnalyzer
 
@@ -14,8 +13,6 @@ ANALYZER_MAP = {
     '.hpp': CAnalyzer(),
     # Python
     '.py': PythonAnalyzer(),
-    # Java
-    '.java': JavaAnalyzer(),
     # Rust
     '.rs': RustAnalyzer(),
     # ASM & Linker

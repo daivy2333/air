@@ -6,7 +6,7 @@ from ..core.project_model import ProjectModel
 class AsmLdAnalyzer(BaseAnalyzer):
     def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
         ext = os.path.splitext(file_path)[1].lower()
-        if ext == ".ld" or ext == ".lds":
+        if ext in (".ld", ".lds"):
             self._analyze_ld(file_path, unit_uid, model)
         else:
             self._analyze_asm(file_path, unit_uid, model)
@@ -34,7 +34,9 @@ class AsmLdAnalyzer(BaseAnalyzer):
     _re_branch_or_call = re.compile(
         r'^\s*(?P<op>'
         r'call|bl|blr|jal|jalr|jsr|bsr|jmp|j|b|bra|br|'
-        r'beq|bne|bgt|bge|blt|ble|beqz|bnez|cbz|cbnz'
+        r'beq|bne|bgt|bge|blt|ble|beqz|bnez|cbz|cbnz|'
+        r'je|jne|jg|jge|jl|jle|ja|jae|jb|jbe|jo|jno|js|jns|jc|jnc|'
+        r'jecxz|jrcxz|loop|loope|loopne'
         r')\b'
         r'(?P<args>.*)$',
         re.IGNORECASE
@@ -113,7 +115,11 @@ class AsmLdAnalyzer(BaseAnalyzer):
                         "x0","x1","x2","x3","x4","x5","x6","x7","x8","x9",
                         "x10","x11","x12","x13","x14","x15","x16","x17","x18","x19",
                         "x20","x21","x22","x23","x24","x25","x26","x27","x28","x29","x30","x31",
-                        "lr"
+                        "lr",
+                        "eax","ebx","ecx","edx","esi","edi","ebp","esp","eip",
+                        "rax","rbx","rcx","rdx","rsi","rdi","rbp","rsp","rip",
+                        "al","ah","bl","bh","cl","ch","dl","dh",
+                        "cs","ds","es","fs","gs","ss",
                     }:
                         continue
 

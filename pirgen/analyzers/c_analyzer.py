@@ -19,30 +19,55 @@ class CAnalyzer(BaseAnalyzer):
     - Be conservative: prefer missing symbols over false positives
     - Preserve structure for later dependency factoring
     - Avoid overfitting to full C grammar
+    - Support multiline continuation and modern C++ features
     """
 
-    # 匹配“可能是函数定义”的行
     _func_pattern = re.compile(
-        r'^\s*(?:static\s+|extern\s+|inline\s+)?'   # 修饰符
-        r'(?:\w+\s+)+?'                              # 返回类型
-        r'(\w+)\s*'                                  # 函数名
-        r'\([^;]*\)\s*\{',                           # 参数 + 函数体开始
+        r'^\s*'
+        r'(?:template\s*<\w[^>]*>\s*)?'
+        r'(?:static\s+|extern\s+|inline\s+|constexpr\s+)?'
+        r'(?:'
+        r'(?:\w+\s+)+?'
+        r'|'
+        r'auto\s+'
+        r')'
+        r'(\w+)\s*'
+        r'\([^)]*\)\s*'
+        r'(?:->[^{]+)?'
+        r'\{',
         re.MULTILINE
     )
 
-    # 匹配 include，并区分 <> 和 ""
     _include_pattern = re.compile(
         r'^\s*#include\s*(<[^>]+>|"[^"]+")',
         re.MULTILINE
     )
+
+    @staticmethod
+    def _join_continuation_lines(content: str) -> str:
+        lines = content.split('\n')
+        result = []
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            while line.endswith('\\') and i + 1 < len(lines):
+                line = line[:-1] + lines[i + 1]
+                i += 1
+            if line.strip().startswith('template') and line.rstrip().endswith('>') and i + 1 < len(lines):
+                line = line + ' ' + lines[i + 1].strip()
+                i += 1
+            result.append(line)
+            i += 1
+        return '\n'.join(result)
 
     def analyze(self, file_path: str, unit_uid: str, model: ProjectModel):
         try:
             with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
                 content = f.read()
 
-            self._analyze_functions(content, unit_uid, model)
-            self._analyze_includes(content, unit_uid, model)
+            joined_content = self._join_continuation_lines(content)
+            self._analyze_functions(joined_content, unit_uid, model)
+            self._analyze_includes(joined_content, unit_uid, model)
 
         except Exception as e:
             print(f"Warning: Failed to analyze {file_path}: {e}")

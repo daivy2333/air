@@ -21,9 +21,10 @@ class PythonAnalyzer(BaseAnalyzer):
                 content = f.read()
 
             tree = ast.parse(content)
-            # Single pass through AST to analyze both symbols and imports
+
+            type_checking_nodes = self._find_type_checking_blocks(tree)
+
             for node in tree.body:
-                # 顶层函数
                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                     if node.name.startswith("_"):
                         continue
@@ -33,27 +34,28 @@ class PythonAnalyzer(BaseAnalyzer):
                         attrs["entry"] = "true"
 
                     model.add_symbol(node.name, unit_uid, "func", **attrs)
+                    self._process_nested_symbols(node, unit_uid, model)
 
-                # 顶层类
                 elif isinstance(node, ast.ClassDef):
                     if node.name.startswith("_"):
                         continue
 
                     model.add_symbol(node.name, unit_uid, "class")
+                    self._process_nested_symbols(node, unit_uid, model)
 
-                # import xxx
-                elif isinstance(node, ast.Import):
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Import):
                     for alias in node.names:
                         name = alias.name
                         kind = self._classify_import(name)
+                        if node in type_checking_nodes:
+                            kind = "import_type_checking"
                         model.add_dependency(
                             unit_uid,
-                            "import",
-                            f"[{name}]",
                             kind=kind,
+                            target=f"[{name}]",
                         )
 
-                # from xxx import yyy
                 elif isinstance(node, ast.ImportFrom):
                     module = node.module or ""
                     level = node.level or 0
@@ -65,16 +67,51 @@ class PythonAnalyzer(BaseAnalyzer):
                         kind = self._classify_import(module)
                         target = module
 
+                    if node in type_checking_nodes:
+                        kind = "import_type_checking"
+
                     if target:
                         model.add_dependency(
                             unit_uid,
-                            "import",
-                            f"[{target}]",
                             kind=kind,
+                            target=f"[{target}]",
                         )
 
         except Exception as e:
             print(f"Warning: Failed to analyze {file_path}: {e}")
+
+    def _process_nested_symbols(self, node, unit_uid: str, model: ProjectModel):
+        for child in ast.walk(node):
+            if child is node:
+                continue
+            if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                if not child.name.startswith("_"):
+                    model.add_symbol(child.name, unit_uid, "func", nested="true")
+            elif isinstance(child, ast.ClassDef):
+                if not child.name.startswith("_"):
+                    model.add_symbol(child.name, unit_uid, "class", nested="true")
+
+    def _find_type_checking_blocks(self, tree: ast.AST) -> set:
+        result = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.If):
+                test = node.test
+                if isinstance(test, ast.Name) and test.id == "TYPE_CHECKING":
+                    for child in node.body:
+                        result.add(child)
+                        for subchild in ast.walk(child):
+                            result.add(subchild)
+                elif (
+                    isinstance(test, ast.Attribute)
+                    and test.attr == "TYPE_CHECKING"
+                    and isinstance(test.value, ast.Name)
+                    and test.value.id == "typing"
+                ):
+                    for child in node.body:
+                        result.add(child)
+                        for subchild in ast.walk(child):
+                            result.add(subchild)
+        return result
 
     # ----------------------------
     # Import classification

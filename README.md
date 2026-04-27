@@ -4,7 +4,7 @@ A language-agnostic project structure analyzer that generates PIR (Project Inter
 
 ## Features
 
-- **Multi-language support**: Python, Rust, C/C++, Java, Assembly
+- **Multi-language support**: Python, Rust, C/C++, Assembly
 - **Token-optimized output**: Minimal overhead for LLMs
 - **Entry point detection**: Automatically identifies main/entry files
 - **Dependency resolution**: Tracks call/import/include/use dependencies
@@ -78,7 +78,6 @@ pirgen/
 │   ├── python_analyzer.py
 │   ├── c_analyzer.py
 │   ├── rust_analyzer.py
-│   ├── java_analyzer.py
 │   └── asm_ld_analyzer.py
 └── core/                  # Core modules
     ├── project_model.py
