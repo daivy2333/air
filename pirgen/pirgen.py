@@ -199,15 +199,10 @@ def main():
         f.write(pir_content)
 
     ignored = DEFAULT_IGNORED | USER_IGNORED
-    if len(model.units) == 0:
-        print(f"\n⚠️  PIR generated: {output_file} (EMPTY)")
-        print(f"   Units: 0 | No source files found or language not supported")
-        print(f"   Supported languages: Python (.py), C/C++ (.c/.cpp/.h), Rust (.rs), Assembly (.s/.S)")
-    else:
-        print(f"\n✅ PIR generated: {output_file}")
-        print(
-            f"   Units: {len(model.units)} | Symbols: {len(model.symbols)} | Deps: {len(model.dep_pool_items)}"
-        )
+    print(f"\n✅ PIR generated: {output_file}")
+    print(
+        f"   Units: {len(model.units)} | Symbols: {len(model.symbols)} | Deps: {len(model.dep_pool_items)}"
+    )
     if args.ignore_patterns:
         print(f"   Ignored patterns: {', '.join(args.ignore_patterns)}")
 
