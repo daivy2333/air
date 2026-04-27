@@ -48,7 +48,7 @@ package-dir = {"" = "."}
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["pirgen", "pirgen.*"]
-exclude = ["tests*", "docs*", "test_projects*", "build*", "dist*", "*.egg-info*", "spec*"]
+exclude = ["test_projects*", "build*", "dist*", "*.egg-info*"]
 
 [tool.setuptools.package-data]
 "*" = ["*.md", "*.txt", "*.toml", "*.yaml", "*.yml"]

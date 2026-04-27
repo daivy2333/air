@@ -1,27 +1,48 @@
-# pirgen.py
 import os
 import argparse
+import fnmatch
 from collections import defaultdict
 
 from .core.project_model import ProjectModel, Unit
 from .core.pir_builder import PIRBuilder
 from .core.dep_canon import canonicalize_dependencies
-from .core.profile_canon import ProfileCanonicalizer
 from .core.analysis_cache import AnalysisCache
 from .analyzers import get_analyzer
 
+DEFAULT_IGNORED = {
+    ".git",
+    ".idea",
+    "__pycache__",
+    "build",
+    "target",
+    "node_modules",
+    ".venv",
+    "venv",
+    ".env",
+    "tests",
+    "test",
+    "__tests__",
+    ".pytest_cache",
+    "examples",
+    "docs",
+    "doc",
+    "dist",
+    ".dist",
+}
 
-# -----------------------------
-# 1. 扫描阶段：只做文件发现
-# -----------------------------
-IGNORED_DIRS = {".git", ".idea", "__pycache__", "build", "target"}
+USER_IGNORED = set()
 
 
 def discover_source_files(root_path):
-    """返回 (file_path, ext) 列表"""
     results = []
     for root, dirs, files in os.walk(root_path):
-        dirs[:] = [d for d in dirs if d not in IGNORED_DIRS]
+        dirs[:] = [
+            d
+            for d in dirs
+            if d not in DEFAULT_IGNORED
+            and d not in USER_IGNORED
+            and not any(fnmatch.fnmatch(d, p) for p in USER_IGNORED)
+        ]
         for file in files:
             ext = os.path.splitext(file)[1]
             if get_analyzer(ext):
@@ -29,16 +50,12 @@ def discover_source_files(root_path):
     return results
 
 
-# -----------------------------
-# 2. Unit 创建策略（去重）
-# -----------------------------
 def infer_unit_meta(file_path, project_root):
     rel_path = os.path.relpath(file_path, project_root)
     ext = os.path.splitext(file_path)[1]
     lang = ext[1:].upper()
     if lang == "RS":
         lang = "Rust"
-
     module = os.path.basename(os.path.dirname(file_path)) or "root"
     return rel_path, lang, module
 
@@ -56,8 +73,7 @@ def scan_project(root_path, model, use_cache=True):
     cache = AnalysisCache(model.root) if use_cache else None
     cache_hits = 0
     cache_misses = 0
-
-    unit_cache = {}  # rel_path -> uid
+    unit_cache = {}
 
     for file_path in discover_source_files(root_path):
         rel_path, lang, module = infer_unit_meta(file_path, model.root)
@@ -72,11 +88,9 @@ def scan_project(root_path, model, use_cache=True):
         if not analyzer:
             continue
 
-        # Try to load from cache
         if cache:
             cached = cache.load(file_path, lang)
             if cached:
-                # Cache hit - merge cached analysis
                 for s in cached.get("symbols", []):
                     model.add_symbol(s["name"], uid, s["kind"], **s.get("attrs", {}))
                 for k in cached.get("deps", []):
@@ -84,13 +98,10 @@ def scan_project(root_path, model, use_cache=True):
                     model.add_dependency(uid, verb, target)
                 cache_hits += 1
                 continue
-
-            # Cache miss - analyze normally
             cache_misses += 1
 
         analyzer.analyze(file_path, uid, model)
 
-        # Save to cache
         if cache:
             cache.save(
                 file_path,
@@ -108,15 +119,8 @@ def scan_project(root_path, model, use_cache=True):
 
     if cache:
         print(f"  Cache hits: {cache_hits}, misses: {cache_misses}")
-        stats = cache.get_stats()
-        print(
-            f"  Cache stats: {stats['total_entries']} entries, {stats['total_size_bytes']} bytes"
-        )
 
 
-# -----------------------------
-# 3. 依赖消歧（算法优化重点）
-# -----------------------------
 def resolve_dependencies(model):
     print("Resolving dependencies...")
 
@@ -144,8 +148,6 @@ def resolve_dependencies(model):
                 elif verb == "call":
                     dropped += 1
                     continue
-                else:
-                    pass
 
             new_key = f"{verb}:{target}"
             resolved_keys.append(new_key)
@@ -154,39 +156,40 @@ def resolve_dependencies(model):
         model._unit_dep_keys[uid] = list(dict.fromkeys(resolved_keys))
 
     model._all_dep_keys = new_all_keys
-    print(
-        f"  - Resolved {resolved} internal references, dropped {dropped} unresolvable"
-    )
+    print(f"  - Resolved {resolved} references, dropped {dropped} unresolvable")
 
 
-# -----------------------------
-# 4. CLI 主流程
-# -----------------------------
 def main():
-    parser = argparse.ArgumentParser(description="PIR Generator v0.4 (with cache)")
+    global USER_IGNORED
+
+    parser = argparse.ArgumentParser(description="AIR - AI Project Analyzer")
     parser.add_argument("path", help="Project root path")
     parser.add_argument("--name", default="my_project")
-    parser.add_argument("--profile", default="generic")
+    parser.add_argument("--no-cache", action="store_true", help="Disable cache")
     parser.add_argument(
-        "--no-cache", action="store_true", help="Disable analysis cache"
+        "--ignore",
+        "-i",
+        action="append",
+        default=[],
+        dest="ignore_patterns",
+        help="Ignore directories matching pattern (can be used multiple times)",
     )
     args = parser.parse_args()
+
+    USER_IGNORED = set(args.ignore_patterns)
 
     abs_root = os.path.abspath(args.path)
     if not os.path.exists(abs_root):
         print(f"Error: Path {abs_root} does not exist.")
         return
 
-    model = ProjectModel(name=args.name, root=abs_root, profile=args.profile)
+    model = ProjectModel(name=args.name, root=abs_root, profile="generic")
 
     scan_project(abs_root, model, use_cache=not args.no_cache)
     sync_entry_roles(model)
     resolve_dependencies(model)
     canonicalize_dependencies(model)
     model.finalize_dependencies()
-
-    # Apply profile-aware canonicalization (v0.4)
-    ProfileCanonicalizer().apply(model)
 
     builder = PIRBuilder(model)
     pir_content = builder.build()
@@ -195,15 +198,14 @@ def main():
     with open(output_file, "w", encoding="utf-8") as f:
         f.write(pir_content)
 
-    print("\n✅ PIR generation complete")
-    print(f"   Output: {output_file}")
-    print(f"   Units: {len(model.units)}")
-    print(f"   Symbols: {len(model.symbols)}")
-    print(f"   Dependencies: {len(model.dep_pool_items)}")
+    ignored = DEFAULT_IGNORED | USER_IGNORED
+    print(f"\n✅ PIR generated: {output_file}")
+    print(
+        f"   Units: {len(model.units)} | Symbols: {len(model.symbols)} | Deps: {len(model.dep_pool_items)}"
+    )
+    if args.ignore_patterns:
+        print(f"   Ignored patterns: {', '.join(args.ignore_patterns)}")
 
 
 if __name__ == "__main__":
     main()
-
-
-# python pirgen.py ./pirgen --name pir_tool --profile python-tool

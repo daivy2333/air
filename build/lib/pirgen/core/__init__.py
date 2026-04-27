@@ -1,3 +1,0 @@
-"""
-PIR Generator Core
-"""

@@ -1,74 +1,81 @@
-# PIR Format Specification v1.1
+# PIR Format Specification
 
 ## Overview
 
-PIR (Project Intermediate Representation) is a text-based format for describing project structure, optimized for AI/LLM consumption.
+PIR (Project Intermediate Representation) is a token-optimized text format for describing project structure, designed for AI/LLM consumption.
 
-## Format Structure
+## Format
 
 ```xml
 <pir>
 <meta>
-name: <project-name>
-root: <relative-path>
-lang: <languages>
+name|root|lang
 </meta>
 <units>
-u0: <path> type=<LANG> [role=entry] module=<name>
-...
+uid|path|lang|[role]|[module]
 </units>
-<dependency-pool>
-d0: <verb>:<target>
-...
-</dependency-pool>
-<dependencies>
-u0:d0 d1 d2
-...
-</dependencies>
-<symbols>
-<name>:<uid> <kind> [attr=value]
-...
-</symbols>
+<pool>
+did|verb|target
+</pool>
+<deps>
+uid|did did...
+</deps>
+<syms>
+name|uid|kind|[attr]...
+</syms>
 </pir>
 ```
 
 ## Blocks
 
 ### `<meta>` - Project Metadata
-| Field | Description |
-|-------|-------------|
-| `name` | Project identifier (ASCII, no spaces) |
-| `root` | Relative root path |
-| `lang` | Languages: PY, C, CPP, RS, JAVA, H, S |
+```
+name|root|lang
+```
+Example: `my_project|./src|C,CPP,H,PY,Rust,S`
 
 ### `<units>` - Compilation Units
 ```
-u<ID>: <path> type=<LANG> [role=entry] module=<name>
+uid|path|lang|[role]|[module]
 ```
-- `role=entry` only for entry points (e.g., main files)
-- Default role (lib) is omitted
+- `role=entry` only for entry points (main files)
+- Default role (`lib`) is omitted
 
-### `<dependency-pool>` - Dependency Pool
+Example:
 ```
-d<ID>: <verb>:<target>
+u0|cpp_project/calculator.h|H|cpp_project
+u3|cpp_project/main.cpp|CPP|entry|cpp_project
+```
+
+### `<pool>` - Dependency Pool
+```
+did|verb|target
 ```
 Verbs: `call`, `import`, `include`, `use`
 
-Resolved dependencies use `u<ID>#<symbol>` format:
+Resolved dependencies: `did|verb|uid#symbol`
 ```
-d0: call:u26#schedule
-```
-
-### `<dependencies>` - Unit Dependencies
-```
-u<ID>:<dep-id> [<dep-id>...]
+d0|call|u26#schedule
+d1|import|[utils]
 ```
 
-### `<symbols>` - Symbol Definitions
+### `<deps>` - Unit Dependencies
 ```
-<name>:<unit-id> <kind> [attr=value]
+uid|did did...
+```
+Example: `u0|d26 d24`
+
+### `<syms>` - Symbol Definitions
+```
+name|uid|kind|[attr]...
 ```
 Kinds: `func`, `class`, `struct`, `label`, `enum`
+
+Example:
+```
+main|u3|func|entry
+Calculator|u15|class
+```
 
 ## Examples
 
@@ -76,24 +83,22 @@ Kinds: `func`, `class`, `struct`, `label`, `enum`
 ```xml
 <pir>
 <meta>
-name: my_project
-root: ./src
-lang: PY
+my_project|./src|PY
 </meta>
 <units>
-u0: src/main.py type=PY role=entry module=src
-u1: src/utils.py type=PY module=src
+u0|src/main.py|PY|entry|src
+u1|src/utils.py|PY|src
 </units>
-<dependency-pool>
-d0: import:[utils]
-</dependency-pool>
-<dependencies>
-u0:d0
-</dependencies>
-<symbols>
-main:u0 func entry=true
-greet:u1 func
-</symbols>
+<pool>
+d0|import|[utils]
+</pool>
+<deps>
+u0|d0
+</deps>
+<syms>
+main|u0|func|entry
+greet|u1|func
+</syms>
 </pir>
 ```
 
@@ -101,28 +106,26 @@ greet:u1 func
 ```xml
 <pir>
 <meta>
-name: os_kernel
-root: ./kernel
-lang: C,Rust,S
+os_kernel|./kernel|C,Rust,S
 </meta>
 <units>
-u0: boot.S type=S role=entry module=kernel
-u1: main.c type=C module=kernel
-u2: lib.rs type=Rust module=kernel
+u0|kernel/boot.S|S|entry|kernel
+u1|kernel/main.c|C|kernel
+u2|kernel/lib.rs|Rust|kernel
 </units>
-<dependency-pool>
-d0: call:u1#start_kernel
-d1: include:[stdlib:c]
-</dependency-pool>
-<dependencies>
-u0:d0
-u1:d1
-</dependencies>
-<symbols>
-_start:u0 label
-main:u1 func entry=true
-init:u2 func
-</symbols>
+<pool>
+d0|call|u1#start_kernel
+d1|import|[stdlib:c]
+</pool>
+<deps>
+u0|d0
+u1|d1
+</deps>
+<syms>
+_start|u0|label|entry
+main|u1|func|entry
+init|u2|func
+</syms>
 </pir>
 ```
 
@@ -130,18 +133,18 @@ init:u2 func
 
 | Verb | Description | Example |
 |------|-------------|---------|
-| `call` | Function/method call | `call:u0#main` |
-| `import` | Python/Rust import | `import:[utils]` |
-| `include` | C/C++ include | `include:[stdio.h]` |
-| `use` | Rust use statement | `use:[crate::utils]` |
+| `call` | Function call | `u0#main` |
+| `import` | Import statement | `[utils]` |
+| `include` | Include directive | `[stdio.h]` |
+| `use` | Rust use | `[crate::utils]` |
 
 ## Symbol Kinds
 
 | Kind | Description |
 |------|-------------|
-| `func` | Function definition |
-| `class` | Class definition |
-| `struct` | Struct definition |
+| `func` | Function |
+| `class` | Class |
+| `struct` | Struct |
 | `label` | Assembly label |
-| `enum` | Enum definition |
-| `entry` | Entry point attribute |
+| `enum` | Enum |
+| `entry` | Entry point marker |

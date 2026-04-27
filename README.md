@@ -9,6 +9,7 @@ A language-agnostic project structure analyzer that generates PIR (Project Inter
 - **Entry point detection**: Automatically identifies main/entry files
 - **Dependency resolution**: Tracks call/import/include/use dependencies
 - **Analysis caching**: Fast incremental scans
+- **Flexible ignore**: Exclude directories from analysis
 
 ## Installation
 
@@ -27,6 +28,19 @@ air /path/to/project --name my_project
 
 # Disable cache
 air /path/to/project --no-cache
+
+# Ignore directories (supports glob patterns)
+air /path/to/project --ignore test_projects
+air /path/to/project --ignore "test*" --ignore "examples"
+```
+
+### Default Ignored Directories
+
+```
+.git, .idea, __pycache__, build, target,
+node_modules, .venv, venv, .env,
+tests, test, __tests__, .pytest_cache,
+examples, docs, doc, dist, .dist
 ```
 
 ## PIR Format
@@ -34,24 +48,22 @@ air /path/to/project --no-cache
 ```xml
 <pir>
 <meta>
-name: my_project
-root: ./src
-lang: PY,RUST
+my_project|./src|PY,Rust
 </meta>
 <units>
-u0: src/main.py type=PY role=entry module=src
-u1: src/utils.py type=PY module=src
+u0|src/main.py|PY|entry|src
+u1|src/utils.py|PY|src
 </units>
-<dependency-pool>
-d0: import:[utils]
-</dependency-pool>
-<dependencies>
-u0:d0
-</dependencies>
-<symbols>
-main:u0 func entry=true
-greet:u1 func
-</symbols>
+<pool>
+d0|import|[utils]
+</pool>
+<deps>
+u0|d0
+</deps>
+<syms>
+main|u0|func|entry
+greet|u1|func
+</syms>
 </pir>
 ```
 
@@ -72,7 +84,6 @@ pirgen/
     ├── project_model.py
     ├── pir_builder.py
     ├── dep_canon.py
-    ├── profile_canon.py
     └── analysis_cache.py
 ```
 
